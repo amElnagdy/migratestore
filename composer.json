@@ -1,0 +1,12 @@
+{
+    "name": "nagdy/migratewoo",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "MigrateWoo\\": "includes/"
+        }
+    },
+    "config": {
+        "vendor-dir": "lib"
+    }
+}
