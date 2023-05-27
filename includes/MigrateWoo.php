@@ -1,6 +1,7 @@
 <?php
 
 namespace MigrateWoo;
+use MigrateWoo\Exporters\GeneralSettingsExporter;
 use MigrateWoo\Exporters\ShippingExporter;
 
 class MigrateWoo {
@@ -30,8 +31,8 @@ class MigrateWoo {
 			$action = sanitize_text_field($_POST['migratewoo_action']);
 
 			switch ($action) {
-				case 'export_woocommerce_settings':
-					$this->export_woocommerce_settings();
+				case 'export_general_settings':
+					$this->export_woocommerce_general_settings();
 					break;
 				case 'export_shipping_settings':
 					$this->export_shipping_settings();
@@ -54,8 +55,9 @@ class MigrateWoo {
 		}
 	}
 
-	public function export_woocommerce_settings() {
-		// Implement your export logic here
+	public function export_woocommerce_general_settings() {
+		$exporter = new GeneralSettingsExporter();
+		$exporter->export();
 	}
 
 	public function export_shipping_settings() {

@@ -10,6 +10,14 @@
 		<input type="submit" value="Export Shipping Settings">
 	</form>
 
+	<!-- Adding the General Settings Export Button -->
+	<form method="post" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
+		<input type="hidden" name="action" value="migratewoo_action">
+		<input type="hidden" name="migratewoo_action" value="export_general_settings">
+		<?php wp_nonce_field('migratewoo_action_nonce'); ?>
+		<input type="submit" value="Export General Settings">
+	</form>
+
 	<!-- More forms for other actions -->
 
 	<h2>Import Options</h2>
