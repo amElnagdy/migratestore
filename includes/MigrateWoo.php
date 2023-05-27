@@ -3,6 +3,7 @@
 namespace MigrateWoo;
 use MigrateWoo\Exporters\GeneralSettingsExporter;
 use MigrateWoo\Exporters\ShippingExporter;
+use MigrateWoo\Exporters\TaxOptionsExporter;
 
 class MigrateWoo {
 
@@ -37,8 +38,8 @@ class MigrateWoo {
 				case 'export_shipping_settings':
 					$this->export_shipping_settings();
 					break;
-				case 'export_tax_settings':
-					$this->export_tax_settings();
+				case 'export_tax_options':
+					$this->export_tax_options();
 					break;
 				case 'import_woocommerce_settings':
 					$this->import_woocommerce_settings();
@@ -66,8 +67,10 @@ class MigrateWoo {
 		exit;
 	}
 
-	public function export_tax_settings() {
-		// Implement your export logic here
+	public function export_tax_options() {
+		$exporter = new TaxOptionsExporter();
+		$exporter->export();
+		exit;
 	}
 
 	public function import_woocommerce_settings() {
