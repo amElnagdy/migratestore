@@ -2,12 +2,7 @@
 
 namespace MigrateWoo\Exporters;
 
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-class ShippingExporter {
+class ShippingZonesExporter {
 
 	use ExportTrait;
 
@@ -42,11 +37,16 @@ class ShippingExporter {
 
 		$csv_data = '';
 		foreach ( $queries as $name => $query ) {
+			$csv_data .= "\"$name\"\n";
 			$data     = $this->get_data( $query );
 			$csv_data .= $this->format_csv_data( $data );
 		}
 
-		$csv_file_name = 'migratewoo_shipping_' . date( 'Ymd_His' ) . '.csv';
+		$csv_file_name = $this->get_csv_filename();
 		$this->download_csv( $csv_data, $csv_file_name );
+	}
+
+	public function get_csv_filename() {
+		return 'migratewoo_shipping_zones' . date( 'Ymd_His' ) . '.csv';
 	}
 }

@@ -2,8 +2,11 @@
 
 namespace MigrateWoo;
 
+use MigrateWoo\Exporters\AccountsPrivacyExporter;
+use MigrateWoo\Exporters\EmailsOptionsExporter;
 use MigrateWoo\Exporters\GeneralSettingsExporter;
-use MigrateWoo\Exporters\ShippingExporter;
+use MigrateWoo\Exporters\ShippingOptionsExporter;
+use MigrateWoo\Exporters\ShippingZonesExporter;
 use MigrateWoo\Exporters\TaxOptionsExporter;
 
 class MigrateWoo {
@@ -40,11 +43,21 @@ class MigrateWoo {
 				case 'export_general_settings':
 					$this->export_woocommerce_general_settings();
 					break;
-				case 'export_shipping_settings':
-					$this->export_shipping_settings();
+				case 'export_shipping_zones':
+					$this->export_shipping_zones();
+					break;
+				case 'export_shipping_options':
+					$this->export_shipping_options();
 					break;
 				case 'export_tax_options':
 					$this->export_tax_options();
+					break;
+				case 'export_accounts_privacy_options':
+					$this->export_accounts_privacy_options();
+					break;
+
+				case 'export_def_emails_options':
+					$this->export_def_emails_options();
 					break;
 				case 'import_woocommerce_settings':
 					$this->import_woocommerce_settings();
@@ -66,14 +79,32 @@ class MigrateWoo {
 		$exporter->export();
 	}
 
-	public function export_shipping_settings() {
-		$exporter = new ShippingExporter();
+	public function export_shipping_zones() {
+		$exporter = new ShippingZonesExporter();
+		$exporter->export();
+		exit;
+	}
+
+	public function export_shipping_options() {
+		$exporter = new ShippingOptionsExporter();
 		$exporter->export();
 		exit;
 	}
 
 	public function export_tax_options() {
 		$exporter = new TaxOptionsExporter();
+		$exporter->export();
+		exit;
+	}
+
+	public function export_accounts_privacy_options() {
+		$exporter = new AccountsPrivacyExporter();
+		$exporter->export();
+		exit;
+	}
+
+	public function export_def_emails_options() {
+		$exporter = new EmailsOptionsExporter();
 		$exporter->export();
 		exit;
 	}

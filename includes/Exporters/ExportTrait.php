@@ -4,14 +4,27 @@ namespace MigrateWoo\Exporters;
 
 trait ExportTrait {
 
-	public function get_options_values(array $option_names){
+	abstract public function get_data();
+
+	abstract public function get_csv_filename();
+
+
+	public function get_options_values( array $option_names ) {
 		$settings = [];
 		foreach ( $option_names as $option_name ) {
+			$option_value = get_option( $option_name );
+
+			// If value is an array, serialize it
+			if ( is_array( $option_value ) ) {
+				$option_value = maybe_serialize( $option_value );
+			}
+
 			$settings[] = [
 				'Option' => $option_name,
-				'Value'  => get_option( $option_name ),
+				'Value'  => $option_value,
 			];
 		}
+
 		return $settings;
 	}
 
@@ -34,5 +47,12 @@ trait ExportTrait {
 		echo $csv_data;
 		exit;
 	}
+
+	public function export() {
+		$csv_data      = $this->format_csv_data( $this->get_data() );
+		$csv_file_name = $this->get_csv_filename();
+		$this->download_csv( $csv_data, $csv_file_name );
+	}
+
 
 }

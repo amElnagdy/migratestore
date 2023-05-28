@@ -32,11 +32,12 @@ class GeneralSettingsExporter {
 		return $this->get_options_values($option_names);
 	}
 
-	public function export() {
-		$settings      = $this->get_general_settings();
-		$csv_data      = $this->format_csv_data( $settings );
-		$csv_file_name = 'migratewoo_general_settings_' . date( 'Ymd_His' ) . '.csv';
-		$this->download_csv( $csv_data, $csv_file_name );
+	public function get_data() {
+		return $this->get_general_settings();
+	}
+
+	public function get_csv_filename() {
+		return 'migratewoo_general_settings_' . date( 'Ymd_His' ) . '.csv';
 	}
 
 }

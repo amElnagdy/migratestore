@@ -19,14 +19,17 @@ class TaxOptionsExporter {
 			'woocommerce_price_display_suffix',
 			'woocommerce_tax_total_display',
 		];
-		return $this->get_options_values($option_names);
+
+		return $this->get_options_values( $option_names );
 	}
 
-	public function export() {
-		$settings      = $this->get_tax_options();
-		$csv_data      = $this->format_csv_data( $settings );
-		$csv_file_name = 'migratewoo_tax_options_' . date( 'Ymd_His' ) . '.csv';
-		$this->download_csv( $csv_data, $csv_file_name );
+
+	public function get_data() {
+		return $this->get_tax_options();
+	}
+
+	public function get_csv_filename() {
+		return 'migratewoo_tax_options_' . date( 'Ymd_His' ) . '.csv';
 	}
 
 }
