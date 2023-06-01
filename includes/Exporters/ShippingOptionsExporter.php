@@ -2,9 +2,8 @@
 
 namespace MigrateWoo\Exporters;
 
-class ShippingOptionsExporter {
+class ShippingOptionsExporter extends AbstractExporter {
 
-	use ExportTrait;
 
 	public function get_shipping_options() {
 

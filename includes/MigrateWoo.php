@@ -4,17 +4,19 @@ namespace MigrateWoo;
 
 use MigrateWoo\Exporters\AccountsPrivacyExporter;
 use MigrateWoo\Exporters\EmailsOptionsExporter;
+use MigrateWoo\Exporters\EndpointsExporter;
 use MigrateWoo\Exporters\GeneralSettingsExporter;
 use MigrateWoo\Exporters\ShippingOptionsExporter;
 use MigrateWoo\Exporters\ShippingZonesExporter;
 use MigrateWoo\Exporters\TaxOptionsExporter;
+use MigrateWoo\Importers\AccountsPrivacyImporter;
 
 class MigrateWoo {
 
-
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'migratewoo_admin_menu' ) );
-		add_action( 'admin_post_migratewoo_action', array( $this, 'handle_export_import_actions' ) );
+		add_action( 'admin_post_migratewoo_export_action', array( $this, 'handle_export_action' ) );
+		add_action( 'admin_post_migratewoo_import_action', array( $this, 'handle_import_action' ) );
 		add_action( 'init', array( $this, 'migratewoo_load_textdomain' ) );
 	}
 
@@ -33,89 +35,78 @@ class MigrateWoo {
 		require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'includes/templates/admin-page.php';
 	}
 
-	public function handle_export_import_actions() {
-		if ( isset( $_POST['migratewoo_action'] ) ) {
-			check_admin_referer( 'migratewoo_action_nonce' );
+	public function handle_export_action() {
+		check_admin_referer( 'migratewoo_export_action_nonce' );
 
-			$action = sanitize_text_field( $_POST['migratewoo_action'] );
+		if ( ! isset( $_POST['migratewoo_action'] ) ) {
+			wp_die( 'Action not set' );
+		}
 
-			switch ( $action ) {
-				case 'export_general_settings':
-					$this->export_woocommerce_general_settings();
-					break;
-				case 'export_shipping_zones':
-					$this->export_shipping_zones();
-					break;
-				case 'export_shipping_options':
-					$this->export_shipping_options();
-					break;
-				case 'export_tax_options':
-					$this->export_tax_options();
-					break;
-				case 'export_accounts_privacy_options':
-					$this->export_accounts_privacy_options();
-					break;
+		$action = sanitize_text_field( $_POST['migratewoo_action'] );
 
-				case 'export_def_emails_options':
-					$this->export_def_emails_options();
-					break;
-				case 'import_woocommerce_settings':
-					$this->import_woocommerce_settings();
-					break;
-				case 'import_shipping_settings':
-					$this->import_shipping_settings();
-					break;
-				case 'import_tax_settings':
-					$this->import_tax_settings();
-					break;
-				default:
-					wp_die( 'Invalid action' );
-			}
+		$strategies = [
+			'export_general_settings'         => 'MigrateWoo\Exporters\GeneralSettingsExporter',
+			'export_shipping_zones'           => 'MigrateWoo\Exporters\ShippingZonesExporter',
+			'export_shipping_options'         => 'MigrateWoo\Exporters\ShippingOptionsExporter',
+			'export_tax_options'              => 'MigrateWoo\Exporters\TaxOptionsExporter',
+			'export_accounts_privacy_options' => 'MigrateWoo\Exporters\AccountsPrivacyExporter',
+			'export_def_emails_options'       => 'MigrateWoo\Exporters\EmailsOptionsExporter',
+			'export_endpoints_options'        => 'MigrateWoo\Exporters\EndpointsExporter'
+		];
+
+		if ( ! isset( $strategies[ $action ] ) ) {
+			wp_die( 'Invalid action' );
+		}
+
+		$class = $strategies[ $action ];
+		if ( class_exists( $class ) ) {
+			$strategy = new $class;
+			$strategy->export();
+		} else {
+			wp_die( 'Exporter class not found' );
 		}
 	}
 
-	public function export_woocommerce_general_settings() {
-		$exporter = new GeneralSettingsExporter();
-		$exporter->export();
-	}
 
-	public function export_shipping_zones() {
-		$exporter = new ShippingZonesExporter();
-		$exporter->export();
-		exit;
-	}
+	public function handle_import_action() {
+		check_admin_referer( 'migratewoo_import_action_nonce' );
 
-	public function export_shipping_options() {
-		$exporter = new ShippingOptionsExporter();
-		$exporter->export();
-		exit;
-	}
+		if ( ! isset( $_FILES['csv_file'] ) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK ) {
+			wp_die( 'File upload failed' );
+		}
 
-	public function export_tax_options() {
-		$exporter = new TaxOptionsExporter();
-		$exporter->export();
-		exit;
-	}
+		$upload_overrides = [ 'test_form' => false ];
+		$uploaded_file    = wp_handle_upload( $_FILES['csv_file'], $upload_overrides );
 
-	public function export_accounts_privacy_options() {
-		$exporter = new AccountsPrivacyExporter();
-		$exporter->export();
-		exit;
-	}
+		if ( ! $uploaded_file || isset( $uploaded_file['error'] ) ) {
+			wp_die( $uploaded_file['error'] ?? 'File upload failed' );
+		}
 
-	public function export_def_emails_options() {
-		$exporter = new EmailsOptionsExporter();
-		$exporter->export();
-		exit;
-	}
+		$filename = basename( $uploaded_file['file'] );
 
-	public function import_woocommerce_settings() {
-	}
+		// Mapping of filename to importer classes
+		$importerStrategies = [
+			'migratewoo_general_settings'         => 'MigrateWoo\Importers\GeneralSettingsImporter',
+			'migratewoo_shipping_zones'           => 'MigrateWoo\Importers\ShippingZonesImporter',
+			'migratewoo_accounts_privacy_options' => 'MigrateWoo\Importers\AccountsPrivacyImporter',
+			'migratewoo_def_emails_options'       => 'MigrateWoo\Importers\EmailsOptionsImporter',
+			'migratewoo_endpoints_options'        => 'MigrateWoo\Importers\EndpointsImporter'
+		];
 
-	public function import_shipping_settings() {
-	}
+		foreach ( $importerStrategies as $key => $className ) {
+			if ( strpos( $filename, $key ) !== false ) {
+				if ( ! class_exists( $className ) ) {
+					wp_die( "Importer class '$className' not found." );
+				}
 
-	public function import_tax_settings() {
+				$importer = new $className();
+				$importer->import( $uploaded_file['file'] );
+
+				return;
+			}
+		}
+
+		wp_die( 'Invalid file format' );
 	}
 
 }

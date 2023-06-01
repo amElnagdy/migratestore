@@ -2,9 +2,8 @@
 
 namespace MigrateWoo\Exporters;
 
-class EmailsOptionsExporter {
+class EmailsOptionsExporter extends AbstractExporter {
 
-	use ExportTrait;
 
 	public function get_def_emails_options() {
 		$option_names = [
@@ -33,7 +32,7 @@ class EmailsOptionsExporter {
 
 	}
 
-	public function get_data(){
+	public function get_data() {
 		return $this->get_def_emails_options();
 	}
 

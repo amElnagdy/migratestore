@@ -3,9 +3,8 @@
 namespace MigrateWoo\Exporters;
 
 
-class TaxOptionsExporter {
+class TaxOptionsExporter extends AbstractExporter {
 
-	use ExportTrait;
 
 	public function get_tax_options() {
 		$option_names = [

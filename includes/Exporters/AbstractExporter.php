@@ -2,12 +2,11 @@
 
 namespace MigrateWoo\Exporters;
 
-trait ExportTrait {
+abstract class AbstractExporter {
 
 	abstract public function get_data();
 
 	abstract public function get_csv_filename();
-
 
 	public function get_options_values( array $option_names ) {
 		$settings = [];
@@ -53,6 +52,4 @@ trait ExportTrait {
 		$csv_file_name = $this->get_csv_filename();
 		$this->download_csv( $csv_data, $csv_file_name );
 	}
-
-
 }

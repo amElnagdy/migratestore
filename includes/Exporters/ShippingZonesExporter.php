@@ -2,22 +2,22 @@
 
 namespace MigrateWoo\Exporters;
 
-class ShippingZonesExporter {
+class ShippingZonesExporter extends AbstractExporter {
 
-	use ExportTrait;
 
 	private $wpdb;
+	private $query;
 
 	public function __construct() {
 		global $wpdb;
 		$this->wpdb = $wpdb;
 	}
 
-	private function get_data( $query ) {
-		return $this->wpdb->get_results( $query, ARRAY_A );
+	public function get_data() {
+		return $this->wpdb->get_results( $this->query, ARRAY_A );
 	}
 
-	protected function format_csv_data( $data ) {
+	public function format_csv_data( $data ) {
 		$output = fopen( 'php://temp', 'w' );
 		foreach ( $data as $row ) {
 			fputcsv( $output, $row );
@@ -37,9 +37,10 @@ class ShippingZonesExporter {
 
 		$csv_data = '';
 		foreach ( $queries as $name => $query ) {
-			$csv_data .= "\"$name\"\n";
-			$data     = $this->get_data( $query );
-			$csv_data .= $this->format_csv_data( $data );
+			$csv_data    .= "\"$name\"\n";
+			$this->query = $query;
+			$data        = $this->get_data();
+			$csv_data    .= $this->format_csv_data( $data );
 		}
 
 		$csv_file_name = $this->get_csv_filename();

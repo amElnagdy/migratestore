@@ -2,9 +2,8 @@
 
 namespace MigrateWoo\Exporters;
 
-class AccountsPrivacyExporter {
+class AccountsPrivacyExporter extends AbstractExporter{
 
-	use ExportTrait;
 
 	public function get_accounts_privacy_options() {
 

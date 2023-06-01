@@ -3,9 +3,7 @@
 namespace MigrateWoo\Exporters;
 
 
-class GeneralSettingsExporter {
-
-	use ExportTrait;
+class GeneralSettingsExporter extends AbstractExporter {
 
 	public function get_general_settings() {
 		$option_names = [
@@ -29,7 +27,8 @@ class GeneralSettingsExporter {
 			'woocommerce_price_decimal_sep',
 			'woocommerce_price_num_decimals',
 		];
-		return $this->get_options_values($option_names);
+
+		return $this->get_options_values( $option_names );
 	}
 
 	public function get_data() {
