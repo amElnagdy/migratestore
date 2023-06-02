@@ -1,14 +1,16 @@
 <?php
 
-namespace MigrateWoo\Exporters;
+namespace MigrateWoo\Exporters\WooCommerce;
 
+
+use MigrateWoo\Exporters\AbstractExporter;
 
 class TaxOptionsExporter extends AbstractExporter {
 
 
 	public function get_tax_options() {
 		$option_names = [
-			'woocommerce_prices_include_tax	',
+			'woocommerce_prices_include_tax',
 			'woocommerce_tax_based_on',
 			'woocommerce_shipping_tax_class',
 			'woocommerce_tax_round_at_subtotal',

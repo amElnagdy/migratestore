@@ -2,15 +2,6 @@
 
 namespace MigrateWoo;
 
-use MigrateWoo\Exporters\AccountsPrivacyExporter;
-use MigrateWoo\Exporters\EmailsOptionsExporter;
-use MigrateWoo\Exporters\EndpointsExporter;
-use MigrateWoo\Exporters\GeneralSettingsExporter;
-use MigrateWoo\Exporters\ShippingOptionsExporter;
-use MigrateWoo\Exporters\ShippingZonesExporter;
-use MigrateWoo\Exporters\TaxOptionsExporter;
-use MigrateWoo\Importers\AccountsPrivacyImporter;
-
 class MigrateWoo {
 
 	public function __construct() {
@@ -45,13 +36,13 @@ class MigrateWoo {
 		$action = sanitize_text_field( $_POST['migratewoo_action'] );
 
 		$strategies = [
-			'export_general_settings'         => 'MigrateWoo\Exporters\GeneralSettingsExporter',
-			'export_shipping_zones'           => 'MigrateWoo\Exporters\ShippingZonesExporter',
-			'export_shipping_options'         => 'MigrateWoo\Exporters\ShippingOptionsExporter',
-			'export_tax_options'              => 'MigrateWoo\Exporters\TaxOptionsExporter',
-			'export_accounts_privacy_options' => 'MigrateWoo\Exporters\AccountsPrivacyExporter',
-			'export_def_emails_options'       => 'MigrateWoo\Exporters\EmailsOptionsExporter',
-			'export_endpoints_options'        => 'MigrateWoo\Exporters\EndpointsExporter'
+			'export_general_settings'         => 'MigrateWoo\Exporters\WooCommerce\GeneralSettingsExporter',
+			'export_shipping_zones'           => 'MigrateWoo\Exporters\WooCommerce\ShippingZonesExporter',
+			'export_shipping_options'         => 'MigrateWoo\Exporters\WooCommerce\ShippingOptionsExporter',
+			'export_tax_options'              => 'MigrateWoo\Exporters\WooCommerce\TaxOptionsExporter',
+			'export_accounts_privacy_options' => 'MigrateWoo\Exporters\WooCommerce\AccountsPrivacyExporter',
+			'export_def_emails_options'       => 'MigrateWoo\Exporters\WooCommerce\EmailsOptionsExporter',
+			'export_endpoints_options'        => 'MigrateWoo\Exporters\WooCommerce\EndpointsExporter'
 		];
 
 		if ( ! isset( $strategies[ $action ] ) ) {
@@ -86,11 +77,13 @@ class MigrateWoo {
 
 		// Mapping of filename to importer classes
 		$importerStrategies = [
-			'migratewoo_general_settings'         => 'MigrateWoo\Importers\GeneralSettingsImporter',
-			'migratewoo_shipping_zones'           => 'MigrateWoo\Importers\ShippingZonesImporter',
-			'migratewoo_accounts_privacy_options' => 'MigrateWoo\Importers\AccountsPrivacyImporter',
-			'migratewoo_def_emails_options'       => 'MigrateWoo\Importers\EmailsOptionsImporter',
-			'migratewoo_endpoints_options'        => 'MigrateWoo\Importers\EndpointsImporter'
+			'migratewoo_general_settings'         => 'MigrateWoo\Importers\WooCommerce\GeneralSettingsImporter',
+			'migratewoo_shipping_zones'           => 'MigrateWoo\Importers\WooCommerce\ShippingZonesImporter',
+			'migratewoo_accounts_privacy_options' => 'MigrateWoo\Importers\WooCommerce\AccountsPrivacyImporter',
+			'migratewoo_def_emails_options'       => 'MigrateWoo\Importers\WooCommerce\EmailsOptionsImporter',
+			'migratewoo_endpoints_options'        => 'MigrateWoo\Importers\WooCommerce\EndpointsImporter',
+			'migratewoo_shipping_options'         => 'MigrateWoo\Importers\WooCommerce\ShippingOptionsImporter',
+			'migratewoo_tax_options'              => 'MigrateWoo\Importers\WooCommerce\TaxOptionsImporter'
 		];
 
 		foreach ( $importerStrategies as $key => $className ) {
@@ -100,8 +93,15 @@ class MigrateWoo {
 				}
 
 				$importer = new $className();
-				$importer->import( $uploaded_file['file'] );
-
+				try {
+					$importer->import( $uploaded_file['file']);
+					// if the import succeeds, set the success transient
+					set_transient('migratewoo_import_success', true, 45);
+				} catch (\Exception $e) {
+					// if an error occurs during import, set the error transient
+					set_transient('migratewoo_import_error', $e->getMessage(), 45);
+				}
+				$importer->complete_import();
 				return;
 			}
 		}

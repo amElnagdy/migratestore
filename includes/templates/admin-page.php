@@ -1,5 +1,16 @@
 <?php
 
+// Check if the transient is set for errors
+if ( $error = get_transient( 'migratewoo_import_error' ) ) {
+	// Clear the transient, so it doesn't show again on the next page load
+	delete_transient( 'migratewoo_import_error' );
+
+	// Display the error message
+	echo '<div class="notice notice-error is-dismissible">';
+	echo '<p>' . $error . '</p>';
+	echo '</div>';
+}
+
 // Check if the transient is set
 if ( get_transient( 'migratewoo_import_success' ) ) {
 	// Clear the transient, so it doesn't show again on the next page load

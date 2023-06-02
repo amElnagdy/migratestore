@@ -1,6 +1,8 @@
 <?php
 
-namespace MigrateWoo\Exporters;
+namespace MigrateWoo\Exporters\WooCommerce;
+
+use MigrateWoo\Exporters\AbstractExporter;
 
 class ShippingZonesExporter extends AbstractExporter {
 
@@ -32,12 +34,29 @@ class ShippingZonesExporter extends AbstractExporter {
 			"woocommerce_shipping_zones"          => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zones",
 			"woocommerce_shipping_zone_methods"   => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods",
 			"woocommerce_shipping_zone_locations" => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zone_locations",
-			"options"                             => "SELECT * FROM {$this->wpdb->prefix}options WHERE option_name LIKE 'woocommerce_table_rate%' OR option_name LIKE 'woocommerce_free%' OR option_name LIKE 'woocommerce_local_pickup_%' OR option_name LIKE 'woocommerce_flat_%'"
+			"options"                             => "SELECT option_name, option_value FROM {$this->wpdb->options} WHERE option_name LIKE 'woocommerce_free%' OR option_name LIKE 'woocommerce_local_pickup_%' OR option_name LIKE 'woocommerce_flat_%'"
 		];
 
 		$csv_data = '';
 		foreach ( $queries as $name => $query ) {
-			$csv_data    .= "\"$name\"\n";
+			$csv_data .= "\"$name\"\n";
+
+			// Add headers for each section
+			switch ($name) {
+				case "woocommerce_shipping_zones":
+					$csv_data .= "zone_id,zone_name,zone_order\n";
+					break;
+				case "woocommerce_shipping_zone_methods":
+					$csv_data .= "zone_id,instance_id,method_id,method_order,is_enabled\n";
+					break;
+				case "woocommerce_shipping_zone_locations":
+					$csv_data .= "location_id,zone_id,location_code,location_type\n";
+					break;
+				case "options":
+					$csv_data .= "option_name,option_value\n";
+					break;
+			}
+
 			$this->query = $query;
 			$data        = $this->get_data();
 			$csv_data    .= $this->format_csv_data( $data );

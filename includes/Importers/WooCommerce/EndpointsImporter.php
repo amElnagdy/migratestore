@@ -1,8 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers;
+namespace MigrateWoo\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\EndpointsExporter;
+use MigrateWoo\Exporters\WooCommerce\EndpointsExporter;
+use MigrateWoo\Importers\AbstractImporter;
 
 class EndpointsImporter extends AbstractImporter {
 

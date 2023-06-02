@@ -11,6 +11,7 @@ abstract class AbstractExporter {
 	public function get_options_values( array $option_names ) {
 		$settings = [];
 		foreach ( $option_names as $option_name ) {
+			$option_name = trim($option_name);
 			$option_value = get_option( $option_name );
 
 			// If value is an array, serialize it

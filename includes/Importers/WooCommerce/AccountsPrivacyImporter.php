@@ -1,8 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers;
+namespace MigrateWoo\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\AccountsPrivacyExporter;
+use MigrateWoo\Exporters\WooCommerce\AccountsPrivacyExporter;
+use MigrateWoo\Importers\AbstractImporter;
 
 class AccountsPrivacyImporter extends AbstractImporter {
 
