@@ -9,6 +9,7 @@ class MigrateWoo {
 		add_action( 'admin_post_migratewoo_export_action', array( $this, 'handle_export_action' ) );
 		add_action( 'admin_post_migratewoo_import_action', array( $this, 'handle_import_action' ) );
 		add_action( 'init', array( $this, 'migratewoo_load_textdomain' ) );
+		add_filter( 'plugin_action_links_' . MIGRATEWOO_PLUGIN_BASENAME, array( $this, 'add_plugin_page_settings_link' ) );
 	}
 
 	public function migratewoo_load_textdomain() {
@@ -32,6 +33,12 @@ class MigrateWoo {
 			$this,
 			'migratewoo_admin_import_page'
 		) );
+	}
+
+	public function add_plugin_page_settings_link( $links ) {
+		$settings_link = '<a href="' . admin_url( 'admin.php?page=migratewoo' ) . '">' . __( 'Settings', 'migratewoo' ) . '</a>';
+		array_unshift($links, $settings_link);
+		return $links;
 	}
 
 	public function migratewoo_admin_export_page() {

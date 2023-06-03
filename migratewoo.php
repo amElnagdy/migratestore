@@ -3,7 +3,7 @@
 /**
  * Plugin Name: MigrateWoo
  * Plugin URI: https://migratewoo.com
- * Description: MigrateWoo is a plugin that allows you to migrate your WooCommerce store to a new theme or a new platform.
+ * Description: MigrateWoo is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort.
  * Version: 1.0.0
  * Author: Nagdy
  * Author URI: https://nagdy.me
