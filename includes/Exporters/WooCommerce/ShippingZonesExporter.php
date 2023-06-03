@@ -31,10 +31,10 @@ class ShippingZonesExporter extends AbstractExporter {
 
 	public function export() {
 		$queries = [
-			"woocommerce_shipping_zones"          => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zones",
-			"woocommerce_shipping_zone_methods"   => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods",
+			"woocommerce_shipping_zones" => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zones",
+			"woocommerce_shipping_zone_methods" => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods WHERE method_id IN ('flat_rate', 'free_shipping', 'local_pickup')",
 			"woocommerce_shipping_zone_locations" => "SELECT * FROM {$this->wpdb->prefix}woocommerce_shipping_zone_locations",
-			"options"                             => "SELECT option_name, option_value FROM {$this->wpdb->options} WHERE option_name LIKE 'woocommerce_free%' OR option_name LIKE 'woocommerce_local_pickup_%' OR option_name LIKE 'woocommerce_flat_%'"
+			"options" => "SELECT option_name, option_value FROM {$this->wpdb->options} WHERE option_name LIKE 'woocommerce_free%' OR option_name LIKE 'woocommerce_local_pickup_%' OR option_name LIKE 'woocommerce_flat_%'"
 		];
 
 		$csv_data = '';
@@ -67,6 +67,6 @@ class ShippingZonesExporter extends AbstractExporter {
 	}
 
 	public function get_csv_filename() {
-		return 'migratewoo_shipping_zones' . date( 'Ymd_His' ) . '.csv';
+		return 'migratewoo_zones' . date( 'Ymd_His' ) . '.csv';
 	}
 }

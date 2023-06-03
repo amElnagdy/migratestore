@@ -7,4 +7,22 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'MigrateWoo\\Checker' => $baseDir . '/includes/Checker.php',
+    'MigrateWoo\\Exporters\\AbstractExporter' => $baseDir . '/includes/Exporters/AbstractExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\AccountsPrivacyExporter' => $baseDir . '/includes/Exporters/WooCommerce/AccountsPrivacyExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\EmailsOptionsExporter' => $baseDir . '/includes/Exporters/WooCommerce/EmailsOptionsExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\EndpointsExporter' => $baseDir . '/includes/Exporters/WooCommerce/EndpointsExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\GeneralSettingsExporter' => $baseDir . '/includes/Exporters/WooCommerce/GeneralSettingsExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\ShippingOptionsExporter' => $baseDir . '/includes/Exporters/WooCommerce/ShippingOptionsExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\ShippingZonesExporter' => $baseDir . '/includes/Exporters/WooCommerce/ShippingZonesExporter.php',
+    'MigrateWoo\\Exporters\\WooCommerce\\TaxOptionsExporter' => $baseDir . '/includes/Exporters/WooCommerce/TaxOptionsExporter.php',
+    'MigrateWoo\\Importers\\AbstractImporter' => $baseDir . '/includes/Importers/AbstractImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\AccountsPrivacyImporter' => $baseDir . '/includes/Importers/WooCommerce/AccountsPrivacyImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\EmailsOptionsImporter' => $baseDir . '/includes/Importers/WooCommerce/EmailsOptionsImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\EndpointsImporter' => $baseDir . '/includes/Importers/WooCommerce/EndpointsImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\GeneralSettingsImporter' => $baseDir . '/includes/Importers/WooCommerce/GeneralSettingsImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\ShippingOptionsImporter' => $baseDir . '/includes/Importers/WooCommerce/ShippingOptionsImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\ShippingZonesImporter' => $baseDir . '/includes/Importers/WooCommerce/ShippingZonesImporter.php',
+    'MigrateWoo\\Importers\\WooCommerce\\TaxOptionsImporter' => $baseDir . '/includes/Importers/WooCommerce/TaxOptionsImporter.php',
+    'MigrateWoo\\MigrateWoo' => $baseDir . '/includes/MigrateWoo.php',
 );

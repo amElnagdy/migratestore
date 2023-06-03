@@ -1,6 +1,6 @@
 {
     "name": "nagdy/migratewoo",
-    "type": "library",
+    "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
             "MigrateWoo\\": "includes/"

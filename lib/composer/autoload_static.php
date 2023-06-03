@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5575b02ee58333e1ce3d1fc76a1fcf09
+class ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3
 {
     public static $prefixLengthsPsr4 = array (
         'M' => 
@@ -22,14 +22,32 @@ class ComposerStaticInit5575b02ee58333e1ce3d1fc76a1fcf09
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'MigrateWoo\\Checker' => __DIR__ . '/../..' . '/includes/Checker.php',
+        'MigrateWoo\\Exporters\\AbstractExporter' => __DIR__ . '/../..' . '/includes/Exporters/AbstractExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\AccountsPrivacyExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/AccountsPrivacyExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\EmailsOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EmailsOptionsExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\EndpointsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EndpointsExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\GeneralSettingsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/GeneralSettingsExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\ShippingOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/ShippingOptionsExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\ShippingZonesExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/ShippingZonesExporter.php',
+        'MigrateWoo\\Exporters\\WooCommerce\\TaxOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/TaxOptionsExporter.php',
+        'MigrateWoo\\Importers\\AbstractImporter' => __DIR__ . '/../..' . '/includes/Importers/AbstractImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\AccountsPrivacyImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/AccountsPrivacyImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\EmailsOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/EmailsOptionsImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\EndpointsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/EndpointsImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\GeneralSettingsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/GeneralSettingsImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\ShippingOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingOptionsImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\ShippingZonesImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingZonesImporter.php',
+        'MigrateWoo\\Importers\\WooCommerce\\TaxOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/TaxOptionsImporter.php',
+        'MigrateWoo\\MigrateWoo' => __DIR__ . '/../..' . '/includes/MigrateWoo.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5575b02ee58333e1ce3d1fc76a1fcf09::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5575b02ee58333e1ce3d1fc76a1fcf09::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5575b02ee58333e1ce3d1fc76a1fcf09::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -14,6 +14,7 @@ abstract class AbstractExporter {
 			$option_name = trim($option_name);
 			$option_value = get_option( $option_name );
 
+
 			// If value is an array, serialize it
 			if ( is_array( $option_value ) ) {
 				$option_value = maybe_serialize( $option_value );

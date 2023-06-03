@@ -20,10 +20,30 @@ class MigrateWoo {
 			$this,
 			'migratewoo_admin_page'
 		), 'dashicons-sort', 99 );
+		add_submenu_page( 'migratewoo', 'Home', 'Home', 'manage_options', 'migratewoo', array(
+			$this,
+			'migratewoo_admin_page'
+		) );
+		add_submenu_page( 'migratewoo', 'Export', 'Export', 'manage_options', 'migratewoo-export', array(
+			$this,
+			'migratewoo_admin_export_page'
+		) );
+		add_submenu_page( 'migratewoo', 'Import', 'Import', 'manage_options', 'migratewoo-import', array(
+			$this,
+			'migratewoo_admin_import_page'
+		) );
+	}
+
+	public function migratewoo_admin_export_page() {
+		require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'includes/admin/admin-export-page.php';
+	}
+
+	public function migratewoo_admin_import_page() {
+		require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'includes/admin/admin-import-page.php';
 	}
 
 	public function migratewoo_admin_page() {
-		require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'includes/templates/admin-page.php';
+		require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'includes/admin/admin-page.php';
 	}
 
 	public function handle_export_action() {
@@ -78,9 +98,9 @@ class MigrateWoo {
 		// Mapping of filename to importer classes
 		$importerStrategies = [
 			'migratewoo_general_settings'         => 'MigrateWoo\Importers\WooCommerce\GeneralSettingsImporter',
-			'migratewoo_shipping_zones'           => 'MigrateWoo\Importers\WooCommerce\ShippingZonesImporter',
+			'migratewoo_zones'                    => 'MigrateWoo\Importers\WooCommerce\ShippingZonesImporter',
 			'migratewoo_accounts_privacy_options' => 'MigrateWoo\Importers\WooCommerce\AccountsPrivacyImporter',
-			'migratewoo_def_emails_options'       => 'MigrateWoo\Importers\WooCommerce\EmailsOptionsImporter',
+			'migratewoo_emails_settings'          => 'MigrateWoo\Importers\WooCommerce\EmailsOptionsImporter',
 			'migratewoo_endpoints_options'        => 'MigrateWoo\Importers\WooCommerce\EndpointsImporter',
 			'migratewoo_shipping_options'         => 'MigrateWoo\Importers\WooCommerce\ShippingOptionsImporter',
 			'migratewoo_tax_options'              => 'MigrateWoo\Importers\WooCommerce\TaxOptionsImporter'
@@ -94,14 +114,15 @@ class MigrateWoo {
 
 				$importer = new $className();
 				try {
-					$importer->import( $uploaded_file['file']);
+					$importer->import( $uploaded_file['file'] );
 					// if the import succeeds, set the success transient
-					set_transient('migratewoo_import_success', true, 45);
-				} catch (\Exception $e) {
+					set_transient( 'migratewoo_import_success', true, 45 );
+				} catch ( \Exception $e ) {
 					// if an error occurs during import, set the error transient
-					set_transient('migratewoo_import_error', $e->getMessage(), 45);
+					set_transient( 'migratewoo_import_error', $e->getMessage(), 45 );
 				}
 				$importer->complete_import();
+
 				return;
 			}
 		}

@@ -63,7 +63,7 @@ abstract class AbstractImporter {
 	}
 
 	public function complete_import() {
-		wp_redirect( admin_url( 'admin.php?page=migratewoo' ) );
+		wp_redirect( admin_url( 'admin.php?page=migratewoo-import' ) );
 		exit;
 	}
 
