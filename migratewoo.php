@@ -16,7 +16,7 @@
  */
 
 use MigrateWoo\MigrateWoo;
-use MigrateWoo\Checker;
+use MigrateWoo\Plugins_Checker;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
@@ -29,7 +29,7 @@ define( 'MIGRATEWOO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'lib/autoload.php';
 
-$checker = new Checker();
+$checker = new Plugins_Checker();
 if ( $checker->is_woocommerce_activated() === false) {
 	return;
 }

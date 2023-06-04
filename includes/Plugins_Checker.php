@@ -2,7 +2,7 @@
 
 namespace MigrateWoo;
 
-class Checker {
+class Plugins_Checker {
 
 	/**
 	 * Check if WooCommerce is activated
@@ -28,4 +28,6 @@ class Checker {
 		</div>
 		<?php
 	}
+
+	// We will check for the compatible plugins here.
 }
