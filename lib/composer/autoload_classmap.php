@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'MigrateWoo\\Checker' => $baseDir . '/includes/Checker.php',
     'MigrateWoo\\Exporters\\AbstractExporter' => $baseDir . '/includes/Exporters/AbstractExporter.php',
     'MigrateWoo\\Exporters\\WooCommerce\\AccountsPrivacyExporter' => $baseDir . '/includes/Exporters/WooCommerce/AccountsPrivacyExporter.php',
     'MigrateWoo\\Exporters\\WooCommerce\\EmailsOptionsExporter' => $baseDir . '/includes/Exporters/WooCommerce/EmailsOptionsExporter.php',
@@ -25,4 +24,5 @@ return array(
     'MigrateWoo\\Importers\\WooCommerce\\ShippingZonesImporter' => $baseDir . '/includes/Importers/WooCommerce/ShippingZonesImporter.php',
     'MigrateWoo\\Importers\\WooCommerce\\TaxOptionsImporter' => $baseDir . '/includes/Importers/WooCommerce/TaxOptionsImporter.php',
     'MigrateWoo\\MigrateWoo' => $baseDir . '/includes/MigrateWoo.php',
+    'MigrateWoo\\Plugins_Checker' => $baseDir . '/includes/Plugins_Checker.php',
 );

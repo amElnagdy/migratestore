@@ -22,7 +22,6 @@ class ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'MigrateWoo\\Checker' => __DIR__ . '/../..' . '/includes/Checker.php',
         'MigrateWoo\\Exporters\\AbstractExporter' => __DIR__ . '/../..' . '/includes/Exporters/AbstractExporter.php',
         'MigrateWoo\\Exporters\\WooCommerce\\AccountsPrivacyExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/AccountsPrivacyExporter.php',
         'MigrateWoo\\Exporters\\WooCommerce\\EmailsOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EmailsOptionsExporter.php',
@@ -40,6 +39,7 @@ class ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3
         'MigrateWoo\\Importers\\WooCommerce\\ShippingZonesImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingZonesImporter.php',
         'MigrateWoo\\Importers\\WooCommerce\\TaxOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/TaxOptionsImporter.php',
         'MigrateWoo\\MigrateWoo' => __DIR__ . '/../..' . '/includes/MigrateWoo.php',
+        'MigrateWoo\\Plugins_Checker' => __DIR__ . '/../..' . '/includes/Plugins_Checker.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
