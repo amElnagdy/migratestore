@@ -4,10 +4,10 @@ namespace MigrateWoo\Exporters\WooCommerce;
 
 use MigrateWoo\Exporters\AbstractExporter;
 
-class AccountsPrivacyExporter extends AbstractExporter{
+class AccountsPrivacyExporter extends AbstractExporter {
 
 
-	public function get_accounts_privacy_options() {
+	public function get_data() {
 
 		$option_names = [
 
@@ -32,12 +32,8 @@ class AccountsPrivacyExporter extends AbstractExporter{
 		return $this->get_options_values( $option_names );
 	}
 
-	public function get_data() {
-		return $this->get_accounts_privacy_options();
-	}
-
-	public function get_csv_filename() {
-		return 'migratewoo_accounts_privacy_options_' . date( 'Ymd_His' ) . '.csv';
+	public function get_json_filename() {
+		return 'migratewoo_accounts_privacy_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

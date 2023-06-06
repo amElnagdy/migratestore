@@ -12,37 +12,38 @@ abstract class AbstractImporter {
 		$this->exporter = $exporter;
 	}
 
-	public function import( $csv_file_path ) {
-		$handle = fopen( $csv_file_path, 'r' );
+	public function import( $json_file_path ) {
+		WP_Filesystem();
+		global $wp_filesystem;
 
-		if ( $handle === false ) {
-			throw new \RuntimeException( 'Could not open CSV file.' );
+		// Get the contents of the JSON file
+		$contents = $wp_filesystem->get_contents($json_file_path);
+		if ($contents === false) {
+			throw new \RuntimeException( 'Could not open JSON file.' );
 		}
 
-		$header = fgetcsv( $handle, 1000, "," );
+		$data = json_decode( $contents, true );
+		if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+			throw new \RuntimeException( 'Could not parse JSON: ' . json_last_error_msg() );
+		}
 
-		while ( ( $data = fgetcsv( $handle, 1000, "," ) ) !== false ) {
-			if ( count( $data ) == 2 ) {
-				$this->import_option( $data );
+		foreach ($data as $item) {
+			if (isset($item['option'], $item['value'])) {
+				$this->import_option( $item );
 			}
 		}
-
-		fclose( $handle );
 	}
 
-	protected function import_option( $data ) {
-		$option_name  = sanitize_key( $data[0] );
-		$option_value = $data[1];
 
-		// If option value is serialized, unserialize and sanitize it
-		if ( is_serialized( $option_value ) ) {
-			$option_value = maybe_unserialize( $option_value );
-			if ( is_array( $option_value ) ) {
-				array_walk_recursive( $option_value, function ( &$value ) {
-					$value = sanitize_text_field( $value );
-				} );
-				$option_value = serialize( $option_value );
-			}
+	protected function import_option( $data ) {
+		$option_name  = sanitize_key( $data['option'] );
+		$option_value = $data['value'];
+
+		// If option value is an array, sanitize each value
+		if ( is_array( $option_value ) ) {
+			array_walk_recursive( $option_value, function ( &$value ) {
+				$value = sanitize_text_field( $value );
+			});
 		} else {
 			// If option value is a string, sanitize it
 			$option_value = sanitize_text_field( $option_value );
@@ -50,7 +51,7 @@ abstract class AbstractImporter {
 
 		$allowed_option_data  = $this->exporter->get_data();
 		$allowed_option_names = array_map( function ( $item ) {
-			return $item['Option'];
+			return $item['option'];
 		}, $allowed_option_data );
 
 		if ( ! in_array( $option_name, $allowed_option_names ) ) {

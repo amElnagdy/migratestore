@@ -5,7 +5,7 @@ namespace MigrateWoo\Exporters\WooCommerce;
 use MigrateWoo\Exporters\AbstractExporter;
 
 class EmailsOptionsExporter extends AbstractExporter {
-	public function get_def_emails_options() {
+	public function get_data() {
 		$option_names = [
 			'woocommerce_email_from_name',
 			'woocommerce_email_from_address',
@@ -32,12 +32,8 @@ class EmailsOptionsExporter extends AbstractExporter {
 
 	}
 
-	public function get_data() {
-		return $this->get_def_emails_options();
-	}
-
-	public function get_csv_filename() {
-		return 'migratewoo_emails_settings_' . date( 'Ymd_His' ) . '.csv';
+	public function get_json_filename() {
+		return 'migratewoo_emails_settings_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

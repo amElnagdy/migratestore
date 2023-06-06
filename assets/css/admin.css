@@ -1,0 +1,53 @@
+.migratewoo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.migratewoo .content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    max-width: 700px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.migratewoo .content h1,
+.migratewoo .content h2 {
+    color: #23282d;
+}
+
+.migratewoo .content .description {
+    color: #72777c;
+    font-size: 1em;
+    line-height: 1.6em;
+    margin-bottom: 1em;
+}
+
+.migratewoo .content .list-features {
+    list-style: none;
+    padding-left: 0;
+}
+
+.migratewoo .content .list-features li {
+    padding-bottom: 10px;
+    line-height: 1.5em;
+    color: #72777c;
+
+}
+
+.migratewoo .content .list-subfeatures {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.migratewoo .content .list-subfeatures li {
+    padding-bottom: 5px;
+}
+
+.migratewoo .content .option {
+    margin-bottom: 20px;
+}

@@ -32,24 +32,23 @@ $export_options = array(
 	),
 );
 ?>
-<div class="wrap">
-<h1><?php _e( 'Export Options', 'migratewoo' ); ?></h1>
+<div class="wrap migratewoo">
+	<div class="content">
+	<h1><?php _e( 'Export Options', 'migratewoo' ); ?></h1>
 
-<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-	<input type="hidden" name="action" value="migratewoo_export_action">
-	<?php wp_nonce_field( 'migratewoo_export_action_nonce' ); ?>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="migratewoo_export_action">
+			<?php wp_nonce_field( 'migratewoo_export_action_nonce' ); ?>
 
-	<?php foreach ( $export_options as $option => $info ) : ?>
-		<div>
-			<input type="radio" id="<?php echo $option; ?>" name="migratewoo_action" value="<?php echo $option; ?>">
-			<strong><label for="<?php echo $option; ?>">
-					<?php echo esc_html( $info['label'] ); ?>
-				</label></strong>
-			<p class="description"><?php echo esc_html( $info['description'] ); ?></p>
-		</div>
-	<?php endforeach; ?>
+			<?php foreach ( $export_options as $option => $info ) : ?>
+				<div class="option">
+					<input type="radio" id="<?php echo $option; ?>" name="migratewoo_action" value="<?php echo $option; ?>">
+					<strong><label for="<?php echo $option; ?>"><?php echo esc_html( $info['label'] ); ?></label></strong>
+					<p class="description"><?php echo esc_html( $info['description'] ); ?></p>
+				</div>
+			<?php endforeach; ?>
 
-	<input class="button-primary" type="submit"
-	       value="<?php echo esc_attr__( 'Export Selected', 'migratewoo' ); ?>">
-</form>
+			<input class="button-primary" type="submit" value="<?php echo esc_attr__( 'Export Selected', 'migratewoo' ); ?>">
+		</form>
+	</div>
 </div>

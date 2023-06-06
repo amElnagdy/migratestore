@@ -7,7 +7,7 @@ use MigrateWoo\Exporters\AbstractExporter;
 
 class GeneralSettingsExporter extends AbstractExporter {
 
-	public function get_general_settings() {
+	public function get_data() {
 		$option_names = [
 			'woocommerce_store_address',
 			'woocommerce_store_address_2',
@@ -33,12 +33,8 @@ class GeneralSettingsExporter extends AbstractExporter {
 		return $this->get_options_values( $option_names );
 	}
 
-	public function get_data() {
-		return $this->get_general_settings();
-	}
-
-	public function get_csv_filename() {
-		return 'migratewoo_general_settings_' . date( 'Ymd_His' ) . '.csv';
+	public function get_json_filename() {
+		return 'migratewoo_general_settings_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

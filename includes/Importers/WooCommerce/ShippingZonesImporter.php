@@ -15,59 +15,45 @@ class ShippingZonesImporter extends AbstractImporter {
 		$this->wpdb = $wpdb;
 	}
 
-	public function import( $csv_file_path ) {
+	public function import( $json_file_path ) {
 		if ($this->validate() === false) {
 			throw new \Exception('You have existing shipping zones. Please delete them before attempting to import new ones.');
 		}
 
-		$handle = fopen( $csv_file_path, 'r' );
+		WP_Filesystem();
+		global $wp_filesystem;
 
-		if ( $handle === false ) {
-			throw new \RuntimeException( 'Could not open CSV file.' );
+		// Get the contents of the JSON file
+		$contents = $wp_filesystem->get_contents($json_file_path);
+		if ($contents === false) {
+			throw new \RuntimeException('Could not open JSON file.');
 		}
 
-		$csv_type  = null;
-		$row_count = 0;
-		while ( ( $data = fgetcsv( $handle, 1000, "," ) ) !== false ) {
-			// Ignore empty lines
-			if ( count( $data ) == 0 || $data[0] == '' ) {
-				continue;
-			}
-
-			// Detect the type of the line
-			if ( count( $data ) == 1 ) {
-				$csv_type  = trim( $data[0] ); // remove any accidental whitespace
-				$row_count = 0;  // reset row count for each section
-				continue;
-			}
-
-			// skip the header line
-			if ( $row_count == 0 ) {
-				$row_count ++;
-				continue;
-			}
-
-			switch ( $csv_type ) {
-				case 'woocommerce_shipping_zones':
-					$this->import_shipping_zone( $data );
-					break;
-				case 'woocommerce_shipping_zone_methods':
-					$this->import_shipping_zone_method( $data );
-					break;
-				case 'woocommerce_shipping_zone_locations':
-					$this->import_shipping_zone_location( $data );
-					break;
-				case 'options':
-					$this->import_option( $data );
-					break;
-				default:
-					throw new \RuntimeException( 'Invalid CSV type: ' . $csv_type );
-			}
-
-			$row_count ++;
+		$data = json_decode($contents, true);
+		if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+			throw new \RuntimeException('Could not parse JSON: ' . json_last_error_msg());
 		}
 
-		fclose( $handle );
+		foreach ($data as $csv_type => $rows) {
+			foreach ($rows as $row) {
+				switch ($csv_type) {
+					case 'woocommerce_shipping_zones':
+						$this->import_shipping_zone($row);
+						break;
+					case 'woocommerce_shipping_zone_methods':
+						$this->import_shipping_zone_method($row);
+						break;
+					case 'woocommerce_shipping_zone_locations':
+						$this->import_shipping_zone_location($row);
+						break;
+					case 'options':
+						$this->import_option($row);
+						break;
+					default:
+						throw new \RuntimeException('Invalid JSON type: ' . $csv_type);
+				}
+			}
+		}
 	}
 
 
