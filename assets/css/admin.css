@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-.migratewoo .content {
+.migratewoo .mwcontent {
     background-color: #fff;
     padding: 30px;
     border-radius: 5px;
@@ -15,39 +15,39 @@
     margin-bottom: 30px;
 }
 
-.migratewoo .content h1,
-.migratewoo .content h2 {
+.migratewoo .mwcontent h1,
+.migratewoo .mwcontent h2 {
     color: #23282d;
 }
 
-.migratewoo .content .description {
+.migratewoo .mwcontent .mwdescription {
     color: #72777c;
     font-size: 1em;
     line-height: 1.6em;
     margin-bottom: 1em;
 }
 
-.migratewoo .content .list-features {
+.migratewoo .mwcontent .mwlist-features {
     list-style: none;
     padding-left: 0;
 }
 
-.migratewoo .content .list-features li {
+.migratewoo .mwcontent .mwlist-features li {
     padding-bottom: 10px;
     line-height: 1.5em;
     color: #72777c;
 
 }
 
-.migratewoo .content .list-subfeatures {
+.migratewoo .mwcontent .mwlist-subfeatures {
     list-style: disc;
     padding-left: 20px;
 }
 
-.migratewoo .content .list-subfeatures li {
+.migratewoo .mwcontent .mwlist-subfeatures li {
     padding-bottom: 5px;
 }
 
-.migratewoo .content .option {
+.migratewoo .mwcontent .mwoption {
     margin-bottom: 20px;
 }

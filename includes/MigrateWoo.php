@@ -2,6 +2,8 @@
 
 namespace MigrateWoo;
 
+use MigrateWoo\Importers\AbstractImporter;
+
 class MigrateWoo {
 
 	public function __construct() {
@@ -13,7 +15,7 @@ class MigrateWoo {
 			$this,
 			'add_plugin_page_settings_link'
 		) );
-		add_action('admin_enqueue_scripts', array($this, 'migratewoo_admin_enqueue_scripts'));
+		add_action( 'admin_enqueue_scripts', array( $this, 'migratewoo_admin_enqueue_scripts' ) );
 	}
 
 	public function migratewoo_load_textdomain() {
@@ -66,7 +68,7 @@ class MigrateWoo {
 		check_admin_referer( 'migratewoo_export_action_nonce' );
 
 		if ( ! isset( $_POST['migratewoo_action'] ) ) {
-			wp_die( 'Action not set' );
+			wp_die( 'Invalid action' );
 		}
 
 		$action = sanitize_text_field( $_POST['migratewoo_action'] );
@@ -94,10 +96,8 @@ class MigrateWoo {
 		}
 	}
 
-
 	public function handle_import_action() {
 		WP_Filesystem();
-		global $wp_filesystem;
 		check_admin_referer( 'migratewoo_import_action_nonce' );
 
 		if ( ! isset( $_FILES['json_zip_file'] ) || $_FILES['json_zip_file']['error'] !== UPLOAD_ERR_OK ) {
@@ -111,28 +111,30 @@ class MigrateWoo {
 			wp_die( $uploaded_file['error'] ?? 'File upload failed' );
 		}
 
-		// Get the original file name and sanitize it
 		$uploaded_file_name     = sanitize_file_name( $_FILES['json_zip_file']['name'] );
 		$uploaded_file_basename = basename( $uploaded_file_name, '.zip' );
 
-		// Unzip the uploaded file
-		$unzip_folder = wp_upload_dir()['basedir'] . '/migratewoo_uploads';
-		$unzipped     = unzip_file( $uploaded_file['file'], $unzip_folder );
+		$unzip_folder = wp_upload_dir()['basedir'] . '/migratewoo_tmp';
+
+		// Check if we have sufficient permission to create the folder
+		if ( ! is_dir( $unzip_folder ) && ! @mkdir( $unzip_folder ) && ! is_dir( $unzip_folder ) ) {
+			wp_die( 'Failed to create tmp directory: insufficient permission' );
+		}
+
+		$unzipped = unzip_file( $uploaded_file['file'], $unzip_folder );
 		if ( is_wp_error( $unzipped ) ) {
 			wp_die( 'Failed to unzip file: ' . $unzipped->get_error_message() );
 		}
 
-		// Look for the .json file with the same base name as the uploaded .zip file
 		$json_files = glob( $unzip_folder . '/' . $uploaded_file_basename . '*.json' );
 		if ( empty( $json_files ) ) {
 			wp_die( 'No matching JSON file found in uploaded ZIP.' );
 		}
 
 		$json_file      = $json_files[0];
-		$filename_parts = explode( '_', basename( $json_file, '.json' ), 3 ); // Split the filename into parts
-		$filename       = $filename_parts[0] . '_' . $filename_parts[1]; // Reconstruct the base part of the filename
+		$filename_parts = explode( '_', basename( $json_file, '.json' ), 3 );
+		$filename       = $filename_parts[0] . '_' . $filename_parts[1];
 
-		// Mapping of filename to importer classes
 		$importerStrategies = [
 			'migratewoo_general_settings'         => 'MigrateWoo\Importers\WooCommerce\GeneralSettingsImporter',
 			'migratewoo_zones'                    => 'MigrateWoo\Importers\WooCommerce\ShippingZonesImporter',
@@ -144,15 +146,15 @@ class MigrateWoo {
 		];
 
 		$valid_file = false;
-		foreach($importerStrategies as $key => $value) {
-			if (strpos($key, $filename) !== false) {
+		foreach ( $importerStrategies as $key => $value ) {
+			if ( strpos( $key, $filename ) !== false ) {
 				$valid_file = true;
-				$className = $value;
+				$className  = $value;
 				break;
 			}
 		}
 
-		if (!$valid_file) {
+		if ( ! $valid_file ) {
 			wp_die( 'Invalid file name.' );
 		}
 
@@ -162,16 +164,15 @@ class MigrateWoo {
 
 		$importer = new $className();
 		try {
-			$importer->import( $json_file ); // Pass the path to the extracted JSON file
-			// if the import succeeds, set the success transient
+			$importer->import( $json_file );
 			set_transient( 'migratewoo_import_success', true, 60 );
 		} catch ( \Exception $e ) {
-			// if the import fails, set the error transient
 			set_transient( 'migratewoo_import_error', $e->getMessage(), 60 );
 		}
 
-		wp_safe_redirect( wp_get_referer() );
-		exit;
+		//Using cleanup to delete the tmp folder
+		$importer->cleanup( $unzip_folder );
 	}
+
 
 }

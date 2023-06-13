@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-04T11:28:20+00:00\n"
+"POT-Creation-Date: 2023-06-13T16:49:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.0\n"
 "X-Domain: migratewoo\n"
@@ -45,29 +45,29 @@ msgid ""
 msgstr ""
 
 #: includes/admin/admin-export-page.php:9
-msgid "Shipping Zones"
+msgid "Tax Options"
 msgstr ""
 
 #: includes/admin/admin-export-page.php:10
+msgid "Export  WooCommerce tax options. Found at WooCommerce → Settings → Tax."
+msgstr ""
+
+#: includes/admin/admin-export-page.php:13
+msgid "Shipping Zones"
+msgstr ""
+
+#: includes/admin/admin-export-page.php:14
 msgid ""
 "Export WooCommerce shipping zones. This will export WooCommerce → Settings → Shipping → Zones.\n"
 "\t\tIncluding the Zones, the locations and the default shipping methods (Flat Rate, Free Shipping, and Local Pickup)."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:14
+#: includes/admin/admin-export-page.php:18
 msgid "Shipping Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:15
-msgid "Export  WooCommerce shipping options. Found at WooCommerce → Settings → Shipping → Shipping options."
-msgstr ""
-
-#: includes/admin/admin-export-page.php:18
-msgid "Tax Options"
-msgstr ""
-
 #: includes/admin/admin-export-page.php:19
-msgid "Export  WooCommerce tax options. Found at WooCommerce → Settings → Tax."
+msgid "Export  WooCommerce shipping options. Found at WooCommerce → Settings → Shipping → Shipping options."
 msgstr ""
 
 #: includes/admin/admin-export-page.php:22
@@ -94,130 +94,142 @@ msgstr ""
 msgid "Export  WooCommerce endpoints options. Found at WooCommerce → Settings → Advanced."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:36
+#: includes/admin/admin-export-page.php:37
 msgid "Export Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:53
+#: includes/admin/admin-export-page.php:52
 msgid "Export Selected"
 msgstr ""
 
-#: includes/admin/admin-import-page.php:20
-msgid "MigrateWoo has imported your file successfully"
+#: includes/admin/admin-import-page.php:22
+msgid "MigrateWoo has imported your file successfully."
 msgstr ""
 
-#: includes/admin/admin-import-page.php:25
+#: includes/admin/admin-import-page.php:26
 msgid "Import Options"
 msgstr ""
 
 #: includes/admin/admin-import-page.php:27
-msgid "Import your WooCommerce settings from a CSV file created via the Export page."
+msgid "Import your WooCommerce settings by uploading the .zip file exported by the MigrateWoo plugin."
 msgstr ""
 
-#: includes/admin/admin-import-page.php:33
-msgid "Import CSV"
+#: includes/admin/admin-import-page.php:32
+msgid "Import Zip"
 msgstr ""
 
-#: includes/admin/admin-page.php:3
+#: includes/admin/admin-page.php:4
 msgid "Welcome to the MigrateWoo plugin. "
 msgstr ""
 
-#: includes/admin/admin-page.php:7
+#: includes/admin/admin-page.php:8
 msgid "What Can MigrateWoo Do For You?"
 msgstr ""
 
-#: includes/admin/admin-page.php:8
+#: includes/admin/admin-page.php:9
 msgid "MigrateWoo is here to make your life easier. And it’s not just about moving a few settings here and there - it’s about a full-scale migration that takes into account every corner of your WooCommerce setup. Here’s what MigrateWoo can export and import for you:"
 msgstr ""
 
-#: includes/admin/admin-page.php:11
+#: includes/admin/admin-page.php:12
 msgid "General Settings:"
 msgstr ""
 
-#: includes/admin/admin-page.php:11
+#: includes/admin/admin-page.php:12
 msgid "(WooCommerce → Settings → General)."
 msgstr ""
 
-#: includes/admin/admin-page.php:12
+#: includes/admin/admin-page.php:13
 msgid "Tax Options:"
 msgstr ""
 
-#: includes/admin/admin-page.php:12
+#: includes/admin/admin-page.php:13
 msgid "(WooCommerce → Settings → Tax options)."
 msgstr ""
 
-#: includes/admin/admin-page.php:13
-msgid "The Spicy Shipping Zones 🌶️🌶️:"
+#: includes/admin/admin-page.php:14
+msgid "The Spicy Shipping Zones:"
 msgstr ""
 
-#: includes/admin/admin-page.php:13
+#: includes/admin/admin-page.php:14
 msgid "(WooCommerce → Settings → Shipping zones)."
 msgstr ""
 
-#: includes/admin/admin-page.php:14
+#: includes/admin/admin-page.php:15
 msgid "Shipping Options:"
 msgstr ""
 
-#: includes/admin/admin-page.php:14
+#: includes/admin/admin-page.php:15
 msgid "(WooCommerce → Settings → Shipping options)."
 msgstr ""
 
-#: includes/admin/admin-page.php:15
+#: includes/admin/admin-page.php:16
 msgid "Accounts & Privacy Settings:"
 msgstr ""
 
-#: includes/admin/admin-page.php:15
+#: includes/admin/admin-page.php:16
 msgid "(WooCommerce → Settings → Accounts & Privacy)."
 msgstr ""
 
-#: includes/admin/admin-page.php:16
-msgid "The Exciting Email Settings 🙌🙌:"
+#: includes/admin/admin-page.php:17
+msgid "The Exciting Email Settings:"
 msgstr ""
 
-#: includes/admin/admin-page.php:16
+#: includes/admin/admin-page.php:17
 msgid "(WooCommerce → Settings → Emails). This includes:"
 msgstr ""
 
-#: includes/admin/admin-page.php:18
+#: includes/admin/admin-page.php:19
 msgid "Email Sender Options."
 msgstr ""
 
-#: includes/admin/admin-page.php:19
+#: includes/admin/admin-page.php:20
 msgid "Email Template Options."
 msgstr ""
 
-#: includes/admin/admin-page.php:20
+#: includes/admin/admin-page.php:21
 msgid "Color Customization."
 msgstr ""
 
-#: includes/admin/admin-page.php:21
+#: includes/admin/admin-page.php:22
 msgid "All Default Email Notifications (New order, Cancelled order, Failed order, Order on-hold, Processing order, Refunded order, Customer invoice/Order details, Customer note, Reset password, New account)."
 msgstr ""
 
-#: includes/admin/admin-page.php:24
+#: includes/admin/admin-page.php:25
 msgid "Checkout & Account Endpoints:"
 msgstr ""
 
-#: includes/admin/admin-page.php:24
+#: includes/admin/admin-page.php:25
 msgid "(WooCommerce → Settings → Advanced → Page setup → Checkout endpoints & Account endpoints)."
 msgstr ""
 
-#: includes/admin/admin-page.php:27
+#: includes/admin/admin-page.php:28
 msgid "With all these options and more, MigrateWoo is ready to take your WooCommerce migration to the next level."
 msgstr ""
 
-#: includes/admin/admin-page.php:30
+#: includes/admin/admin-page.php:31
 msgid "How To Get Started?"
 msgstr ""
 
-#: includes/admin/admin-page.php:31
-msgid "How To Get Support?"
+#: includes/admin/admin-page.php:33
+msgid "To get started, all you need to do is click the “Export Settings” button. This will download a zipped JSON file to your computer."
 msgstr ""
 
-#: includes/MigrateWoo.php:39
+#: includes/admin/admin-page.php:34
+msgid "To import the settings, all you need to do is click the “Import Zip” button and upload the zipped JSON file you downloaded earlier."
+msgstr ""
+
+#: includes/admin/admin-page.php:35
+msgid "That’s it! MigrateWoo will take care of the rest."
+msgstr ""
+
+#: includes/admin/admin-page.php:36
+msgid "Please note that MigrateWoo does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)"
+msgstr ""
+
+#: includes/MigrateWoo.php:43
 msgid "Settings"
 msgstr ""
 
-#: includes/Plugins_Checker.php:27
-msgid "MigrateWoo requires WooCommerce to be activated."
+#: includes/Plugins_Checker.php:25
+msgid "MigrateWoo is enabled but not effective. It requires WooCommerce to work."
 msgstr ""

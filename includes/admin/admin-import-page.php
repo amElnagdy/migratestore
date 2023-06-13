@@ -1,5 +1,5 @@
 <div class="wrap migratewoo">
-	<div class="content">
+	<div class="mwcontent">
 		<?php
 		// Check if the transient is set for errors
 		if ( $error = get_transient( 'migratewoo_import_error' ) ) {
@@ -23,8 +23,8 @@
 			echo '</div>';
 		}
 		?>
-		<h2><?php _e( 'Import Options', 'migratewoo' ); ?></h2>
-		<p><?php _e( 'Import your WooCommerce settings from a JSON file contained in a zip archive.', 'migratewoo' ); ?></p>
+		<h1><?php _e( 'Import Options', 'migratewoo' ); ?></h1>
+		<p><?php _e( 'Import your WooCommerce settings by uploading the .zip file exported by the MigrateWoo plugin.', 'migratewoo' ); ?></p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="migratewoo_import_action">
 			<?php wp_nonce_field( 'migratewoo_import_action_nonce' ); ?>
