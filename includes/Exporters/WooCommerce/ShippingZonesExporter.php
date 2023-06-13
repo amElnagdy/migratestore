@@ -20,13 +20,7 @@ class ShippingZonesExporter extends AbstractExporter {
 	}
 
 	public function format_csv_data( $data ) {
-		$output = fopen( 'php://temp', 'w' );
-		foreach ( $data as $row ) {
-			fputcsv( $output, $row );
-		}
-		rewind( $output );
-
-		return stream_get_contents( $output );
+		return json_encode( $data);
 	}
 
 	public function export() {
@@ -37,36 +31,19 @@ class ShippingZonesExporter extends AbstractExporter {
 			"options" => "SELECT option_name, option_value FROM {$this->wpdb->options} WHERE option_name LIKE 'woocommerce_free%' OR option_name LIKE 'woocommerce_local_pickup_%' OR option_name LIKE 'woocommerce_flat_%'"
 		];
 
-		$csv_data = '';
-		foreach ( $queries as $name => $query ) {
-			$csv_data .= "\"$name\"\n";
-
-			// Add headers for each section
-			switch ($name) {
-				case "woocommerce_shipping_zones":
-					$csv_data .= "zone_id,zone_name,zone_order\n";
-					break;
-				case "woocommerce_shipping_zone_methods":
-					$csv_data .= "zone_id,instance_id,method_id,method_order,is_enabled\n";
-					break;
-				case "woocommerce_shipping_zone_locations":
-					$csv_data .= "location_id,zone_id,location_code,location_type\n";
-					break;
-				case "options":
-					$csv_data .= "option_name,option_value\n";
-					break;
-			}
-
+		$data = [];
+		foreach ($queries as $name => $query) {
 			$this->query = $query;
-			$data        = $this->get_data();
-			$csv_data    .= $this->format_csv_data( $data );
+			$results = $this->get_data();
+			$data[$name] = $results;
 		}
 
-		$csv_file_name = $this->get_csv_filename();
-		$this->download_csv( $csv_data, $csv_file_name );
+		$json_data = $this->format_json_data($data);
+		$json_file_name = $this->get_json_filename();
+		$this->download_json($json_data, $json_file_name);
 	}
 
-	public function get_csv_filename() {
-		return 'migratewoo_zones' . date( 'Ymd_His' ) . '.csv';
+	public function get_json_filename() {
+		return 'migratewoo_zones_' . date( 'Ymd_His' ) . '.json';
 	}
 }

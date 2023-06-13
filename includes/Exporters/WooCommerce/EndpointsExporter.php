@@ -7,7 +7,7 @@ use MigrateWoo\Exporters\AbstractExporter;
 class EndpointsExporter extends AbstractExporter{
 
 
-	public function get_endpoints_options() {
+	public function get_data() {
 
 		$option_names = [
 			'woocommerce_checkout_pay_endpoint',
@@ -29,12 +29,8 @@ class EndpointsExporter extends AbstractExporter{
 
 	}
 
-	public function get_data() {
-		return $this->get_endpoints_options();
-	}
-
-	public function get_csv_filename() {
-		return 'migratewoo_endpoints_options_' . date( 'Ymd_His' ) . '.csv';
+	public function get_json_filename() {
+		return 'migratewoo_endpoints_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

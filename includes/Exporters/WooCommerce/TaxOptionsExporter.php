@@ -8,7 +8,7 @@ use MigrateWoo\Exporters\AbstractExporter;
 class TaxOptionsExporter extends AbstractExporter {
 
 
-	public function get_tax_options() {
+	public function get_data() {
 		$option_names = [
 			'woocommerce_prices_include_tax',
 			'woocommerce_tax_based_on',
@@ -25,12 +25,8 @@ class TaxOptionsExporter extends AbstractExporter {
 	}
 
 
-	public function get_data() {
-		return $this->get_tax_options();
-	}
-
-	public function get_csv_filename() {
-		return 'migratewoo_tax_options_' . date( 'Ymd_His' ) . '.csv';
+	public function get_json_filename() {
+		return 'migratewoo_tax_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

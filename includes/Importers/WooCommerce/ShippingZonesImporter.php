@@ -15,72 +15,44 @@ class ShippingZonesImporter extends AbstractImporter {
 		$this->wpdb = $wpdb;
 	}
 
-	public function import( $csv_file_path ) {
-		if ($this->validate() === false) {
-			throw new \Exception('You have existing shipping zones. Please delete them before attempting to import new ones.');
+	//TODO: Add a Learn more link that explains why users should delete existing zones.
+	public function import( $json_file_path ) {
+		if ( $this->validate() === false ) {
+			throw new \Exception( 'You have existing shipping zones. Please delete them before attempting to import new ones.' );
 		}
 
-		$handle = fopen( $csv_file_path, 'r' );
+		$data = $this->get_json_data( $json_file_path );
 
-		if ( $handle === false ) {
-			throw new \RuntimeException( 'Could not open CSV file.' );
+		foreach ( $data as $option => $values ) {
+			foreach ( $values as $value ) {
+				switch ( $option ) {
+					case 'woocommerce_shipping_zones':
+						$this->import_shipping_zone( $value );
+						break;
+					case 'woocommerce_shipping_zone_methods':
+						$this->import_shipping_zone_method( $value );
+						break;
+					case 'woocommerce_shipping_zone_locations':
+						$this->import_shipping_zone_location( $value );
+						break;
+					case 'options':
+						$this->import_option( $value );
+						break;
+					default:
+						throw new \RuntimeException( 'Invalid JSON type: ' . $option );
+				}
+			}
 		}
-
-		$csv_type  = null;
-		$row_count = 0;
-		while ( ( $data = fgetcsv( $handle, 1000, "," ) ) !== false ) {
-			// Ignore empty lines
-			if ( count( $data ) == 0 || $data[0] == '' ) {
-				continue;
-			}
-
-			// Detect the type of the line
-			if ( count( $data ) == 1 ) {
-				$csv_type  = trim( $data[0] ); // remove any accidental whitespace
-				$row_count = 0;  // reset row count for each section
-				continue;
-			}
-
-			// skip the header line
-			if ( $row_count == 0 ) {
-				$row_count ++;
-				continue;
-			}
-
-			switch ( $csv_type ) {
-				case 'woocommerce_shipping_zones':
-					$this->import_shipping_zone( $data );
-					break;
-				case 'woocommerce_shipping_zone_methods':
-					$this->import_shipping_zone_method( $data );
-					break;
-				case 'woocommerce_shipping_zone_locations':
-					$this->import_shipping_zone_location( $data );
-					break;
-				case 'options':
-					$this->import_option( $data );
-					break;
-				default:
-					throw new \RuntimeException( 'Invalid CSV type: ' . $csv_type );
-			}
-
-			$row_count ++;
-		}
-
-		fclose( $handle );
 	}
 
 
-
 	private function import_shipping_zone( $data ) {
-		global $wpdb;
+		$zone_id    = (int) $data['zone_id'];
+		$zone_name  = sanitize_text_field( $data['zone_name'] );
+		$zone_order = (int) $data['zone_order'];
 
-		$zone_id    = (int) $data[0];
-		$zone_name  = sanitize_text_field( $data[1] );
-		$zone_order = (int) $data[2];
-
-		$wpdb->insert(
-			"{$wpdb->prefix}woocommerce_shipping_zones",
+		$this->wpdb->insert(
+			"{$this->wpdb->prefix}woocommerce_shipping_zones",
 			array(
 				'zone_id'    => $zone_id,
 				'zone_name'  => $zone_name,
@@ -90,16 +62,14 @@ class ShippingZonesImporter extends AbstractImporter {
 	}
 
 	private function import_shipping_zone_method( $data ) {
-		global $wpdb;
+		$zone_id      = (int) $data['zone_id'];
+		$instance_id  = (int) $data['instance_id'];
+		$method_id    = sanitize_text_field( $data['method_id'] );
+		$method_order = (int) $data['method_order'];
+		$is_enabled   = (int) $data['is_enabled'];
 
-		$zone_id      = (int) $data[0];
-		$instance_id  = (int) $data[1];
-		$method_id    = sanitize_text_field( $data[2] );
-		$method_order = (int) $data[3];
-		$is_enabled   = (int) $data[4];
-
-		$wpdb->insert(
-			"{$wpdb->prefix}woocommerce_shipping_zone_methods",
+		$this->wpdb->insert(
+			"{$this->wpdb->prefix}woocommerce_shipping_zone_methods",
 			array(
 				'zone_id'      => $zone_id,
 				'instance_id'  => $instance_id,
@@ -111,14 +81,12 @@ class ShippingZonesImporter extends AbstractImporter {
 	}
 
 	private function import_shipping_zone_location( $data ) {
-		global $wpdb;
+		$zone_id       = (int) $data['zone_id'];
+		$location_code = sanitize_text_field( $data['location_code'] );
+		$location_type = sanitize_text_field( $data['location_type'] );
 
-		$zone_id       = (int) $data[1];
-		$location_code = sanitize_text_field( $data[2] );
-		$location_type = sanitize_text_field( $data[3] );
-
-		$wpdb->insert(
-			"{$wpdb->prefix}woocommerce_shipping_zone_locations",
+		$this->wpdb->insert(
+			"{$this->wpdb->prefix}woocommerce_shipping_zone_locations",
 			array(
 				'zone_id'       => $zone_id,
 				'location_code' => $location_code,
@@ -128,8 +96,8 @@ class ShippingZonesImporter extends AbstractImporter {
 	}
 
 	protected function import_option( $data ) {
-		$option_name  = sanitize_key( $data[0] );
-		$option_value = sanitize_text_field( $data[1] );
+		$option_name  = sanitize_key( $data['option_name'] );
+		$option_value = sanitize_text_field( $data['option_value'] );
 
 		if ( is_serialized( $option_value ) ) {
 			$option_value = maybe_unserialize( $option_value );
@@ -167,7 +135,6 @@ class ShippingZonesImporter extends AbstractImporter {
 
 		return true;
 	}
-
 
 }
 

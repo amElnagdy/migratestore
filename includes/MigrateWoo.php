@@ -2,6 +2,8 @@
 
 namespace MigrateWoo;
 
+use MigrateWoo\Importers\AbstractImporter;
+
 class MigrateWoo {
 
 	public function __construct() {
@@ -9,7 +11,11 @@ class MigrateWoo {
 		add_action( 'admin_post_migratewoo_export_action', array( $this, 'handle_export_action' ) );
 		add_action( 'admin_post_migratewoo_import_action', array( $this, 'handle_import_action' ) );
 		add_action( 'init', array( $this, 'migratewoo_load_textdomain' ) );
-		add_filter( 'plugin_action_links_' . MIGRATEWOO_PLUGIN_BASENAME, array( $this, 'add_plugin_page_settings_link' ) );
+		add_filter( 'plugin_action_links_' . MIGRATEWOO_PLUGIN_BASENAME, array(
+			$this,
+			'add_plugin_page_settings_link'
+		) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'migratewoo_admin_enqueue_scripts' ) );
 	}
 
 	public function migratewoo_load_textdomain() {
@@ -37,7 +43,8 @@ class MigrateWoo {
 
 	public function add_plugin_page_settings_link( $links ) {
 		$settings_link = '<a href="' . admin_url( 'admin.php?page=migratewoo' ) . '">' . __( 'Settings', 'migratewoo' ) . '</a>';
-		array_unshift($links, $settings_link);
+		array_unshift( $links, $settings_link );
+
 		return $links;
 	}
 
@@ -53,11 +60,15 @@ class MigrateWoo {
 		require_once MIGRATEWOO_PLUGIN_DIR_PATH . 'includes/admin/admin-page.php';
 	}
 
+	public function migratewoo_admin_enqueue_scripts() {
+		wp_enqueue_style( 'migratewoo-admin', MIGRATEWOO_PLUGIN_URL . 'assets/css/admin.css', array(), MIGRATEWOO_VERSION );
+	}
+
 	public function handle_export_action() {
 		check_admin_referer( 'migratewoo_export_action_nonce' );
 
 		if ( ! isset( $_POST['migratewoo_action'] ) ) {
-			wp_die( 'Action not set' );
+			wp_die( 'Invalid action' );
 		}
 
 		$action = sanitize_text_field( $_POST['migratewoo_action'] );
@@ -85,24 +96,45 @@ class MigrateWoo {
 		}
 	}
 
-
 	public function handle_import_action() {
+		WP_Filesystem();
 		check_admin_referer( 'migratewoo_import_action_nonce' );
 
-		if ( ! isset( $_FILES['csv_file'] ) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK ) {
+		if ( ! isset( $_FILES['json_zip_file'] ) || $_FILES['json_zip_file']['error'] !== UPLOAD_ERR_OK ) {
 			wp_die( 'File upload failed' );
 		}
 
 		$upload_overrides = [ 'test_form' => false ];
-		$uploaded_file    = wp_handle_upload( $_FILES['csv_file'], $upload_overrides );
+		$uploaded_file    = wp_handle_upload( $_FILES['json_zip_file'], $upload_overrides );
 
 		if ( ! $uploaded_file || isset( $uploaded_file['error'] ) ) {
 			wp_die( $uploaded_file['error'] ?? 'File upload failed' );
 		}
 
-		$filename = basename( $uploaded_file['file'] );
+		$uploaded_file_name     = sanitize_file_name( $_FILES['json_zip_file']['name'] );
+		$uploaded_file_basename = basename( $uploaded_file_name, '.zip' );
 
-		// Mapping of filename to importer classes
+		$unzip_folder = wp_upload_dir()['basedir'] . '/migratewoo_tmp';
+
+		// Check if we have sufficient permission to create the folder
+		if ( ! is_dir( $unzip_folder ) && ! @mkdir( $unzip_folder ) && ! is_dir( $unzip_folder ) ) {
+			wp_die( 'Failed to create tmp directory: insufficient permission' );
+		}
+
+		$unzipped = unzip_file( $uploaded_file['file'], $unzip_folder );
+		if ( is_wp_error( $unzipped ) ) {
+			wp_die( 'Failed to unzip file: ' . $unzipped->get_error_message() );
+		}
+
+		$json_files = glob( $unzip_folder . '/' . $uploaded_file_basename . '*.json' );
+		if ( empty( $json_files ) ) {
+			wp_die( 'No matching JSON file found in uploaded ZIP.' );
+		}
+
+		$json_file      = $json_files[0];
+		$filename_parts = explode( '_', basename( $json_file, '.json' ), 3 );
+		$filename       = $filename_parts[0] . '_' . $filename_parts[1];
+
 		$importerStrategies = [
 			'migratewoo_general_settings'         => 'MigrateWoo\Importers\WooCommerce\GeneralSettingsImporter',
 			'migratewoo_zones'                    => 'MigrateWoo\Importers\WooCommerce\ShippingZonesImporter',
@@ -113,28 +145,34 @@ class MigrateWoo {
 			'migratewoo_tax_options'              => 'MigrateWoo\Importers\WooCommerce\TaxOptionsImporter'
 		];
 
-		foreach ( $importerStrategies as $key => $className ) {
-			if ( strpos( $filename, $key ) !== false ) {
-				if ( ! class_exists( $className ) ) {
-					wp_die( "Importer class '$className' not found." );
-				}
-
-				$importer = new $className();
-				try {
-					$importer->import( $uploaded_file['file'] );
-					// if the import succeeds, set the success transient
-					set_transient( 'migratewoo_import_success', true, 45 );
-				} catch ( \Exception $e ) {
-					// if an error occurs during import, set the error transient
-					set_transient( 'migratewoo_import_error', $e->getMessage(), 45 );
-				}
-				$importer->complete_import();
-
-				return;
+		$valid_file = false;
+		foreach ( $importerStrategies as $key => $value ) {
+			if ( strpos( $key, $filename ) !== false ) {
+				$valid_file = true;
+				$className  = $value;
+				break;
 			}
 		}
 
-		wp_die( 'Invalid file format' );
+		if ( ! $valid_file ) {
+			wp_die( 'Invalid file name.' );
+		}
+
+		if ( ! class_exists( $className ) ) {
+			wp_die( "Importer class '$className' not found." );
+		}
+
+		$importer = new $className();
+		try {
+			$importer->import( $json_file );
+			set_transient( 'migratewoo_import_success', true, 60 );
+		} catch ( \Exception $e ) {
+			set_transient( 'migratewoo_import_error', $e->getMessage(), 60 );
+		}
+
+		//Using cleanup to delete the tmp folder
+		$importer->cleanup( $unzip_folder );
 	}
+
 
 }
