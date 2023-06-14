@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers\WooCommerce;
+namespace MigrateStore\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\WooCommerce\EmailsOptionsExporter;
-use MigrateWoo\Importers\AbstractImporter;
+use MigrateStore\Exporters\WooCommerce\EmailsOptionsExporter;
+use MigrateStore\Importers\AbstractImporter;
 
 class EmailsOptionsImporter extends AbstractImporter {
 

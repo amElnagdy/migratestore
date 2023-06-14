@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Exporters\WooCommerce;
+namespace MigrateStore\Exporters\WooCommerce;
 
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 class TaxOptionsExporter extends AbstractExporter {
 
@@ -26,7 +26,7 @@ class TaxOptionsExporter extends AbstractExporter {
 
 
 	public function get_json_filename() {
-		return 'migratewoo_tax_options_' . date( 'Ymd_His' ) . '.json';
+		return 'migratestore_tax_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers\WooCommerce;
+namespace MigrateStore\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\WooCommerce\TaxOptionsExporter;
-use MigrateWoo\Importers\AbstractImporter;
+use MigrateStore\Exporters\WooCommerce\TaxOptionsExporter;
+use MigrateStore\Importers\AbstractImporter;
 
 class TaxOptionsImporter extends AbstractImporter {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MigrateWoo;
+namespace MigrateStore;
 
 class Plugins_Checker {
 
@@ -22,7 +22,7 @@ class Plugins_Checker {
 	public function woocommerce_not_activated_notice() {
 		?>
 		<div class="notice notice-error">
-			<p><?php _e( 'MigrateWoo is enabled but not effective. It requires WooCommerce to work.', 'migratewoo' ); ?></p>
+			<p><?php _e( 'MigrateStore is enabled but not effective. It requires WooCommerce to work.', 'migratestore' ); ?></p>
 		</div>
 		<?php
 	}

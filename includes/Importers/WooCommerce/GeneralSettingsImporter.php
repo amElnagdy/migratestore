@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers\WooCommerce;
+namespace MigrateStore\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\WooCommerce\GeneralSettingsExporter;
-use MigrateWoo\Importers\AbstractImporter;
+use MigrateStore\Exporters\WooCommerce\GeneralSettingsExporter;
+use MigrateStore\Importers\AbstractImporter;
 
 class GeneralSettingsImporter extends AbstractImporter{
 

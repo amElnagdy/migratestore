@@ -9,12 +9,12 @@ class ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
-            'MigrateWoo\\' => 11,
+            'MigrateStore\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'MigrateWoo\\' => 
+        'MigrateStore\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
@@ -22,24 +22,24 @@ class ComposerStaticInit6a9a57a12992ec950b7e0660dbb0e8f3
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'MigrateWoo\\Exporters\\AbstractExporter' => __DIR__ . '/../..' . '/includes/Exporters/AbstractExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\AccountsPrivacyExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/AccountsPrivacyExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\EmailsOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EmailsOptionsExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\EndpointsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EndpointsExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\GeneralSettingsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/GeneralSettingsExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\ShippingOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/ShippingOptionsExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\ShippingZonesExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/ShippingZonesExporter.php',
-        'MigrateWoo\\Exporters\\WooCommerce\\TaxOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/TaxOptionsExporter.php',
-        'MigrateWoo\\Importers\\AbstractImporter' => __DIR__ . '/../..' . '/includes/Importers/AbstractImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\AccountsPrivacyImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/AccountsPrivacyImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\EmailsOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/EmailsOptionsImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\EndpointsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/EndpointsImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\GeneralSettingsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/GeneralSettingsImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\ShippingOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingOptionsImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\ShippingZonesImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingZonesImporter.php',
-        'MigrateWoo\\Importers\\WooCommerce\\TaxOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/TaxOptionsImporter.php',
-        'MigrateWoo\\MigrateWoo' => __DIR__ . '/../..' . '/includes/MigrateWoo.php',
-        'MigrateWoo\\Plugins_Checker' => __DIR__ . '/../..' . '/includes/Plugins_Checker.php',
+        'MigrateStore\\Exporters\\AbstractExporter' => __DIR__ . '/../..' . '/includes/Exporters/AbstractExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\AccountsPrivacyExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/AccountsPrivacyExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\EmailsOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EmailsOptionsExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\EndpointsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/EndpointsExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\GeneralSettingsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/GeneralSettingsExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\ShippingOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/ShippingOptionsExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\ShippingZonesExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/ShippingZonesExporter.php',
+        'MigrateStore\\Exporters\\WooCommerce\\TaxOptionsExporter' => __DIR__ . '/../..' . '/includes/Exporters/WooCommerce/TaxOptionsExporter.php',
+        'MigrateStore\\Importers\\AbstractImporter' => __DIR__ . '/../..' . '/includes/Importers/AbstractImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\AccountsPrivacyImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/AccountsPrivacyImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\EmailsOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/EmailsOptionsImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\EndpointsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/EndpointsImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\GeneralSettingsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/GeneralSettingsImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\ShippingOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingOptionsImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\ShippingZonesImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/ShippingZonesImporter.php',
+        'MigrateStore\\Importers\\WooCommerce\\TaxOptionsImporter' => __DIR__ . '/../..' . '/includes/Importers/WooCommerce/TaxOptionsImporter.php',
+        'MigrateStore\\MigrateStore' => __DIR__ . '/../..' . '/includes/MigrateStore.php',
+        'MigrateStore\\Plugins_Checker' => __DIR__ . '/../..' . '/includes/Plugins_Checker.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

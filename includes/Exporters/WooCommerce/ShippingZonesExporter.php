@@ -1,8 +1,8 @@
 <?php
 
-namespace MigrateWoo\Exporters\WooCommerce;
+namespace MigrateStore\Exporters\WooCommerce;
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 class ShippingZonesExporter extends AbstractExporter {
 
@@ -44,6 +44,6 @@ class ShippingZonesExporter extends AbstractExporter {
 	}
 
 	public function get_json_filename() {
-		return 'migratewoo_zones_' . date( 'Ymd_His' ) . '.json';
+		return 'migratestore_zones_' . date( 'Ymd_His' ) . '.json';
 	}
 }

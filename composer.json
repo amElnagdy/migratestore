@@ -1,9 +1,9 @@
 {
-    "name": "nagdy/migratewoo",
+    "name": "nagdy/migratestore",
     "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
-            "MigrateWoo\\": "includes/"
+            "MigrateStore\\": "includes/"
         }
     },
     "config": {

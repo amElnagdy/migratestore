@@ -1,8 +1,8 @@
 <?php
 
-namespace MigrateWoo\Exporters\WooCommerce;
+namespace MigrateStore\Exporters\WooCommerce;
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 class AccountsPrivacyExporter extends AbstractExporter {
 
@@ -33,7 +33,7 @@ class AccountsPrivacyExporter extends AbstractExporter {
 	}
 
 	public function get_json_filename() {
-		return 'migratewoo_accounts_privacy_options_' . date( 'Ymd_His' ) . '.json';
+		return 'migratestore_accounts_privacy_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

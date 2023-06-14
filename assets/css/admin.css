@@ -1,11 +1,11 @@
-.migratewoo {
+.migratestore {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.migratewoo .mwcontent {
+.migratestore .ms-content {
     background-color: #fff;
     padding: 30px;
     border-radius: 5px;
@@ -15,39 +15,39 @@
     margin-bottom: 30px;
 }
 
-.migratewoo .mwcontent h1,
-.migratewoo .mwcontent h2 {
+.migratestore .ms-content h1,
+.migratestore .ms-content h2 {
     color: #23282d;
 }
 
-.migratewoo .mwcontent .mwdescription {
+.migratestore .ms-content .ms-description {
     color: #72777c;
     font-size: 1em;
     line-height: 1.6em;
     margin-bottom: 1em;
 }
 
-.migratewoo .mwcontent .mwlist-features {
+.migratestore .ms-content .ms-list-features {
     list-style: none;
     padding-left: 0;
 }
 
-.migratewoo .mwcontent .mwlist-features li {
+.migratestore .ms-content .ms-list-features li {
     padding-bottom: 10px;
     line-height: 1.5em;
     color: #72777c;
 
 }
 
-.migratewoo .mwcontent .mwlist-subfeatures {
+.migratestore .ms-content .ms-list-subfeatures {
     list-style: disc;
     padding-left: 20px;
 }
 
-.migratewoo .mwcontent .mwlist-subfeatures li {
+.migratestore .ms-content .ms-list-subfeatures li {
     padding-bottom: 5px;
 }
 
-.migratewoo .mwcontent .mwoption {
+.migratestore .ms-content .ms-option {
     margin-bottom: 20px;
 }

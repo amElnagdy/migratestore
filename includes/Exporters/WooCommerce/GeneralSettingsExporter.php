@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Exporters\WooCommerce;
+namespace MigrateStore\Exporters\WooCommerce;
 
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 class GeneralSettingsExporter extends AbstractExporter {
 
@@ -34,7 +34,7 @@ class GeneralSettingsExporter extends AbstractExporter {
 	}
 
 	public function get_json_filename() {
-		return 'migratewoo_general_settings_' . date( 'Ymd_His' ) . '.json';
+		return 'migratestore_general_settings_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

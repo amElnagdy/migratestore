@@ -2,28 +2,28 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: MigrateWoo 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/migratewoo\n"
+"Project-Id-Version: MigrateStore 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/migratestore\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-13T16:49:30+00:00\n"
+"POT-Creation-Date: 2023-06-14T20:06:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.0\n"
-"X-Domain: migratewoo\n"
+"X-Domain: migratestore\n"
 
 #. Plugin Name of the plugin
-msgid "MigrateWoo"
+msgid "MigrateStore"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://migratewoo.com"
+msgid "https://migratestore.com"
 msgstr ""
 
 #. Description of the plugin
-msgid "MigrateWoo is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort."
+msgid "MigrateStore is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort."
 msgstr ""
 
 #. Author of the plugin
@@ -103,7 +103,7 @@ msgid "Export Selected"
 msgstr ""
 
 #: includes/admin/admin-import-page.php:22
-msgid "MigrateWoo has imported your file successfully."
+msgid "MigrateStore has imported your file successfully."
 msgstr ""
 
 #: includes/admin/admin-import-page.php:26
@@ -111,7 +111,7 @@ msgid "Import Options"
 msgstr ""
 
 #: includes/admin/admin-import-page.php:27
-msgid "Import your WooCommerce settings by uploading the .zip file exported by the MigrateWoo plugin."
+msgid "Import your WooCommerce settings by uploading the .zip file exported by the MigrateStore plugin."
 msgstr ""
 
 #: includes/admin/admin-import-page.php:32
@@ -119,15 +119,15 @@ msgid "Import Zip"
 msgstr ""
 
 #: includes/admin/admin-page.php:4
-msgid "Welcome to the MigrateWoo plugin. "
+msgid "Welcome to the MigrateStore plugin. "
 msgstr ""
 
 #: includes/admin/admin-page.php:8
-msgid "What Can MigrateWoo Do For You?"
+msgid "What Can MigrateStore Do For You?"
 msgstr ""
 
 #: includes/admin/admin-page.php:9
-msgid "MigrateWoo is here to make your life easier. And it’s not just about moving a few settings here and there - it’s about a full-scale migration that takes into account every corner of your WooCommerce setup. Here’s what MigrateWoo can export and import for you:"
+msgid "MigrateStore is here to make your life easier. And it’s not just about moving a few settings here and there - it’s about a full-scale migration that takes into account every corner of your WooCommerce setup. Here’s what MigrateStore can export and import for you:"
 msgstr ""
 
 #: includes/admin/admin-page.php:12
@@ -203,7 +203,7 @@ msgid "(WooCommerce → Settings → Advanced → Page setup → Checkout endpoi
 msgstr ""
 
 #: includes/admin/admin-page.php:28
-msgid "With all these options and more, MigrateWoo is ready to take your WooCommerce migration to the next level."
+msgid "With all these options and more, MigrateStore is ready to take your WooCommerce migration to the next level."
 msgstr ""
 
 #: includes/admin/admin-page.php:31
@@ -219,17 +219,17 @@ msgid "To import the settings, all you need to do is click the “Import Zip” 
 msgstr ""
 
 #: includes/admin/admin-page.php:35
-msgid "That’s it! MigrateWoo will take care of the rest."
+msgid "That’s it! MigrateStore will take care of the rest."
 msgstr ""
 
 #: includes/admin/admin-page.php:36
-msgid "Please note that MigrateWoo does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)"
+msgid "Please note that MigrateStore does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)"
 msgstr ""
 
-#: includes/MigrateWoo.php:43
+#: includes/MigrateStore.php:45
 msgid "Settings"
 msgstr ""
 
 #: includes/Plugins_Checker.php:25
-msgid "MigrateWoo is enabled but not effective. It requires WooCommerce to work."
+msgid "MigrateStore is enabled but not effective. It requires WooCommerce to work."
 msgstr ""

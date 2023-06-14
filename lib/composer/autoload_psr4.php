@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'MigrateWoo\\' => array($baseDir . '/includes'),
+    'MigrateStore\\' => array($baseDir . '/includes'),
 );

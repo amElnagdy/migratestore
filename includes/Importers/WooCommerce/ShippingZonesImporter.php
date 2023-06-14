@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers\WooCommerce;
+namespace MigrateStore\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\WooCommerce\ShippingZonesExporter;
-use MigrateWoo\Importers\AbstractImporter;
+use MigrateStore\Exporters\WooCommerce\ShippingZonesExporter;
+use MigrateStore\Importers\AbstractImporter;
 
 
 class ShippingZonesImporter extends AbstractImporter {

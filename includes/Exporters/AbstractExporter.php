@@ -1,6 +1,6 @@
 <?php
 
-namespace MigrateWoo\Exporters;
+namespace MigrateStore\Exporters;
 
 
 abstract class AbstractExporter {

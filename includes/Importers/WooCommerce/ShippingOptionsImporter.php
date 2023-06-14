@@ -1,9 +1,9 @@
 <?php
 
-namespace MigrateWoo\Importers\WooCommerce;
+namespace MigrateStore\Importers\WooCommerce;
 
-use MigrateWoo\Exporters\WooCommerce\ShippingOptionsExporter;
-use MigrateWoo\Importers\AbstractImporter;
+use MigrateStore\Exporters\WooCommerce\ShippingOptionsExporter;
+use MigrateStore\Importers\AbstractImporter;
 
 class ShippingOptionsImporter extends AbstractImporter {
 

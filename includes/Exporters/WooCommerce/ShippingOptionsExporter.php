@@ -1,8 +1,8 @@
 <?php
 
-namespace MigrateWoo\Exporters\WooCommerce;
+namespace MigrateStore\Exporters\WooCommerce;
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 class ShippingOptionsExporter extends AbstractExporter {
 
@@ -20,7 +20,7 @@ class ShippingOptionsExporter extends AbstractExporter {
 	}
 
 	public function get_json_filename() {
-		return 'migratewoo_shipping_options_' . date( 'Ymd_His' ) . '.json';
+		return 'migratestore_shipping_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 

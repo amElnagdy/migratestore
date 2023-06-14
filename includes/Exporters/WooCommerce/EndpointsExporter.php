@@ -1,8 +1,8 @@
 <?php
 
-namespace MigrateWoo\Exporters\WooCommerce;
+namespace MigrateStore\Exporters\WooCommerce;
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 class EndpointsExporter extends AbstractExporter{
 
@@ -30,7 +30,7 @@ class EndpointsExporter extends AbstractExporter{
 	}
 
 	public function get_json_filename() {
-		return 'migratewoo_endpoints_options_' . date( 'Ymd_His' ) . '.json';
+		return 'migratestore_endpoints_options_' . date( 'Ymd_His' ) . '.json';
 	}
 
 }

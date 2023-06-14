@@ -1,8 +1,8 @@
 <?php
 
-namespace MigrateWoo\Importers;
+namespace MigrateStore\Importers;
 
-use MigrateWoo\Exporters\AbstractExporter;
+use MigrateStore\Exporters\AbstractExporter;
 
 abstract class AbstractImporter {
 
@@ -74,7 +74,7 @@ abstract class AbstractImporter {
 	}
 
 	public function cleanup( $temp_dir ) {
-		// Cleaning up the migratewoo_tmp folder after the import
+		// Cleaning up the migratestore_tmp folder after the import
 		if ( ! $this->recursiveRemoveDirectory( $temp_dir ) ) {
 			wp_die( 'Unable to delete directory: ' . $temp_dir );
 		}
