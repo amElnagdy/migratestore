@@ -2,6 +2,10 @@
 
 namespace MigrateStore;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 use MigrateStore\Importers\AbstractImporter;
 
 class MigrateStore {

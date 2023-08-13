@@ -2,6 +2,10 @@
 
 namespace MigrateStore\Importers\WooCommerce;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 use MigrateStore\Exporters\WooCommerce\ShippingOptionsExporter;
 use MigrateStore\Importers\AbstractImporter;
 
