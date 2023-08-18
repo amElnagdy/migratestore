@@ -116,16 +116,17 @@ class ShippingZonesImporter extends AbstractImporter {
 	}
 
 	private function validate() {
-
-		$shipping_zones_query = "SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zones";
-		$shipping_zones_count = $this->wpdb->get_var( $shipping_zones_query );
-
-		$shipping_zone_methods_query = "SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods";
-		$shipping_zone_methods_count = $this->wpdb->get_var( $shipping_zone_methods_query );
-
-		$shipping_zone_locations_query = "SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_locations";
-		$shipping_zone_locations_count = $this->wpdb->get_var( $shipping_zone_locations_query );
-
+        // Using prepare here is not necessary, but it's required from WP.org team.
+        $shipping_zones_query = $this->wpdb->prepare("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zones");
+        $shipping_zones_count = $this->wpdb->get_var($shipping_zones_query);
+        
+        $shipping_zone_methods_query = $this->wpdb->prepare("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods");
+        $shipping_zone_methods_count = $this->wpdb->get_var($shipping_zone_methods_query);
+        
+        $shipping_zone_locations_query = $this->wpdb->prepare("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_locations");
+        $shipping_zone_locations_count = $this->wpdb->get_var($shipping_zone_locations_query);
+        
+        // Using prepare here is necessary.
         $options_query = $this->wpdb->prepare("SELECT COUNT(*) FROM {$this->wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s", 'woocommerce_free%', 'woocommerce_local_pickup_%', 'woocommerce_flat_%');
         $options_count = $this->wpdb->get_var( $options_query );
 
