@@ -116,9 +116,16 @@ class ShippingZonesImporter extends AbstractImporter {
 	}
 
 	private function validate() {
-        $shipping_zones_count = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zones");
-        $shipping_zone_methods_count = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods");
-        $shipping_zone_locations_count = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_locations");
+        $shipping_zones_count = $this->wpdb->get_var(
+            $this->wpdb->prepare("SELECT COUNT(*) FROM %s", "{$this->wpdb->prefix}woocommerce_shipping_zones")
+        );
+        $shipping_zone_methods_count = $this->wpdb->get_var(
+            $this->wpdb->prepare("SELECT COUNT(*) FROM %s", "{$this->wpdb->prefix}woocommerce_shipping_zone_methods")
+        );
+        $shipping_zone_locations_count = $this->wpdb->get_var(
+            $this->wpdb->prepare("SELECT COUNT(*) FROM %s", "{$this->wpdb->prefix}woocommerce_shipping_zone_locations")
+        );
+
         
         $options_query = $this->wpdb->prepare("SELECT COUNT(*) FROM {$this->wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s", 'woocommerce_free%', 'woocommerce_local_pickup_%', 'woocommerce_flat_%');
         $options_count = $this->wpdb->get_var( $options_query );
