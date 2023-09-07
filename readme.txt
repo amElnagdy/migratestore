@@ -1,6 +1,6 @@
 === MigrateStore ===
 Contributors: nagdy
-Tags: woocommerce, migration, settings
+Tags: woocommerce, migration, settings, export shipping zones, export tax options, export shipping options
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.3
