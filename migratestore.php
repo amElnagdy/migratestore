@@ -4,7 +4,7 @@
  * Plugin Name: MigrateStore
  * Plugin URI: https://migratestore.com
  * Description: MigrateStore is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Nagdy
  * Author URI: https://nagdy.me
  * License: GPL2
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-const MIGRATESTORE_VERSION = '1.0.0';
+const MIGRATESTORE_VERSION = '1.1.0';
 define( 'MIGRATESTORE_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'MIGRATESTORE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'MIGRATESTORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -33,3 +33,15 @@ if ( $checker->is_woocommerce_activated() === false) {
 }
 
 $plugin = new MigrateStore();
+
+/**
+ * Declare compatibility with WooCommerce Custom Order Tables.
+ */
+add_action(
+    'before_woocommerce_init',
+    function () {
+        if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+        }
+    }
+);
