@@ -27,7 +27,7 @@ class MigrateStore {
 	}
 
 	public function migratestore_admin_menu() {
-		add_menu_page( 'MigrateStore', 'MigrateStore', 'manage_options', 'migratestore', array(
+		add_menu_page( 'Migrate Store', 'Migrate Store', 'manage_options', 'migratestore', array(
 			$this,
 			'migratestore_admin_page'
 		), 'dashicons-sort', 99 );

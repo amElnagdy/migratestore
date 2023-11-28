@@ -1,14 +1,14 @@
-=== MigrateStore ===
+=== Migrate Store: Export and Import WooCommerce Settings ===
 Contributors: nagdy
 Tags: woocommerce, migration, settings, export shipping zones, export tax options, export shipping options
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-MigrateStore is a WooCommerce plugin for hassle-free migration of settings between sites, simplifying and accelerating the setup process.
+Migrate Store is a WooCommerce plugin for hassle-free migration of settings between sites, simplifying and accelerating the setup process. You can use Migrate Store plugin to export WooCommerce Settings including Shipping Zones and import them to a different website.
 
 == Description ==
 

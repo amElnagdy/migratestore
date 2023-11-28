@@ -26,7 +26,7 @@
         }
         ?>
 		<h1><?php echo esc_html__( 'Import Options', 'migratestore' ); ?></h1> <!-- Escaping the title -->
-		<p><?php echo esc_html__( 'Import your WooCommerce settings by uploading the .zip file exported by the MigrateStore plugin.', 'migratestore' ); ?></p>
+		<p><?php echo esc_html__( 'Import your WooCommerce settings by uploading the .zip file exported by the Migrate Store plugin.', 'migratestore' ); ?></p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
 		      enctype="multipart/form-data">
 			<input type="hidden" name="action" value="migratestore_import_action">

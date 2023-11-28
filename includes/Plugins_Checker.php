@@ -24,7 +24,7 @@ class Plugins_Checker {
 	public function woocommerce_not_activated_notice() {
 		?>
 		<div class="notice notice-error">
-			<p><?php _e( 'MigrateStore is enabled but not effective. It requires WooCommerce to work.', 'migratestore' ); ?></p>
+			<p><?php _e( 'Migrate Store is enabled but not effective. It requires WooCommerce to work.', 'migratestore' ); ?></p>
 		</div>
 		<?php
 	}
