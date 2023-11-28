@@ -62,6 +62,9 @@ Post detailed information about the issue in the [support forum](http://wordpres
 
 == Changelog ==
 
+= 1.1.1 =
+* Minor changes. Mainly, changing MigrateStore to Migrate Store :)
+
 = 1.1 =
 * WordPress 6.4 compatibility.
 * WooCommerce HPOS compatibility.
