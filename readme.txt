@@ -4,7 +4,7 @@ Tags: woocommerce, migration, settings, export shipping zones, export tax option
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,8 @@ Post detailed information about the issue in the [support forum](http://wordpres
 1. Plugin Settings.
 
 == Changelog ==
+= 1.1.2 =
+* While importing shipping zones, we're not looking into the options table anymore.
 
 = 1.1.1 =
 * Minor changes. Mainly, changing MigrateStore to Migrate Store :)
