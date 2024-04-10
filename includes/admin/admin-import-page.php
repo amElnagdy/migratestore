@@ -17,11 +17,19 @@
         
         // Check if the transient is set
         if ( get_transient( 'migratestore_import_success' ) ) {
-            // Clear the transient, so it doesn't show again on the next page load
+            // Clear the transient to avoid showing the message on the next page load
             delete_transient( 'migratestore_import_success' );
-            
+        
+            // Start of success message
             echo '<div class="notice notice-success is-dismissible">';
-            echo '<p>' . esc_html__( 'MigrateStore has imported your file successfully.', 'migratestore' ) . '</p>'; // Escaping the success message
+        
+            // Custom success message with a call to action for leaving a review
+            echo '<p>' . esc_html__( 'Migrate Store has imported your file successfully.', 'migratestore' ) . ' ';
+            echo '<a href="https://wordpress.org/support/plugin/migratestore/reviews/#new-post" target="_blank" style="text-decoration:underline;">';
+            echo esc_html__( 'Please take a moment to leave us a review and share your experience!', 'migratestore' );
+            echo '</a></p>';
+        
+            // End of success message
             echo '</div>';
         }
         ?>

@@ -30,7 +30,7 @@
 
 		<p class="ms-description"><?php esc_html_e( 'With all these options and more, Migrate Store is ready to take your WooCommerce migration to the next level.', 'migratestore' ); ?></p>
 		<h2><?php esc_html_e( 'How To Get Started?', 'migratestore' ); ?></h2>
-		<p class="ms-description"><?php esc_html_e( 'To get started, all you need to do is click the “Export Selected” button. This will download a zipped JSON file to your computer.', 'migratestore' ); ?></p>
+		<p class="ms-description"><?php esc_html_e( 'To get started, all you need to do is click the “Export Selected” button. This will download a zipped file to your computer.', 'migratestore' ); ?></p>
 		<p class="ms-description"><?php esc_html_e( 'To import the settings, all you need to do is click the “Import Zip” button and upload the zipped JSON file you downloaded earlier.', 'migratestore' ); ?></p>
 		<p class="ms-description"><?php esc_html_e( 'That’s it! Migrate Store will take care of the rest.', 'migratestore' ); ?></p>
 		<p class="ms-description"><?php esc_html_e( 'Please note that Migrate Store does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)', 'migratestore' ); ?></p>

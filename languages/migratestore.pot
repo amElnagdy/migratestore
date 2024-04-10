@@ -1,21 +1,21 @@
-# Copyright (C) 2023 Nagdy
+# Copyright (C) 2024 Nagdy
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: MigrateStore 1.0.0\n"
+"Project-Id-Version: Migrate Store: Export and Import WooCommerce Settings 1.1.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/migratestore\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-14T20:06:27+00:00\n"
+"POT-Creation-Date: 2024-04-10T02:34:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.0\n"
 "X-Domain: migratestore\n"
 
 #. Plugin Name of the plugin
-msgid "MigrateStore"
+msgid "Migrate Store: Export and Import WooCommerce Settings"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -23,7 +23,7 @@ msgid "https://migratestore.com"
 msgstr ""
 
 #. Description of the plugin
-msgid "MigrateStore is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort."
+msgid "Migrate Store is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort."
 msgstr ""
 
 #. Author of the plugin
@@ -34,184 +34,160 @@ msgstr ""
 msgid "https://nagdy.me"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:4
+#: includes/admin/admin-export-page.php:7
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:5
+#: includes/admin/admin-export-page.php:8
 msgid ""
-"Export WooCommerce general settings. \n"
+"Export WooCommerce general settings.\n"
 "\t\tFound at WooCommerce → Settings → General page."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:9
+#: includes/admin/admin-export-page.php:12
 msgid "Tax Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:10
+#: includes/admin/admin-export-page.php:13
 msgid "Export  WooCommerce tax options. Found at WooCommerce → Settings → Tax."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:13
+#: includes/admin/admin-export-page.php:16
 msgid "Shipping Zones"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:14
+#: includes/admin/admin-export-page.php:17
 msgid ""
 "Export WooCommerce shipping zones. This will export WooCommerce → Settings → Shipping → Zones.\n"
 "\t\tIncluding the Zones, the locations and the default shipping methods (Flat Rate, Free Shipping, and Local Pickup)."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:18
+#: includes/admin/admin-export-page.php:21
 msgid "Shipping Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:19
+#: includes/admin/admin-export-page.php:22
 msgid "Export  WooCommerce shipping options. Found at WooCommerce → Settings → Shipping → Shipping options."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:22
+#: includes/admin/admin-export-page.php:25
 msgid "Accounts & Privacy Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:23
+#: includes/admin/admin-export-page.php:26
 msgid "Export WooCommerce accounts and privacy options. Found at WooCommerce → Settings → Accounts & Privacy."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:26
+#: includes/admin/admin-export-page.php:29
 msgid "Emails Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:27
+#: includes/admin/admin-export-page.php:30
 msgid "Export WooCommerce default emails options. This includes the email sender options, email template, and the email options for all default WooCommerce emails such as New order, Cancelled order, etc. Found at WooCommerce → Settings → Emails."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:30
+#: includes/admin/admin-export-page.php:33
 msgid "Endpoints Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:31
+#: includes/admin/admin-export-page.php:34
 msgid "Export  WooCommerce endpoints options. Found at WooCommerce → Settings → Advanced."
 msgstr ""
 
-#: includes/admin/admin-export-page.php:37
+#: includes/admin/admin-export-page.php:40
 msgid "Export Options"
 msgstr ""
 
-#: includes/admin/admin-export-page.php:52
+#: includes/admin/admin-export-page.php:58
 msgid "Export Selected"
 msgstr ""
 
-#: includes/admin/admin-import-page.php:22
-msgid "MigrateStore has imported your file successfully."
+#: includes/admin/admin-import-page.php:27
+msgid "Migrate Store has imported your file successfully."
 msgstr ""
 
-#: includes/admin/admin-import-page.php:26
+#: includes/admin/admin-import-page.php:29
+msgid "Please take a moment to leave us a review and share your experience!"
+msgstr ""
+
+#: includes/admin/admin-import-page.php:36
 msgid "Import Options"
 msgstr ""
 
-#: includes/admin/admin-import-page.php:27
-msgid "Import your WooCommerce settings by uploading the .zip file exported by the MigrateStore plugin."
+#: includes/admin/admin-import-page.php:37
+msgid "Import your WooCommerce settings by uploading the .zip file exported by the Migrate Store plugin."
 msgstr ""
 
-#: includes/admin/admin-import-page.php:32
+#: includes/admin/admin-import-page.php:44
 msgid "Import Zip"
 msgstr ""
 
-#: includes/admin/admin-page.php:4
-msgid "Welcome to the MigrateStore plugin. "
+#: includes/admin/admin-page.php:7
+msgid "Welcome to the Migrate Store plugin. "
 msgstr ""
 
 #: includes/admin/admin-page.php:8
-msgid "What Can MigrateStore Do For You?"
+msgid "Looking for a reliable plugin to transfer your WooCommerce settings effortlessly? Look no further than Migrate Store! This tool is specifically designed to export and import all your WooCommerce settings with ease. Say goodbye to the hassle of manually setting up your new store settings. Whether you're migrating settings from one site to another or moving between test and live sites, Migrate Store simplifies the process."
 msgstr ""
 
 #: includes/admin/admin-page.php:9
-msgid "MigrateStore is here to make your life easier. And it’s not just about moving a few settings here and there - it’s about a full-scale migration that takes into account every corner of your WooCommerce setup. Here’s what MigrateStore can export and import for you:"
+msgid "What Can Migrate Store Do For You?"
 msgstr ""
 
-#: includes/admin/admin-page.php:12
+#: includes/admin/admin-page.php:10
+msgid "Migrate Store is here to make your life easier. And it’s not just about moving a few settings here and there - it’s about a full-scale migration that takes into account every corner of your WooCommerce setup. Here’s what Migrate Store can export and import for you:"
+msgstr ""
+
+#: includes/admin/admin-page.php:14
 msgid "General Settings:"
 msgstr ""
 
-#: includes/admin/admin-page.php:12
+#: includes/admin/admin-page.php:14
 msgid "(WooCommerce → Settings → General)."
 msgstr ""
 
-#: includes/admin/admin-page.php:13
+#: includes/admin/admin-page.php:17
 msgid "Tax Options:"
 msgstr ""
 
-#: includes/admin/admin-page.php:13
+#: includes/admin/admin-page.php:17
 msgid "(WooCommerce → Settings → Tax options)."
 msgstr ""
 
-#: includes/admin/admin-page.php:14
+#: includes/admin/admin-page.php:20
 msgid "The Spicy Shipping Zones:"
 msgstr ""
 
-#: includes/admin/admin-page.php:14
+#: includes/admin/admin-page.php:20
 msgid "(WooCommerce → Settings → Shipping zones)."
 msgstr ""
 
-#: includes/admin/admin-page.php:15
+#: includes/admin/admin-page.php:23
 msgid "Shipping Options:"
 msgstr ""
 
-#: includes/admin/admin-page.php:15
+#: includes/admin/admin-page.php:23
 msgid "(WooCommerce → Settings → Shipping options)."
 msgstr ""
 
-#: includes/admin/admin-page.php:16
+#: includes/admin/admin-page.php:26
 msgid "Accounts & Privacy Settings:"
 msgstr ""
 
-#: includes/admin/admin-page.php:16
+#: includes/admin/admin-page.php:26
 msgid "(WooCommerce → Settings → Accounts & Privacy)."
 msgstr ""
 
-#: includes/admin/admin-page.php:17
-msgid "The Exciting Email Settings:"
-msgstr ""
-
-#: includes/admin/admin-page.php:17
-msgid "(WooCommerce → Settings → Emails). This includes:"
-msgstr ""
-
-#: includes/admin/admin-page.php:19
-msgid "Email Sender Options."
-msgstr ""
-
-#: includes/admin/admin-page.php:20
-msgid "Email Template Options."
-msgstr ""
-
-#: includes/admin/admin-page.php:21
-msgid "Color Customization."
-msgstr ""
-
-#: includes/admin/admin-page.php:22
-msgid "All Default Email Notifications (New order, Cancelled order, Failed order, Order on-hold, Processing order, Refunded order, Customer invoice/Order details, Customer note, Reset password, New account)."
-msgstr ""
-
-#: includes/admin/admin-page.php:25
-msgid "Checkout & Account Endpoints:"
-msgstr ""
-
-#: includes/admin/admin-page.php:25
-msgid "(WooCommerce → Settings → Advanced → Page setup → Checkout endpoints & Account endpoints)."
-msgstr ""
-
-#: includes/admin/admin-page.php:28
-msgid "With all these options and more, MigrateStore is ready to take your WooCommerce migration to the next level."
-msgstr ""
-
 #: includes/admin/admin-page.php:31
+msgid "With all these options and more, Migrate Store is ready to take your WooCommerce migration to the next level."
+msgstr ""
+
+#: includes/admin/admin-page.php:32
 msgid "How To Get Started?"
 msgstr ""
 
 #: includes/admin/admin-page.php:33
-msgid "To get started, all you need to do is click the “Export Settings” button. This will download a zipped JSON file to your computer."
+msgid "To get started, all you need to do is click the “Export Selected” button. This will download a zipped file to your computer."
 msgstr ""
 
 #: includes/admin/admin-page.php:34
@@ -219,17 +195,29 @@ msgid "To import the settings, all you need to do is click the “Import Zip” 
 msgstr ""
 
 #: includes/admin/admin-page.php:35
-msgid "That’s it! MigrateStore will take care of the rest."
+msgid "That’s it! Migrate Store will take care of the rest."
 msgstr ""
 
 #: includes/admin/admin-page.php:36
-msgid "Please note that MigrateStore does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)"
+msgid "Please note that Migrate Store does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)"
 msgstr ""
 
-#: includes/MigrateStore.php:45
+#: includes/MigrateStore.php:34
+msgid "Home"
+msgstr ""
+
+#: includes/MigrateStore.php:38
+msgid "Export"
+msgstr ""
+
+#: includes/MigrateStore.php:42
+msgid "Import"
+msgstr ""
+
+#: includes/MigrateStore.php:49
 msgid "Settings"
 msgstr ""
 
-#: includes/Plugins_Checker.php:25
-msgid "MigrateStore is enabled but not effective. It requires WooCommerce to work."
+#: includes/Plugins_Checker.php:27
+msgid "Migrate Store is enabled but not effective. It requires WooCommerce to work."
 msgstr ""

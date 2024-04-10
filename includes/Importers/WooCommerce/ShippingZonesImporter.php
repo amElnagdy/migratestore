@@ -119,10 +119,6 @@ class ShippingZonesImporter extends AbstractImporter {
         $shipping_zones_count = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zones");
         $shipping_zone_methods_count = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_methods");
         $shipping_zone_locations_count = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->wpdb->prefix}woocommerce_shipping_zone_locations");
-        
-        // Let's not check for values in the options table because some leftover options may be used by other plugins will stop the import process.
-//        $options_query = $this->wpdb->prepare("SELECT COUNT(*) FROM {$this->wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s", 'woocommerce_free%', 'woocommerce_local_pickup_%', 'woocommerce_flat_%');
-//        $options_count = $this->wpdb->get_var( $options_query );
 
 		if ( $shipping_zones_count > 0 || $shipping_zone_methods_count > 0 || $shipping_zone_locations_count > 0 ) {
 			return false;
