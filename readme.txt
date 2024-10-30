@@ -62,6 +62,10 @@ Post detailed information about the issue in the [support forum](http://wordpres
 
 == Changelog ==
 
+= 1.1.4 =
+* WordPress 6.7 compatibility.
+* Multisite compatibility.
+
 = 1.1.3 =
 * WordPress 6.5 compatibility.
 
