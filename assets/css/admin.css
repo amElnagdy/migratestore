@@ -51,3 +51,10 @@
 .migratestore .ms-content .ms-option {
     margin-bottom: 20px;
 }
+.ms-buttons {
+    margin: 2em 0;
+}
+
+.ms-buttons .button {
+    margin-right: 1em;
+}

@@ -6,6 +6,7 @@
 		<h1>Migrate Store</h1>
 		<p class="ms-description"><?php esc_html_e( 'Welcome to the Migrate Store plugin. ', 'migratestore' ); ?></p>
 		<p class="ms-description"><?php esc_html_e( 'Looking for a reliable plugin to transfer your WooCommerce settings effortlessly? Look no further than Migrate Store! This tool is specifically designed to export and import all your WooCommerce settings with ease. Say goodbye to the hassle of manually setting up your new store settings. Whether you\'re migrating settings from one site to another or moving between test and live sites, Migrate Store simplifies the process.', 'migratestore' ); ?></p>
+
 		<h2><?php esc_html_e( 'What Can Migrate Store Do For You?', 'migratestore' ); ?></h2>
 		<p class="ms-description"><?php esc_html_e( 'Migrate Store is here to make your life easier. And it’s not just about moving a few settings here and there - it’s about a full-scale migration that takes into account every corner of your WooCommerce setup. Here’s what Migrate Store can export and import for you:', 'migratestore' ); ?></p>
 
@@ -25,7 +26,6 @@
 			<li>
 				<strong><?php esc_html_e( 'Accounts & Privacy Settings:', 'migratestore' ); ?></strong> <?php esc_html_e( '(WooCommerce → Settings → Accounts & Privacy).', 'migratestore' ); ?>
 			</li>
-			<!-- ... similar updates for remaining list items ... -->
 		</ul>
 
 		<p class="ms-description"><?php esc_html_e( 'With all these options and more, Migrate Store is ready to take your WooCommerce migration to the next level.', 'migratestore' ); ?></p>
@@ -34,5 +34,16 @@
 		<p class="ms-description"><?php esc_html_e( 'To import the settings, all you need to do is click the “Import Zip” button and upload the zipped JSON file you downloaded earlier.', 'migratestore' ); ?></p>
 		<p class="ms-description"><?php esc_html_e( 'That’s it! Migrate Store will take care of the rest.', 'migratestore' ); ?></p>
 		<p class="ms-description"><?php esc_html_e( 'Please note that Migrate Store does not migrate products, orders, or other WordPress settings. It is designed to migrate WooCommerce settings only (and other WooCommerce Addons in the future.)', 'migratestore' ); ?></p>
+
+		<div class="ms-buttons">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=migratestore-export' ) ); ?>" class="button button-primary">
+				<?php esc_html_e( 'Start Export', 'migratestore' ); ?>
+			</a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=migratestore-import' ) ); ?>" class="button button-primary">
+				<?php esc_html_e( 'Start Import', 'migratestore' ); ?>
+			</a>
+		</div>
+
+
 	</div>
 </div>

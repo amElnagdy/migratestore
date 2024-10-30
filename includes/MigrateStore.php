@@ -130,7 +130,7 @@ class MigrateStore {
 			wp_die( 'Failed to unzip file: ' . $unzipped->get_error_message() );
 		}
 
-		$json_files = glob( $unzip_folder . '/' . $uploaded_file_basename . '*.json' );
+		$json_files = glob( $unzip_folder . '/migratestore_*.json' );
 		if ( empty( $json_files ) ) {
 			wp_die( 'No matching JSON file found in uploaded ZIP.' );
 		}
