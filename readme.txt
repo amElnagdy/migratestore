@@ -1,10 +1,10 @@
 === Migrate Store: Export and Import WooCommerce Settings ===
 Contributors: nagdy
-Tags: woocommerce, migration, woocommerce export, export shipping zones
+Tags: woocommerce, woocommerce export, export shipping zones
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.5
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,7 @@ MigrateStore offers a seamless solution to transfer your settings from an existi
         - Reset password
         - New account
 7. WooCommerce → Settings → Advanced → Page setup → Checkout endpoints & Account endpoints
+8. WooCommerce → Settings → Shipping → Classes
 
 Move your WooCommerce settings smoothly and effortlessly with MigrateStore!
 
@@ -61,6 +62,10 @@ Post detailed information about the issue in the [support forum](http://wordpres
 1. Plugin Settings.
 
 == Changelog ==
+
+= 1.1.5 =
+* Added: Export and Import Shipping Classes.
+* Updated: Design.
 
 = 1.1.4 =
 * WordPress 6.7 compatibility.

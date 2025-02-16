@@ -26,7 +26,7 @@ class MigrateStore
 
 	public function migratestore_load_textdomain()
 	{
-		load_plugin_textdomain('migratestore', false, MIGRATESTORE_PLUGIN_DIR_PATH . 'languages');
+		load_plugin_textdomain('migratestore', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
 	}
 
 	public function migratestore_admin_menu()
