@@ -1,0 +1,319 @@
+# Copyright (C) 2025 Nagdy
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Migrate Store: Export and Import WooCommerce Settings 1.1.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/migratestore\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-16T17:14:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: migratestore\n"
+
+#. Plugin Name of the plugin
+#: migratestore.php
+msgid "Migrate Store: Export and Import WooCommerce Settings"
+msgstr "Migrieren Sie den Shop: Exportieren und Importieren Sie WooCommerce-Einstellungen"
+
+#. Plugin URI of the plugin
+#: migratestore.php
+msgid "https://migratestore.com"
+msgstr "https://migratestore.com"
+
+#. Description of the plugin
+#: migratestore.php
+msgid "Migrate Store is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort."
+msgstr "Migrate Store ist ein Plugin, das es Ihnen ermöglicht, WooCommerce-Einstellungen zu exportieren und in eine andere Website zu importieren. Es spart Ihre Zeit und Mühe."
+
+#. Author of the plugin
+#: migratestore.php
+msgid "Nagdy"
+msgstr "Nagdy"
+
+#. Author URI of the plugin
+#: migratestore.php
+msgid "https://nagdy.me"
+msgstr "https://nagdy.me"
+
+#: includes/admin/admin-export-page.php:7
+#: includes/admin/admin-page.php:25
+msgid "General Settings"
+msgstr "Allgemeine Einstellungen"
+
+#: includes/admin/admin-export-page.php:8
+msgid "Export WooCommerce general settings."
+msgstr "Exportieren Sie die allgemeinen Einstellungen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:9
+msgid "Found at WooCommerce → Settings → General page."
+msgstr "Zu finden unter WooCommerce → Einstellungen → Allgemein."
+
+#: includes/admin/admin-export-page.php:12
+#: includes/admin/admin-page.php:31
+msgid "Tax Options"
+msgstr "Steueroptionen"
+
+#: includes/admin/admin-export-page.php:13
+msgid "Export  WooCommerce tax options."
+msgstr "Exportieren Sie die Steueroptionen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:14
+msgid "Found at WooCommerce → Settings → Tax."
+msgstr "Zu finden unter WooCommerce → Einstellungen → Steuern."
+
+#: includes/admin/admin-export-page.php:17
+#: includes/admin/admin-page.php:37
+msgid "Shipping Zones"
+msgstr "Versandzonen"
+
+#: includes/admin/admin-export-page.php:18
+msgid "Export WooCommerce shipping zones."
+msgstr "Exportieren Sie die Versandzonen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:19
+msgid "Including the Zones, the locations and the default shipping methods (Flat Rate, Free Shipping, and Local Pickup)."
+msgstr "Einschließlich der Zonen, der Standorte und der Standard-Versandmethoden (Pauschale, Kostenloser Versand und Abholung vor Ort)."
+
+#: includes/admin/admin-export-page.php:22
+#: includes/admin/admin-page.php:43
+msgid "Shipping Options"
+msgstr "Versandoptionen"
+
+#: includes/admin/admin-export-page.php:23
+msgid "Export  WooCommerce shipping options."
+msgstr "Exportieren Sie die Versandoptionen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:24
+msgid "Found at WooCommerce → Settings → Shipping → Shipping options."
+msgstr "Zu finden unter WooCommerce → Einstellungen → Versand → Versandoptionen."
+
+#: includes/admin/admin-export-page.php:27
+msgid "Accounts & Privacy Options"
+msgstr "Konten- und Datenschutzoptionen"
+
+#: includes/admin/admin-export-page.php:28
+msgid "Export WooCommerce accounts and privacy options."
+msgstr "Exportieren Sie die Konten- und Datenschutzoptionen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:29
+msgid "Found at WooCommerce → Settings → Accounts & Privacy."
+msgstr "Zu finden unter WooCommerce → Einstellungen → Konten & Datenschutz."
+
+#: includes/admin/admin-export-page.php:32
+msgid "Emails Options"
+msgstr "E-Mail-Optionen"
+
+#: includes/admin/admin-export-page.php:33
+msgid "Export WooCommerce default emails options."
+msgstr "Exportieren Sie die Standard-E-Mail-Optionen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:34
+msgid "This includes the email sender options, email template, and the email options for all default WooCommerce emails such as New order, Cancelled order, etc. Found at WooCommerce → Settings → Emails."
+msgstr "Dies umfasst die E-Mail-Absenderoptionen, die E-Mail-Vorlage und die E-Mail-Optionen für alle Standard-WooCommerce-E-Mails wie Neue Bestellung, Stornierte Bestellung usw. Zu finden unter WooCommerce → Einstellungen → E-Mails."
+
+#: includes/admin/admin-export-page.php:37
+msgid "Endpoints Options"
+msgstr "Endpunktoptionen"
+
+#: includes/admin/admin-export-page.php:38
+msgid "Export  WooCommerce endpoints options."
+msgstr "Exportieren Sie die Endpunktoptionen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:39
+msgid "Found at WooCommerce → Settings → Advanced."
+msgstr "Zu finden unter WooCommerce → Einstellungen → Erweitert."
+
+#: includes/admin/admin-export-page.php:42
+#: includes/admin/admin-page.php:55
+msgid "Shipping Classes"
+msgstr "Versandklassen"
+
+#: includes/admin/admin-export-page.php:43
+msgid "Export WooCommerce shipping classes."
+msgstr "Exportieren Sie die Versandklassen von WooCommerce."
+
+#: includes/admin/admin-export-page.php:44
+msgid "Found at WooCommerce → Settings → Shipping → Classes."
+msgstr "Zu finden unter WooCommerce → Einstellungen → Versand → Klassen."
+
+#: includes/admin/admin-export-page.php:50
+msgid "Export Options"
+msgstr "Exportoptionen"
+
+#: includes/admin/admin-export-page.php:82
+msgid "Export Selected"
+msgstr "Ausgewählte exportieren"
+
+#: includes/admin/admin-import-page.php:27
+msgid "Migrate Store has imported your file successfully."
+msgstr "Migrate Store hat Ihre Datei erfolgreich importiert."
+
+#: includes/admin/admin-import-page.php:32
+msgid "Leave a Review"
+msgstr "Eine Bewertung hinterlassen"
+
+#: includes/admin/admin-import-page.php:48
+msgid "Import Options"
+msgstr "Importoptionen"
+
+#: includes/admin/admin-import-page.php:56
+#: includes/admin/admin-import-page.php:84
+#: includes/admin/admin-page.php:76
+msgid "Import Settings"
+msgstr "Einstellungen importieren"
+
+#: includes/admin/admin-import-page.php:58
+msgid "Import your WooCommerce settings by uploading the .zip file exported by the Migrate Store plugin."
+msgstr "Importieren Sie Ihre WooCommerce-Einstellungen, indem Sie die vom Migrate Store-Plugin exportierte .zip-Datei hochladen."
+
+#: includes/admin/admin-import-page.php:71
+msgid "Choose ZIP file or drag it here"
+msgstr "ZIP-Datei auswählen oder hierher ziehen"
+
+#: includes/admin/admin-page.php:7
+msgid "Migrate Store"
+msgstr "Migrate Store"
+
+#: includes/admin/admin-page.php:8
+msgid "Transfer your WooCommerce settings effortlessly between sites"
+msgstr "Übertragen Sie Ihre WooCommerce-Einstellungen mühelos zwischen Websites"
+
+#: includes/admin/admin-page.php:13
+msgid "Looking for a reliable plugin to transfer your WooCommerce settings effortlessly? Look no further than Migrate Store! This tool is specifically designed to export and import all your WooCommerce settings with ease."
+msgstr "Suchen Sie nach einem zuverlässigen Plugin, um Ihre WooCommerce-Einstellungen mühelos zu übertragen? Suchen Sie nicht weiter als Migrate Store! Dieses Tool wurde speziell entwickelt, um alle Ihre WooCommerce-Einstellungen einfach zu exportieren und zu importieren."
+
+#: includes/admin/admin-page.php:14
+msgid "Say goodbye to the hassle of manually setting up your new store settings. Whether you're migrating settings from one site to another or moving between test and live sites, Migrate Store simplifies the process."
+msgstr "Verabschieden Sie sich von der Mühe, Ihre neuen Shop-Einstellungen manuell einzurichten. Ob Sie Einstellungen von einer Website zu einer anderen migrieren oder zwischen Test- und Live-Websites wechseln, Migrate Store vereinfacht den Prozess."
+
+#: includes/admin/admin-page.php:19
+msgid "What Can Migrate Store Do For You?"
+msgstr "Was kann Migrate Store für Sie tun?"
+
+#: includes/admin/admin-page.php:20
+msgid "Migrate Store handles your full-scale WooCommerce migration, covering every aspect of your store setup:"
+msgstr "Migrate Store übernimmt Ihre vollständige WooCommerce-Migration und deckt jeden Aspekt Ihrer Shop-Einrichtung ab:"
+
+#: includes/admin/admin-page.php:26
+msgid "WooCommerce → Settings → General"
+msgstr "WooCommerce → Einstellungen → Allgemein"
+
+#: includes/admin/admin-page.php:32
+msgid "WooCommerce → Settings → Tax options"
+msgstr "WooCommerce → Einstellungen → Steueroptionen"
+
+#: includes/admin/admin-page.php:38
+msgid "WooCommerce → Settings → Shipping zones"
+msgstr "WooCommerce → Einstellungen → Versandzonen"
+
+#: includes/admin/admin-page.php:44
+msgid "WooCommerce → Settings → Shipping options"
+msgstr "WooCommerce → Einstellungen → Versandoptionen"
+
+#: includes/admin/admin-page.php:49
+msgid "Accounts & Privacy"
+msgstr "Konten & Datenschutz"
+
+#: includes/admin/admin-page.php:50
+msgid "WooCommerce → Settings → Accounts & Privacy"
+msgstr "WooCommerce → Einstellungen → Konten & Datenschutz"
+
+#: includes/admin/admin-page.php:56
+msgid "WooCommerce → Settings → Shipping → Classes"
+msgstr "WooCommerce → Einstellungen → Versand → Klassen"
+
+#: includes/admin/admin-page.php:62
+msgid "How To Get Started?"
+msgstr "Wie fangen Sie an?"
+
+#: includes/admin/admin-page.php:66
+msgid "Export Settings"
+msgstr "Einstellungen exportieren"
+
+#: includes/admin/admin-page.php:67
+msgid "Select and export your desired WooCommerce settings to a ZIP file."
+msgstr "Wählen und exportieren Sie Ihre gewünschten WooCommerce-Einstellungen in eine ZIP-Datei."
+
+#: includes/admin/admin-page.php:71
+msgid "Transfer File"
+msgstr "Datei übertragen"
+
+#: includes/admin/admin-page.php:72
+msgid "Move the exported ZIP file to your destination site."
+msgstr "Verschieben Sie die exportierte ZIP-Datei auf Ihre Zielwebsite."
+
+#: includes/admin/admin-page.php:77
+msgid "Upload and import the ZIP file to apply all settings."
+msgstr "Laden Sie die ZIP-Datei hoch und importieren Sie sie, um alle Einstellungen anzuwenden."
+
+#: includes/admin/admin-page.php:82
+msgid "Note:"
+msgstr "Hinweis:"
+
+#: includes/admin/admin-page.php:82
+msgid "Migrate Store is designed for WooCommerce settings only. It does not migrate products, orders, or other WordPress settings."
+msgstr "Migrate Store ist nur für WooCommerce-Einstellungen konzipiert. Es migriert keine Produkte, Bestellungen oder andere WordPress-Einstellungen."
+
+#: includes/admin/admin-page.php:88
+msgid "Start Export"
+msgstr "Export starten"
+
+#: includes/admin/admin-page.php:92
+msgid "Start Import"
+msgstr "Import starten"
+
+#: includes/MigrateStore.php:38
+msgid "Home"
+msgstr "Startseite"
+
+#: includes/MigrateStore.php:42
+msgid "Export"
+msgstr "Exportieren"
+
+#: includes/MigrateStore.php:46
+msgid "Import"
+msgstr "Importieren"
+
+#: includes/MigrateStore.php:54
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: includes/MigrateStore.php:238
+msgid "View WooCommerce General Settings"
+msgstr "WooCommerce Allgemeine Einstellungen anzeigen"
+
+#: includes/MigrateStore.php:242
+msgid "View WooCommerce Shipping Zones"
+msgstr "WooCommerce Versandzonen anzeigen"
+
+#: includes/MigrateStore.php:246
+msgid "View WooCommerce Accounts & Privacy Settings"
+msgstr "WooCommerce Konten- & Datenschutzeinstellungen anzeigen"
+
+#: includes/MigrateStore.php:250
+msgid "View WooCommerce Emails Settings"
+msgstr "WooCommerce E-Mail-Einstellungen anzeigen"
+
+#: includes/MigrateStore.php:254
+msgid "View WooCommerce Shipping Settings"
+msgstr "WooCommerce Versandeinstellungen anzeigen"
+
+#: includes/MigrateStore.php:258
+msgid "View WooCommerce Endpoints Settings"
+msgstr "WooCommerce Endpunkteinstellungen anzeigen"
+
+#: includes/MigrateStore.php:262
+msgid "View WooCommerce Tax Settings"
+msgstr "WooCommerce Steuereinstellungen anzeigen"
+
+#: includes/MigrateStore.php:266
+msgid "View WooCommerce Shipping Classes"
+msgstr "WooCommerce Versandklassen anzeigen"
+
+#: includes/Plugins_Checker.php:40
+msgid "Migrate Store is enabled but not effective. It requires WooCommerce to work."
+msgstr "Migrate Store ist aktiviert, aber nicht wirksam. Es benötigt WooCommerce, um zu funktionieren."
