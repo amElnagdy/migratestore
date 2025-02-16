@@ -83,6 +83,7 @@ class MigrateStore
 			return;
 		}
 
+		// Enqueue CSS on all plugin pages
 		wp_enqueue_style(
 			'migratestore-admin', 
 			MIGRATESTORE_PLUGIN_URL . 'assets/css/admin.css',
@@ -90,15 +91,17 @@ class MigrateStore
 			MIGRATESTORE_VERSION
 		);
 
-		wp_register_script(
-			'migratestore-admin',
-			MIGRATESTORE_PLUGIN_URL . 'assets/js/admin.js',
-			array(),
-			MIGRATESTORE_VERSION,
-			true
-		);
-
-		wp_enqueue_script('migratestore-admin');
+		// Enqueue JS only on import page
+		if (isset($_GET['page']) && $_GET['page'] === 'migratestore-import') {
+			wp_register_script(
+				'migratestore-admin',
+				MIGRATESTORE_PLUGIN_URL . 'assets/js/admin.js',
+				array(),
+				MIGRATESTORE_VERSION,
+				true // Load in footer
+			);
+			wp_enqueue_script('migratestore-admin');
+		}
 	}
 
 	public function handle_export_action()
