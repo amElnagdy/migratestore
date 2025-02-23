@@ -3,12 +3,13 @@ Contributors: nagdy
 Tags: woocommerce, woocommerce export, export shipping zones
 Requires PHP: 7.4
 Requires at least: 6.0
-Tested up to: 6.5
-Stable tag: 1.1.5
+Tested up to: 6.7
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Donate link: https://ko-fi.com/nagdy
 
-Migrate Store is a WooCommerce plugin for hassle-free migration of settings between sites, simplifying and accelerating the setup process. You can use Migrate Store plugin to export WooCommerce Settings including Shipping Zones and import them to a different website.
+Migrate Store is a WooCommerce plugin for hassle-free migration of settings between sites, simplifying and accelerating the setup process.
 
 == Description ==
 
@@ -62,6 +63,9 @@ Post detailed information about the issue in the [support forum](http://wordpres
 1. Plugin Settings.
 
 == Changelog ==
+
+= 1.1.6 =
+* WooCommerce 9.7 compatibility.
 
 = 1.1.5 =
 * Added: Export and Import Shipping Classes.

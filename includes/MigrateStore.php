@@ -49,12 +49,28 @@ class MigrateStore
 		));
 	}
 
+	/**
+	 * Add settings and donate links to plugin listing page
+	 *
+	 * @param array $links Array of plugin action links
+	 * @return array Modified array of plugin action links
+	 */
 	public function add_plugin_page_settings_link($links)
 	{
-		$settings_link = '<a href="' . admin_url('admin.php?page=migratestore') . '">' . __('Settings', 'migratestore') . '</a>';
-		array_unshift($links, $settings_link);
+		$new_links = array(
+			'settings' => sprintf(
+				'<a href="%s">%s</a>',
+				esc_url(admin_url('admin.php?page=migratestore')),
+				esc_html__('Settings', 'migratestore')
+			),
+			'donate' => sprintf(
+				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+				esc_url('https://ko-fi.com/nagdy'),
+				esc_html__('Donate', 'migratestore')
+			)
+		);
 
-		return $links;
+		return array_merge($new_links, $links);
 	}
 
 	public function migratestore_admin_export_page()
