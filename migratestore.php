@@ -4,7 +4,7 @@
  * Plugin Name: Migrate Store: Export and Import WooCommerce Settings
  * Plugin URI: https://migratestore.com
  * Description: Migrate Store is a plugin that allows you to export WooCommerce settings and import them into another website. Saving your time and effort.
- * Version: 1.1.6
+ * Version: 1.1.8
  * Author: Nagdy
  * Author URI: https://nagdy.me
  * License: GPL2
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-const MIGRATESTORE_VERSION = '1.1.6';
+const MIGRATESTORE_VERSION = '1.1.8';
 define( 'MIGRATESTORE_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'MIGRATESTORE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'MIGRATESTORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

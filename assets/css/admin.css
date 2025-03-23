@@ -496,9 +496,8 @@
     color: var(--ms-primary-dark);
 }
 
-/* Helper text styling */
 .migratestore .ms-options-grid:before {
-    content: 'Click on a card to select an option';
+    content: attr(data-instructions);
     display: block;
     text-align: center;
     color: var(--ms-text-light);

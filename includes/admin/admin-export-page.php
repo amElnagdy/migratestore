@@ -53,7 +53,7 @@ $export_options = array(
             <input type="hidden" name="action" value="migratestore_export_action">
             <?php wp_nonce_field('migratestore_export_action_nonce'); ?>
 
-            <div class="ms-options-grid">
+            <div class="ms-options-grid" data-instructions="<?php esc_attr_e('Click on a card to select an option', 'migratestore'); ?>">
                 <?php foreach ($export_options as $option => $info) : ?>
                     <div class="ms-option-card">
                         <input type="radio"

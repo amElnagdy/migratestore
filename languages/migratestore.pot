@@ -2,14 +2,14 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Migrate Store: Export and Import WooCommerce Settings 1.1.4\n"
+"Project-Id-Version: Migrate Store: Export and Import WooCommerce Settings 1.1.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/migratestore\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-16T17:14:52+00:00\n"
+"POT-Creation-Date: 2025-03-23T01:40:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: migratestore\n"
@@ -144,6 +144,10 @@ msgstr ""
 msgid "Export Options"
 msgstr ""
 
+#: includes/admin/admin-export-page.php:56
+msgid "Click on a card to select an option"
+msgstr ""
+
 #: includes/admin/admin-export-page.php:82
 msgid "Export Selected"
 msgstr ""
@@ -152,25 +156,30 @@ msgstr ""
 msgid "Migrate Store has imported your file successfully."
 msgstr ""
 
-#: includes/admin/admin-import-page.php:32
+#: includes/admin/admin-import-page.php:40
+#: includes/MigrateStore.php:69
+msgid "Donate"
+msgstr ""
+
+#: includes/admin/admin-import-page.php:45
 msgid "Leave a Review"
 msgstr ""
 
-#: includes/admin/admin-import-page.php:48
+#: includes/admin/admin-import-page.php:55
 msgid "Import Options"
 msgstr ""
 
-#: includes/admin/admin-import-page.php:56
-#: includes/admin/admin-import-page.php:84
+#: includes/admin/admin-import-page.php:63
+#: includes/admin/admin-import-page.php:91
 #: includes/admin/admin-page.php:76
 msgid "Import Settings"
 msgstr ""
 
-#: includes/admin/admin-import-page.php:58
+#: includes/admin/admin-import-page.php:65
 msgid "Import your WooCommerce settings by uploading the .zip file exported by the Migrate Store plugin."
 msgstr ""
 
-#: includes/admin/admin-import-page.php:71
+#: includes/admin/admin-import-page.php:78
 msgid "Choose ZIP file or drag it here"
 msgstr ""
 
@@ -278,42 +287,54 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: includes/MigrateStore.php:54
+#: includes/MigrateStore.php:64
 msgid "Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:238
+#: includes/MigrateStore.php:257
 msgid "View WooCommerce General Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:242
+#: includes/MigrateStore.php:261
 msgid "View WooCommerce Shipping Zones"
 msgstr ""
 
-#: includes/MigrateStore.php:246
+#: includes/MigrateStore.php:265
 msgid "View WooCommerce Accounts & Privacy Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:250
+#: includes/MigrateStore.php:269
 msgid "View WooCommerce Emails Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:254
+#: includes/MigrateStore.php:273
 msgid "View WooCommerce Shipping Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:258
+#: includes/MigrateStore.php:277
 msgid "View WooCommerce Endpoints Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:262
+#: includes/MigrateStore.php:281
 msgid "View WooCommerce Tax Settings"
 msgstr ""
 
-#: includes/MigrateStore.php:266
+#: includes/MigrateStore.php:285
 msgid "View WooCommerce Shipping Classes"
 msgstr ""
 
-#: includes/Plugins_Checker.php:40
-msgid "Migrate Store is enabled but not effective. It requires WooCommerce to work."
+#: includes/Plugins_Checker.php:64
+msgid "Migrate Store requires WooCommerce to be installed and activated."
+msgstr ""
+
+#: includes/Plugins_Checker.php:78
+msgid "Migrate Store requires the PHP ZipArchive extension to be enabled on your server. Please contact your hosting provider to enable this extension."
+msgstr ""
+
+#: includes/Plugins_Checker.php:94
+msgid "Migrate Store Plugin Error:"
+msgstr ""
+
+#: includes/Plugins_Checker.php:100
+msgid "The plugin has been deactivated until these requirements are met."
 msgstr ""
