@@ -3,8 +3,8 @@ Contributors: nagdy
 Tags: woocommerce, woocommerce export, export shipping zones
 Requires PHP: 7.4
 Requires at least: 6.0
-Tested up to: 6.9
-Stable tag: 1.1.9
+Tested up to: 7.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://ko-fi.com/nagdy
@@ -63,6 +63,11 @@ Post detailed information about the issue in the [support forum](http://wordpres
 1. Plugin Settings.
 
 == Changelog ==
+
+= 1.2.0 =
+* WordPress 7.0 compatibility.
+* PHP 8.2 and 8.3 compatibility (no deprecation notices).
+* Added: Requires PHP 7.4 and Requires Plugins (WooCommerce) plugin headers.
 
 = 1.1.9 =
 * WordPress 6.9 compatibility.
