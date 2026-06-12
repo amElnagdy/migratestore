@@ -122,6 +122,9 @@ class MigrateStore
 
 	public function handle_export_action()
 	{
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_die( esc_html__( 'You do not have permission to export store settings.', 'migratestore' ), 403 );
+		}
 		check_admin_referer('migratestore_export_action_nonce');
 
 		if (! isset($_POST['migratestore_action'])) {
@@ -156,11 +159,23 @@ class MigrateStore
 
 	public function handle_import_action()
 	{
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_die( esc_html__( 'You do not have permission to import store settings.', 'migratestore' ), 403 );
+		}
 		WP_Filesystem();
 		check_admin_referer('migratestore_import_action_nonce');
 
 		if (! isset($_FILES['json_zip_file']) || $_FILES['json_zip_file']['error'] !== UPLOAD_ERR_OK) {
 			wp_die('File upload failed');
+		}
+
+		$max_size = (int) apply_filters( 'migratestore_max_upload_size', 10 * MB_IN_BYTES );
+		if ( (int) $_FILES['json_zip_file']['size'] > $max_size ) {
+			wp_die( sprintf(
+				/* translators: %s: maximum allowed upload size, e.g. "10 MB". */
+				esc_html__( 'The uploaded file exceeds the maximum allowed size of %s.', 'migratestore' ),
+				esc_html( size_format( $max_size ) )
+			) );
 		}
 
 		$upload_overrides = ['test_form' => false];
@@ -173,20 +188,52 @@ class MigrateStore
 		$uploaded_file_name     = sanitize_file_name($_FILES['json_zip_file']['name']);
 		$uploaded_file_basename = basename($uploaded_file_name, '.zip');
 
+		$filetype      = wp_check_filetype_and_ext( $uploaded_file['file'], $uploaded_file_name );
+		$allowed_mimes = array( 'application/zip', 'application/x-zip-compressed' );
+		if ( empty( $filetype['type'] ) || ! in_array( $filetype['type'], $allowed_mimes, true ) ) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], null );
+			wp_die( esc_html__( 'Invalid file type. Please upload a .zip file exported by Migrate Store.', 'migratestore' ) );
+		}
+
 		$unzip_folder = wp_upload_dir()['basedir'] . '/migratestore_tmp';
 
 		// Check if we have sufficient permission to create the folder
 		if (! is_dir($unzip_folder) && ! @mkdir($unzip_folder) && ! is_dir($unzip_folder)) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die('Failed to create tmp directory: insufficient permission');
 		}
 
+		$zip_check = new \ZipArchive();
+		if ( $zip_check->open( $uploaded_file['file'] ) !== true ) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
+			wp_die( esc_html__( 'The uploaded file could not be read as a valid ZIP archive.', 'migratestore' ) );
+		}
+		for ( $i = 0; $i < $zip_check->numFiles; $i++ ) {
+			$entry_name = $zip_check->getNameIndex( $i );
+			if ( $entry_name === false ) {
+				continue;
+			}
+			$normalized  = str_replace( '\\', '/', (string) $entry_name );
+			$segments    = explode( '/', $normalized );
+			$is_absolute = ( substr( $normalized, 0, 1 ) === '/' ) || (bool) preg_match( '#^[A-Za-z]:/#' , $normalized );
+			$has_dotdot  = in_array( '..', $segments, true );
+			if ( $is_absolute || $has_dotdot ) {
+				$zip_check->close();
+				$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
+				wp_die( esc_html__( 'The uploaded archive contains unsafe file paths and was rejected.', 'migratestore' ) );
+			}
+		}
+		$zip_check->close();
+
 		$unzipped = unzip_file($uploaded_file['file'], $unzip_folder);
 		if (is_wp_error($unzipped)) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die('Failed to unzip file: ' . $unzipped->get_error_message());
 		}
 
 		$json_files = glob($unzip_folder . '/migratestore_*.json');
 		if (empty($json_files)) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die('No matching JSON file found in uploaded ZIP.');
 		}
 
@@ -207,20 +254,14 @@ class MigrateStore
 			'migratestore_shipping_classes'         => 'MigrateStore\Importers\WooCommerce\ShippingClassesImporter'
 		];
 
-		$valid_file = false;
-		foreach ($importerStrategies as $key => $value) {
-			if (strpos($key, $filename) !== false) {
-				$valid_file = true;
-				$className  = $value;
-				break;
-			}
+		if ( ! array_key_exists( $filename, $importerStrategies ) ) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
+			wp_die( esc_html__( 'Unrecognized import file. This file was not produced by Migrate Store.', 'migratestore' ) );
 		}
-
-		if (! $valid_file) {
-			wp_die('Invalid file name.');
-		}
+		$className = $importerStrategies[ $filename ];
 
 		if (! class_exists($className)) {
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die("Importer class '$className' not found.");
 		}
 
@@ -240,11 +281,43 @@ class MigrateStore
 			set_transient('migratestore_import_error', $e->getMessage(), 60);
 		}
 
+		// Remove the moved upload; $importer->cleanup() removes the temp dir then redirects.
+		if ( ! empty( $uploaded_file['file'] ) && file_exists( $uploaded_file['file'] ) ) {
+			@unlink( $uploaded_file['file'] );
+		}
+
 		// Using cleanup to delete the tmp folder
 		$importer->cleanup($unzip_folder);
 	}
 
-	/** 
+	/**
+	 * Remove import artifacts (the moved upload file + the temp extraction dir).
+	 * Called on EVERY exit path of handle_import_action() — success, exception,
+	 * and each early wp_die() bail — so no orphaned files remain (FR-007).
+	 *
+	 * @param string|null $uploaded_file_path Absolute path to the moved upload, or null.
+	 * @param string|null $temp_dir           Absolute path to the temp extract dir, or null.
+	 */
+	private function cleanup_import_artifacts( $uploaded_file_path, $temp_dir ) {
+		if ( ! empty( $uploaded_file_path ) && file_exists( $uploaded_file_path ) ) {
+			@unlink( $uploaded_file_path );
+		}
+		if ( ! empty( $temp_dir ) && is_dir( $temp_dir ) ) {
+			$items = glob( rtrim( $temp_dir, '/\\' ) . '/*', GLOB_MARK );
+			if ( is_array( $items ) ) {
+				foreach ( $items as $item ) {
+					if ( is_dir( $item ) ) {
+						$this->cleanup_import_artifacts( null, $item ); // recurse into nested dirs
+					} else {
+						@unlink( $item );
+					}
+				}
+			}
+			@rmdir( $temp_dir );
+		}
+	}
+
+	/**
 	 * Get the import type data from the filename
 	 * We're using this method to display a URL to the user based on the import type
 	 * @param string $filename

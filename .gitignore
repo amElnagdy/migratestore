@@ -1,0 +1,22 @@
+# Composer
+vendor/
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp

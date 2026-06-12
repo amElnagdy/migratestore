@@ -13,6 +13,11 @@ abstract class AbstractImporter
 
     protected AbstractExporter $exporter;
 
+    /**
+     * Children pass their paired exporter: each concrete importer declares a
+     * zero-arg constructor and calls parent::__construct( new XExporter() ).
+     * Instantiated via `new $className()` in MigrateStore::handle_import_action().
+     */
     public function __construct(AbstractExporter $exporter)
     {
         $this->exporter = $exporter;
@@ -45,7 +50,8 @@ abstract class AbstractImporter
         $data = $this->get_json_data($json_file_path);
 
         foreach ($data as $item) {
-            if (isset($item['option'], $item['value'])) {
+            // Accept canonical (option_name/option_value) or legacy (option/value) entries.
+            if ( ( isset( $item['option_name'], $item['option_value'] ) ) || ( isset( $item['option'], $item['value'] ) ) ) {
                 $this->import_option($item);
             }
         }
@@ -53,8 +59,9 @@ abstract class AbstractImporter
 
     protected function import_option($data)
     {
-        $option_name  = sanitize_key($data['option']);
-        $option_value = $data['value'];
+        // Canonical keys (v1.2.0+) with legacy 'option'/'value' fallback for v1.1.9 archives.
+        $option_name  = sanitize_key( $data['option_name'] ?? $data['option'] );
+        $option_value = $data['option_value'] ?? $data['value'];
 
         // If the option value is a serialized string, unserialize it
         if (is_serialized($option_value)) {
@@ -73,7 +80,7 @@ abstract class AbstractImporter
 
         $allowed_option_data  = $this->exporter->get_data();
         $allowed_option_names = array_map(function ($item) {
-            return $item['option'];
+            return $item['option_name'] ?? $item['option'];
         }, $allowed_option_data);
 
         if (! in_array($option_name, $allowed_option_names)) {

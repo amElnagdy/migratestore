@@ -71,8 +71,8 @@ fallback must be documented in a code comment in both base classes (Constitution
 
 **Purpose**: Confirm branch and verification tooling.
 
-- [ ] T001 Confirm you are on git branch `migratestore-wp7-readiness` by running `git branch --show-current` from repo root `D:\WordPress\migratestore`. If not, run `git checkout migratestore-wp7-readiness`. Do NOT create a new branch.
-- [ ] T002 [P] Confirm a PHP 7.4 binary and a PHP 8.3 binary are reachable for the lint gate (`php --version`); if absent, use Docker images `php:7.4-cli` and `php:8.3-cli` per `specs/002-security-data-integrity/quickstart.md` Gate A. Record which method you will use. (The lint gate in Phase 8 cannot be skipped.)
+- [x] T001 Confirm you are on git branch `migratestore-wp7-readiness` by running `git branch --show-current` from repo root `D:\WordPress\migratestore`. If not, run `git checkout migratestore-wp7-readiness`. Do NOT create a new branch.
+- [x] T002 [P] Confirm a PHP 7.4 binary and a PHP 8.3 binary are reachable for the lint gate (`php --version`); if absent, use Docker images `php:7.4-cli` and `php:8.3-cli` per `specs/002-security-data-integrity/quickstart.md` Gate A. Record which method you will use. (The lint gate in Phase 8 cannot be skipped.)
 
 **Checkpoint**: Branch correct, lint tooling identified.
 
@@ -86,8 +86,8 @@ and pin the exact current line anchors in `MigrateStore.php`. US1/US2/US4 all ed
 
 **⚠️ This phase blocks Phase 3 (US1), Phase 4 (US2), and Phase 6 (US4).**
 
-- [ ] T003 Re-read `includes/MigrateStore.php` in full and confirm the line anchors listed in the "Verified repository facts" section above still match (the file is otherwise unchanged since this plan). If any anchor drifted, note the new line numbers — the later tasks reference behavior, not just line numbers, so locate by the quoted code, not the number.
-- [ ] T004 Add a private cleanup helper method to the `MigrateStore` class in `includes/MigrateStore.php` (place it directly AFTER the `handle_import_action()` method, before `get_import_type_data()`). This removes BOTH the moved upload file and the temp extraction directory, and is safe to call when either argument is null/missing. Insert exactly:
+- [x] T003 Re-read `includes/MigrateStore.php` in full and confirm the line anchors listed in the "Verified repository facts" section above still match (the file is otherwise unchanged since this plan). If any anchor drifted, note the new line numbers — the later tasks reference behavior, not just line numbers, so locate by the quoted code, not the number.
+- [x] T004 Add a private cleanup helper method to the `MigrateStore` class in `includes/MigrateStore.php` (place it directly AFTER the `handle_import_action()` method, before `get_import_type_data()`). This removes BOTH the moved upload file and the temp extraction directory, and is safe to call when either argument is null/missing. Insert exactly:
   ```php
   /**
    * Remove import artifacts (the moved upload file + the temp extraction dir).
@@ -133,14 +133,14 @@ is still rejected. (Contract: `contracts/handler-security.contract.md` C-1.)
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] In `includes/MigrateStore.php`, add a capability check as the FIRST statement inside `handle_export_action()` (before the existing `check_admin_referer('migratestore_export_action_nonce');`). Insert:
+- [x] T005 [US1] In `includes/MigrateStore.php`, add a capability check as the FIRST statement inside `handle_export_action()` (before the existing `check_admin_referer('migratestore_export_action_nonce');`). Insert:
   ```php
   if ( ! current_user_can( 'manage_woocommerce' ) ) {
       wp_die( esc_html__( 'You do not have permission to export store settings.', 'migratestore' ), 403 );
   }
   ```
   Keep the `check_admin_referer(...)` line exactly as-is, immediately after.
-- [ ] T006 [US1] In `includes/MigrateStore.php`, add a capability check as the FIRST statement inside `handle_import_action()` (before `WP_Filesystem();` and before `check_admin_referer('migratestore_import_action_nonce');`). Insert:
+- [x] T006 [US1] In `includes/MigrateStore.php`, add a capability check as the FIRST statement inside `handle_import_action()` (before `WP_Filesystem();` and before `check_admin_referer('migratestore_import_action_nonce');`). Insert:
   ```php
   if ( ! current_user_can( 'manage_woocommerce' ) ) {
       wp_die( esc_html__( 'You do not have permission to import store settings.', 'migratestore' ), 403 );
@@ -173,7 +173,7 @@ US1.
 > compute name → **MIME** → define temp dir → **traversal scan** → mkdir → unzip(+cleanup on fail) →
 > json-glob(+cleanup) → derive filename → route(+cleanup) → import → **cleanup on success/exception**.
 
-- [ ] T007 [US2] Add the file-SIZE check immediately AFTER the existing `$_FILES`/`UPLOAD_ERR_OK` block (the `if (! isset($_FILES['json_zip_file']) || ... !== UPLOAD_ERR_OK) { wp_die('File upload failed'); }`) and BEFORE `wp_handle_upload(...)`. At this point nothing has been moved to disk, so no cleanup is needed. Insert:
+- [x] T007 [US2] Add the file-SIZE check immediately AFTER the existing `$_FILES`/`UPLOAD_ERR_OK` block (the `if (! isset($_FILES['json_zip_file']) || ... !== UPLOAD_ERR_OK) { wp_die('File upload failed'); }`) and BEFORE `wp_handle_upload(...)`. At this point nothing has been moved to disk, so no cleanup is needed. Insert:
   ```php
   $max_size = (int) apply_filters( 'migratestore_max_upload_size', 10 * MB_IN_BYTES );
   if ( (int) $_FILES['json_zip_file']['size'] > $max_size ) {
@@ -184,8 +184,8 @@ US1.
       ) );
   }
   ```
-- [ ] T008 [US2] Ensure `$uploaded_file_name` is available before the MIME check. The code already computes `$uploaded_file_name = sanitize_file_name($_FILES['json_zip_file']['name']);` (~line 173, after `wp_handle_upload`). Keep that line where it is — the MIME check in T009 is inserted AFTER it. (No edit if it already precedes T009's insertion point; otherwise move the `$uploaded_file_name` assignment up so it sits immediately after the `wp_handle_upload` error check.)
-- [ ] T009 [US2] Add the MIME-TYPE check immediately AFTER `$uploaded_file_name` is set (i.e. after the `wp_handle_upload` success/error handling and the `$uploaded_file_name`/`$uploaded_file_basename` lines), and BEFORE `$unzip_folder` is defined. The upload has been moved, so reject WITH cleanup. Insert:
+- [x] T008 [US2] Ensure `$uploaded_file_name` is available before the MIME check. The code already computes `$uploaded_file_name = sanitize_file_name($_FILES['json_zip_file']['name']);` (~line 173, after `wp_handle_upload`). Keep that line where it is — the MIME check in T009 is inserted AFTER it. (No edit if it already precedes T009's insertion point; otherwise move the `$uploaded_file_name` assignment up so it sits immediately after the `wp_handle_upload` error check.)
+- [x] T009 [US2] Add the MIME-TYPE check immediately AFTER `$uploaded_file_name` is set (i.e. after the `wp_handle_upload` success/error handling and the `$uploaded_file_name`/`$uploaded_file_basename` lines), and BEFORE `$unzip_folder` is defined. The upload has been moved, so reject WITH cleanup. Insert:
   ```php
   $filetype      = wp_check_filetype_and_ext( $uploaded_file['file'], $uploaded_file_name );
   $allowed_mimes = array( 'application/zip', 'application/x-zip-compressed' );
@@ -194,7 +194,7 @@ US1.
       wp_die( esc_html__( 'Invalid file type. Please upload a .zip file exported by Migrate Store.', 'migratestore' ) );
   }
   ```
-- [ ] T010 [US2] Add the ZIP PATH-TRAVERSAL scan AFTER `$unzip_folder` is defined (~line 176) and BEFORE the `unzip_file(...)` call (~line 183). It must reject the WHOLE import if any entry is absolute or contains a `..` segment, extracting nothing. (You may place it before or after the `mkdir` block; passing `$unzip_folder` to cleanup is safe whether or not the dir exists.) Insert:
+- [x] T010 [US2] Add the ZIP PATH-TRAVERSAL scan AFTER `$unzip_folder` is defined (~line 176) and BEFORE the `unzip_file(...)` call (~line 183). It must reject the WHOLE import if any entry is absolute or contains a `..` segment, extracting nothing. (You may place it before or after the `mkdir` block; passing `$unzip_folder` to cleanup is safe whether or not the dir exists.) Insert:
   ```php
   $zip_check = new \ZipArchive();
   if ( $zip_check->open( $uploaded_file['file'] ) !== true ) {
@@ -218,13 +218,13 @@ US1.
   }
   $zip_check->close();
   ```
-- [ ] T011 [US2] Wire cleanup into the remaining EARLY bails in `handle_import_action()` that occur AFTER the upload was moved but BEFORE the importer is constructed. For EACH of these existing `wp_die(...)` calls, add `$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );` on the line immediately before the `wp_die(...)`:
+- [x] T011 [US2] Wire cleanup into the remaining EARLY bails in `handle_import_action()` that occur AFTER the upload was moved but BEFORE the importer is constructed. For EACH of these existing `wp_die(...)` calls, add `$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );` on the line immediately before the `wp_die(...)`:
   - the `mkdir` failure bail (`wp_die('Failed to create tmp directory: insufficient permission');`)
   - the unzip failure bail (`wp_die('Failed to unzip file: ' . $unzipped->get_error_message());`)
   - the no-JSON-found bail (`wp_die('No matching JSON file found in uploaded ZIP.');`)
   - the `class_exists` failure bail (`wp_die("Importer class '$className' not found.");`)
   (The "Invalid file name" / unrecognized-file bail is handled in T015 under US4. Do NOT add cleanup to the two bails that run BEFORE the upload is moved — the `UPLOAD_ERR_OK` bail and the `wp_handle_upload` error bail — there are no artifacts there yet.)
-- [ ] T012 [US2] Guarantee cleanup of the moved UPLOAD on the SUCCESS and CAUGHT-EXCEPTION paths. The code currently ends with `$importer->cleanup($unzip_folder);` (~line 244), which removes the temp dir then redirects+exits but NEVER deletes the moved upload file. Immediately BEFORE that `$importer->cleanup($unzip_folder);` line, insert:
+- [x] T012 [US2] Guarantee cleanup of the moved UPLOAD on the SUCCESS and CAUGHT-EXCEPTION paths. The code currently ends with `$importer->cleanup($unzip_folder);` (~line 244), which removes the temp dir then redirects+exits but NEVER deletes the moved upload file. Immediately BEFORE that `$importer->cleanup($unzip_folder);` line, insert:
   ```php
   // Remove the moved upload; $importer->cleanup() removes the temp dir then redirects.
   if ( ! empty( $uploaded_file['file'] ) && file_exists( $uploaded_file['file'] ) ) {
@@ -251,7 +251,7 @@ export (every value applied via fallback); the email export contains no duplicat
 
 ### Implementation for User Story 3
 
-- [ ] T013 [P] [US3] In `includes/Exporters/AbstractExporter.php`, change `get_options_values()` so each entry uses the canonical keys. Replace the array literal (currently `'option' => $option_name, 'value' => $option_value,`, ~lines 28–29) with:
+- [x] T013 [P] [US3] In `includes/Exporters/AbstractExporter.php`, change `get_options_values()` so each entry uses the canonical keys. Replace the array literal (currently `'option' => $option_name, 'value' => $option_value,`, ~lines 28–29) with:
   ```php
   $settings[] = [
       // Canonical option-entry field names (v1.2.0+). Importers read these and fall
@@ -261,7 +261,7 @@ export (every value applied via fallback); the email export contains no duplicat
   ];
   ```
   Change nothing else in the method.
-- [ ] T014 [US3] In `includes/Importers/AbstractImporter.php`, update the base importer to read canonical keys with a legacy fallback, in THREE places:
+- [x] T014 [US3] In `includes/Importers/AbstractImporter.php`, update the base importer to read canonical keys with a legacy fallback, in THREE places:
   1. In `import()`, replace the guard `if (isset($item['option'], $item['value'])) {` with one that accepts either pair:
      ```php
      // Accept canonical (option_name/option_value) or legacy (option/value) entries.
@@ -280,8 +280,8 @@ export (every value applied via fallback); the email export contains no duplicat
      return $item['option_name'] ?? $item['option'];
      ```
      (The exporter now returns `option_name`; the `?? $item['option']` keeps it null-safe.) Leave the rest of `import_option()` (serialization, sanitization, allow-list check, `update_option`) unchanged.
-- [ ] T015 [P] [US3] In `includes/Exporters/WooCommerce/EmailsOptionsExporter.php`, remove the DUPLICATE option name. The array lists `'woocommerce_customer_completed_order_settings'` twice (lines 27 and 28). Delete one of the two identical lines so it appears exactly once. Change nothing else.
-- [ ] T016 [P] [US3] In `includes/Importers/WooCommerce/ShippingZonesImporter.php`, add the same legacy fallback to its overriding `import_option()` (lines 102–104) so old zone exports still import. Replace:
+- [x] T015 [P] [US3] In `includes/Exporters/WooCommerce/EmailsOptionsExporter.php`, remove the DUPLICATE option name. The array lists `'woocommerce_customer_completed_order_settings'` twice (lines 27 and 28). Delete one of the two identical lines so it appears exactly once. Change nothing else.
+- [x] T016 [P] [US3] In `includes/Importers/WooCommerce/ShippingZonesImporter.php`, add the same legacy fallback to its overriding `import_option()` (lines 102–104) so old zone exports still import. Replace:
   ```php
   $option_name  = sanitize_key( $data['option_name'] );
   $option_value = sanitize_text_field( $data['option_value'] );
@@ -292,7 +292,7 @@ export (every value applied via fallback); the email export contains no duplicat
   $option_name  = sanitize_key( $data['option_name'] ?? $data['option'] );
   $option_value = sanitize_text_field( $data['option_value'] ?? $data['value'] );
   ```
-- [ ] T017 [P] [US3] AUDIT (read-only): confirm `includes/Exporters/WooCommerce/ShippingZonesExporter.php` line ~33 already selects `option_name, option_value` for its `options` query (it does) — so it is already canonical and needs NO change. Confirm the other 7 exporters all rely on the inherited `get_options_values()` (they do not override it) so they pick up T013 automatically. Record "verified — exporters consistent". Do NOT edit the shipping-method whitelist on line 31 (Phase 3).
+- [x] T017 [P] [US3] AUDIT (read-only): confirm `includes/Exporters/WooCommerce/ShippingZonesExporter.php` line ~33 already selects `option_name, option_value` for its `options` query (it does) — so it is already canonical and needs NO change. Confirm the other 7 exporters all rely on the inherited `get_options_values()` (they do not override it) so they pick up T013 automatically. Record "verified — exporters consistent". Do NOT edit the shipping-method whitelist on line 31 (Phase 3).
 
 **Checkpoint**: US3 complete — option entries are canonical end-to-end with v1.1.9 fallback; email
 duplicate gone. Verify with quickstart Gate B1 (#1,7,9).
@@ -312,7 +312,7 @@ v1.1.9 filenames still match. (Contract C: research.md Decision 3.)
 
 ### Implementation for User Story 4
 
-- [ ] T018 [US4] In `includes/MigrateStore.php` `handle_import_action()`, replace the buggy substring routing block. Delete the entire loop + bail (currently):
+- [x] T018 [US4] In `includes/MigrateStore.php` `handle_import_action()`, replace the buggy substring routing block. Delete the entire loop + bail (currently):
   ```php
   $valid_file = false;
   foreach ($importerStrategies as $key => $value) {
@@ -354,7 +354,7 @@ quickstart Gate B2 (#17,18) and B1 (#9 for v1.1.9).
 
 ### Implementation for User Story 5
 
-- [ ] T019 [P] [US5] AUDIT + document (no signature change). Confirm all 8 importers under `includes/Importers/WooCommerce/` declare a zero-arg `public function __construct()` that calls `parent::__construct( new XExporter() )`, matching the parent `AbstractImporter::__construct( AbstractExporter $exporter )`. (Per research.md Decision 6 they already do — this is verify-only.) Then add a documenting comment directly above `AbstractImporter::__construct()` in `includes/Importers/AbstractImporter.php`:
+- [x] T019 [P] [US5] AUDIT + document (no signature change). Confirm all 8 importers under `includes/Importers/WooCommerce/` declare a zero-arg `public function __construct()` that calls `parent::__construct( new XExporter() )`, matching the parent `AbstractImporter::__construct( AbstractExporter $exporter )`. (Per research.md Decision 6 they already do — this is verify-only.) Then add a documenting comment directly above `AbstractImporter::__construct()` in `includes/Importers/AbstractImporter.php`:
   ```php
   /**
    * Children pass their paired exporter: each concrete importer declares a
@@ -366,13 +366,13 @@ quickstart Gate B2 (#17,18) and B1 (#9 for v1.1.9).
 
 ### Implementation for User Story 6
 
-- [ ] T020 [US6] In `includes/Importers/WooCommerce/ShippingZonesImporter.php`, replace the TODO comment on line 22 (`//TODO: Add a Learn more link that explains why users should delete existing zones.`) with an explanatory comment documenting the intentional design decision (per FR-017; a "Learn more" UI link is Phase-3-style new surface and is out of scope). Use:
+- [x] T020 [US6] In `includes/Importers/WooCommerce/ShippingZonesImporter.php`, replace the TODO comment on line 22 (`//TODO: Add a Learn more link that explains why users should delete existing zones.`) with an explanatory comment documenting the intentional design decision (per FR-017; a "Learn more" UI link is Phase-3-style new surface and is out of scope). Use:
   ```php
   // Intentional: this importer refuses to merge into existing zones to avoid zone_id
   // collisions and duplicate methods/locations. validate() below throws when zones
   // already exist, and the thrown message instructs the user to clear them first.
   ```
-- [ ] T021 [US6] Verify zero leftover debug markers: run `grep -rnE 'TODO|FIXME' --include='*.php' includes/ migratestore.php` (or the PowerShell equivalent `Select-String`). Expected result: **zero matches**. If any remain (outside `lib/`), resolve them the same way (implement or replace with an explanatory comment) and re-run. (FR-018.)
+- [x] T021 [US6] Verify zero leftover debug markers: run `grep -rnE 'TODO|FIXME' --include='*.php' includes/ migratestore.php` (or the PowerShell equivalent `Select-String`). Expected result: **zero matches**. If any remain (outside `lib/`), resolve them the same way (implement or replace with an explanatory comment) and re-run. (FR-018.)
 
 **Checkpoint**: US5 verified/documented; US6 TODO resolved and repo clean.
 
@@ -382,12 +382,12 @@ quickstart Gate B2 (#17,18) and B1 (#9 for v1.1.9).
 
 **Purpose**: Run the lint + manual QA merge gate across all stories. See `quickstart.md`.
 
-- [ ] T022 Run the lint gate on **PHP 7.4** over all plugin `.php` files (repo root `migratestore.php` + `includes/`, excluding `.specify/`, `.claude/`). Every file MUST report "No syntax errors detected". Record the result. (quickstart Gate A.)
-- [ ] T023 Run the lint gate on **PHP 8.3** (same scope). Every file MUST pass with zero errors/deprecation warnings. Record the result. (quickstart Gate A.)
+- [x] T022 Run the lint gate on **PHP 7.4** over all plugin `.php` files (repo root `migratestore.php` + `includes/`, excluding `.specify/`, `.claude/`). Every file MUST report "No syntax errors detected". Record the result. (quickstart Gate A.)
+- [x] T023 Run the lint gate on **PHP 8.3** (same scope). Every file MUST pass with zero errors/deprecation warnings. Record the result. (quickstart Gate A.)
 - [ ] T024 [P] Manual QA — legitimate flows (quickstart Gate B1, requires a WP 7.0 + WooCommerce site as a `manage_woocommerce` admin): export+import general settings, shipping zones, shipping classes, email settings (each succeeds with its notice); confirm the email export has NO duplicate `…completed_order_settings` entry; import a captured **v1.1.9** export and confirm values apply via the legacy fallback. If no WP site is available, STOP and report this gate as not-yet-run rather than marking it passed.
 - [ ] T025 [P] Manual QA — security rejections (quickstart Gate B2): Subscriber export AND import blocked (403, nothing written); bad/absent nonce blocked; `.txt`-renamed-`.zip` rejected (MIME); >10 MB zip rejected (size); raising `migratestore_max_upload_size` lets the large file through; zip with `../../etc/passwd` (and `..\..\` / absolute variants) rejected with nothing extracted; unrecognized inner filename → actionable notice; partially-overlapping name not misrouted.
 - [ ] T026 [P] Manual QA — cleanup invariant (quickstart Gate B3) + stability (B4): after EVERY attempt above (success and each rejection), confirm `wp-content/uploads/migratestore_tmp` is gone/empty AND no orphaned uploaded `.zip` remains in `wp-content/uploads/`; confirm importing zones against a site that already has zones gives the clear "delete existing zones" message with no fatal; confirm every importer instantiates with no constructor warning on 7.4/8.3.
-- [ ] T027 Run the code-hygiene gate (quickstart Gate C): `grep -rnE 'TODO|FIXME' --include='*.php' includes/ migratestore.php` returns zero matches. Confirm the Definition of Done checklist in `quickstart.md` is fully satisfied.
+- [x] T027 Run the code-hygiene gate (quickstart Gate C): `grep -rnE 'TODO|FIXME' --include='*.php' includes/ migratestore.php` returns zero matches. Confirm the Definition of Done checklist in `quickstart.md` is fully satisfied.
 
 **Checkpoint**: All gates green → Phase 2 done.
 

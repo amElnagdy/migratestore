@@ -19,7 +19,9 @@ class ShippingZonesImporter extends AbstractImporter {
 		$this->wpdb = $wpdb;
 	}
 
-	//TODO: Add a Learn more link that explains why users should delete existing zones.
+	// Intentional: this importer refuses to merge into existing zones to avoid zone_id
+	// collisions and duplicate methods/locations. validate() below throws when zones
+	// already exist, and the thrown message instructs the user to clear them first.
 	public function import( $json_file_path ) {
 		if ( $this->validate() === false ) {
 			throw new \Exception( 'You have existing shipping zones. Please delete them before attempting to import new ones.' );
@@ -100,8 +102,9 @@ class ShippingZonesImporter extends AbstractImporter {
 	}
 
 	protected function import_option( $data ) {
-		$option_name  = sanitize_key( $data['option_name'] );
-		$option_value = sanitize_text_field( $data['option_value'] );
+		// Canonical keys with legacy 'option'/'value' fallback for v1.1.9 archives.
+		$option_name  = sanitize_key( $data['option_name'] ?? $data['option'] );
+		$option_value = sanitize_text_field( $data['option_value'] ?? $data['value'] );
 
 		if ( is_serialized( $option_value ) ) {
 			$option_value = maybe_unserialize( $option_value );

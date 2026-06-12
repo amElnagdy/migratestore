@@ -25,8 +25,10 @@ abstract class AbstractExporter {
             }
             
             $settings[] = [
-                'option' => $option_name,
-                'value'  => $option_value,
+                // Canonical option-entry field names (v1.2.0+). Importers read these and fall
+                // back to the legacy 'option'/'value' keys only for v1.1.9 and earlier archives.
+                'option_name'  => $option_name,
+                'option_value' => $option_value,
             ];
         }
         
