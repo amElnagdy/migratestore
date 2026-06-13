@@ -12,6 +12,8 @@ use MigrateStore\Importers\AbstractImporter;
 
 class ShippingZonesImporter extends AbstractImporter {
 	private $wpdb;
+	private $skipped_methods    = array();
+	private $registered_methods = null;
 
 	public function __construct() {
 		parent::__construct( new ShippingZonesExporter() );
@@ -74,6 +76,15 @@ class ShippingZonesImporter extends AbstractImporter {
 		$method_order = (int) $data['method_order'];
 		$is_enabled   = (int) $data['is_enabled'];
 
+		// Skip (and record) any method not registered on this site, so we
+		// never write an unrenderable orphan row. Continue with the rest.
+		if ( ! $this->is_method_registered( $method_id ) ) {
+			if ( ! in_array( $method_id, $this->skipped_methods, true ) ) {
+				$this->skipped_methods[] = $method_id;
+			}
+			return;
+		}
+
 		$this->wpdb->insert(
 			"{$this->wpdb->prefix}woocommerce_shipping_zone_methods",
 			array(
@@ -128,6 +139,32 @@ class ShippingZonesImporter extends AbstractImporter {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Whether a shipping method id is registered with WooCommerce on this site.
+	 * Uses exact key matching against the live method registry (cached once per import).
+	 */
+	private function is_method_registered( $method_id ) {
+		if ( null === $this->registered_methods ) {
+			$this->registered_methods = array();
+			if ( function_exists( 'WC' ) && WC()->shipping() ) {
+				// get_shipping_methods() returns an array keyed by method id.
+				$this->registered_methods = WC()->shipping()->get_shipping_methods();
+			}
+		}
+
+		return array_key_exists( $method_id, $this->registered_methods );
+	}
+
+	/**
+	 * Shipping method ids that were skipped on import because they are not
+	 * registered on this site. De-duplicated.
+	 *
+	 * @return string[]
+	 */
+	public function get_skipped_methods(): array {
+		return array_values( array_unique( $this->skipped_methods ) );
 	}
 
 }

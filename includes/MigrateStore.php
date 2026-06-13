@@ -276,6 +276,16 @@ class MigrateStore
 				'success' => true,
 				'type_data' => $import_type_data
 			], 60);
+
+			// Surface any shipping methods that were skipped because they are not
+			// registered on this site (Phase 3 — shipping method filter).
+			if ( method_exists( $importer, 'get_skipped_methods' ) ) {
+				$skipped_methods = $importer->get_skipped_methods();
+				if ( ! empty( $skipped_methods ) ) {
+					$skipped_methods = array_map( 'sanitize_text_field', $skipped_methods );
+					set_transient( 'migratestore_import_warning', $skipped_methods, 60 );
+				}
+			}
 			
 		} catch (\Exception $e) {
 			set_transient('migratestore_import_error', $e->getMessage(), 60);
