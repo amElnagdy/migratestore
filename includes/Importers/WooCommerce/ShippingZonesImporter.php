@@ -114,16 +114,36 @@ class ShippingZonesImporter extends AbstractImporter {
 
 	protected function import_option( $data ) {
 		// Canonical keys with legacy 'option'/'value' fallback for v1.1.9 archives.
-		$option_name  = sanitize_key( $data['option_name'] ?? $data['option'] );
-		$option_value = sanitize_text_field( $data['option_value'] ?? $data['value'] );
+		$option_name  = sanitize_key( $data['option_name'] ?? $data['option'] ?? '' );
+		$option_value = $data['option_value'] ?? $data['value'] ?? '';
 
-		if ( is_serialized( $option_value ) ) {
-			$option_value = maybe_unserialize( $option_value );
-			if ( is_array( $option_value ) ) {
-				array_walk_recursive( $option_value, function ( &$value ) {
+		// Allowlist guard: this importer only ever writes per-instance shipping
+		// method settings, whose option names follow the WooCommerce pattern
+		// woocommerce_{method_id}_{instance_id}_settings. Reject anything else so
+		// a crafted import file cannot overwrite arbitrary options. (The parent's
+		// allowlist relies on the exporter querying the live DB, which does not
+		// apply here — the whole point is to import options that do not exist on
+		// the target site yet.)
+		if ( ! preg_match( '/^woocommerce_.+_\d+_settings$/', $option_name ) ) {
+			throw new \RuntimeException( "Invalid option name: $option_name" );
+		}
+
+		// Unserialize the RAW value BEFORE sanitizing. PHP's serialization format
+		// embeds the byte length of every string in length prefixes (e.g.
+		// s:13:"My Settings 1"). sanitize_text_field() can change those byte
+		// lengths without updating the prefixes, which silently corrupts the blob
+		// so it no longer unserializes. maybe_unserialize() returns the value
+		// unchanged if it is not serialized.
+		$option_value = maybe_unserialize( $option_value );
+
+		if ( is_array( $option_value ) ) {
+			array_walk_recursive( $option_value, function ( &$value ) {
+				if ( is_string( $value ) ) {
 					$value = sanitize_text_field( $value );
-				} );
-			}
+				}
+			} );
+		} elseif ( is_string( $option_value ) ) {
+			$option_value = sanitize_text_field( $option_value );
 		}
 
 		update_option( $option_name, $option_value );
