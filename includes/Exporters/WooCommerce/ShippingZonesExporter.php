@@ -75,16 +75,21 @@ class ShippingZonesExporter extends AbstractExporter {
         }
         $option_names = array_values( array_unique( $option_names ) );
 
+        // Read each per-instance settings option through the cached options API
+        // instead of a direct IN () query. The option name list is fully known
+        // here, so there is no SQL value to bind — this avoids the unprepared-SQL
+        // pattern entirely and is the idiomatic WordPress approach.
         $options = array();
-        if ( ! empty( $option_names ) ) {
-            $placeholders = implode( ', ', array_fill( 0, count( $option_names ), '%s' ) );
-            $options = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name IN ($placeholders)",
-                    $option_names
-                ),
-                ARRAY_A
-            );
+        foreach ( $option_names as $option_name ) {
+            $value = get_option( $option_name, null );
+            if ( null !== $value ) {
+                $options[] = array(
+                    'option_name'  => $option_name,
+                    // Re-serialize so the exported value matches the raw DB format
+                    // the importer expects (it runs maybe_unserialize() on import).
+                    'option_value' => maybe_serialize( $value ),
+                );
+            }
         }
 
         $data = array(
