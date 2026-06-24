@@ -293,7 +293,7 @@ class MigrateStore
 
 		// Remove the moved upload; $importer->cleanup() removes the temp dir then redirects.
 		if ( ! empty( $uploaded_file['file'] ) && file_exists( $uploaded_file['file'] ) ) {
-			@unlink( $uploaded_file['file'] );
+			wp_delete_file( $uploaded_file['file'] );
 		}
 
 		// Using cleanup to delete the tmp folder
@@ -310,20 +310,19 @@ class MigrateStore
 	 */
 	private function cleanup_import_artifacts( $uploaded_file_path, $temp_dir ) {
 		if ( ! empty( $uploaded_file_path ) && file_exists( $uploaded_file_path ) ) {
-			@unlink( $uploaded_file_path );
+			wp_delete_file( $uploaded_file_path );
 		}
 		if ( ! empty( $temp_dir ) && is_dir( $temp_dir ) ) {
-			$items = glob( rtrim( $temp_dir, '/\\' ) . '/*', GLOB_MARK );
-			if ( is_array( $items ) ) {
-				foreach ( $items as $item ) {
-					if ( is_dir( $item ) ) {
-						$this->cleanup_import_artifacts( null, $item ); // recurse into nested dirs
-					} else {
-						@unlink( $item );
-					}
-				}
+			// Recursively remove the temp extraction tree through WP_Filesystem so
+			// deletion works on hosts where PHP does not own the files (FTP/SSH).
+			global $wp_filesystem;
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
 			}
-			@rmdir( $temp_dir );
+			WP_Filesystem();
+			if ( $wp_filesystem ) {
+				$wp_filesystem->delete( $temp_dir, true ); // true = recursive
+			}
 		}
 	}
 
