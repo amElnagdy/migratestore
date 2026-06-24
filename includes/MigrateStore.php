@@ -165,12 +165,16 @@ class MigrateStore
 		WP_Filesystem();
 		check_admin_referer('migratestore_import_action_nonce');
 
-		if (! isset($_FILES['json_zip_file']) || $_FILES['json_zip_file']['error'] !== UPLOAD_ERR_OK) {
+		if ( ! isset( $_FILES['json_zip_file'] ) || UPLOAD_ERR_OK !== (int) $_FILES['json_zip_file']['error'] ) {
 			wp_die('File upload failed');
 		}
 
+		// Read the upload size from the superglobal once, existence-checked and
+		// cast to int (the cast also satisfies unslash/sanitize for numeric input).
+		$uploaded_file_size = isset( $_FILES['json_zip_file']['size'] ) ? (int) $_FILES['json_zip_file']['size'] : 0;
+
 		$max_size = (int) apply_filters( 'migratestore_max_upload_size', 10 * MB_IN_BYTES );
-		if ( (int) $_FILES['json_zip_file']['size'] > $max_size ) {
+		if ( $uploaded_file_size > $max_size ) {
 			wp_die( sprintf(
 				/* translators: %s: maximum allowed upload size, e.g. "10 MB". */
 				esc_html__( 'The uploaded file exceeds the maximum allowed size of %s.', 'migratestore' ),
@@ -185,7 +189,9 @@ class MigrateStore
 			wp_die($uploaded_file['error'] ?? 'File upload failed');
 		}
 
-		$uploaded_file_name     = sanitize_file_name($_FILES['json_zip_file']['name']);
+		$uploaded_file_name     = isset( $_FILES['json_zip_file']['name'] )
+			? sanitize_file_name( wp_unslash( $_FILES['json_zip_file']['name'] ) )
+			: '';
 		$uploaded_file_basename = basename($uploaded_file_name, '.zip');
 
 		$filetype      = wp_check_filetype_and_ext( $uploaded_file['file'], $uploaded_file_name );
