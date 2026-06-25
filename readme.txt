@@ -70,7 +70,6 @@ Post detailed information about the issue in the [support forum](http://wordpres
 * Security: Added capability checks (manage_woocommerce) to all export and import handlers.
 * Security: Validated ZIP uploads (MIME type, size limit) and guaranteed temp-file cleanup on success and failure.
 * Fix: Unified option field names (option_name/option_value) across all exporters and importers.
-* Fix: Corrected the AbstractImporter constructor signature.
 * Fix: Removed a duplicate entry in the email settings exporter.
 * Fix: Shipping method export is no longer limited to the three built-in types; all registered shipping methods are now exported. Unrecognized methods are reported on import.
 

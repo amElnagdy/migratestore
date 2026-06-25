@@ -31,19 +31,19 @@ class MigrateStore
 
 	public function migratestore_admin_menu()
 	{
-		add_menu_page('Migrate Store', 'Migrate Store', 'manage_options', 'migratestore', array(
+		add_menu_page('Migrate Store', 'Migrate Store', 'manage_woocommerce', 'migratestore', array(
 			$this,
 			'migratestore_admin_page'
 		), 'dashicons-sort', 99);
-		add_submenu_page('migratestore', __('Home', 'migratestore'), __('Home', 'migratestore'), 'manage_options', 'migratestore', array(
+		add_submenu_page('migratestore', __('Home', 'migratestore'), __('Home', 'migratestore'), 'manage_woocommerce', 'migratestore', array(
 			$this,
 			'migratestore_admin_page'
 		));
-		add_submenu_page('migratestore', __('Export', 'migratestore'), __('Export', 'migratestore'), 'manage_options', 'migratestore-export', array(
+		add_submenu_page('migratestore', __('Export', 'migratestore'), __('Export', 'migratestore'), 'manage_woocommerce', 'migratestore-export', array(
 			$this,
 			'migratestore_admin_export_page'
 		));
-		add_submenu_page('migratestore', __('Import', 'migratestore'), __('Import', 'migratestore'), 'manage_options', 'migratestore-import', array(
+		add_submenu_page('migratestore', __('Import', 'migratestore'), __('Import', 'migratestore'), 'manage_woocommerce', 'migratestore-import', array(
 			$this,
 			'migratestore_admin_import_page'
 		));
