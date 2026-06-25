@@ -3,8 +3,8 @@ Contributors: nagdy
 Tags: woocommerce, woocommerce export, export shipping zones
 Requires PHP: 7.4
 Requires at least: 6.0
-Tested up to: 6.9
-Stable tag: 1.1.9
+Tested up to: 7.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://ko-fi.com/nagdy
@@ -63,6 +63,15 @@ Post detailed information about the issue in the [support forum](http://wordpres
 1. Plugin Settings.
 
 == Changelog ==
+
+= 1.2.0 =
+* Compatibility: Tested with WordPress 7.0.
+* Compatibility: PHP 8.2 / 8.3 compatible; minimum PHP 7.4.
+* Security: Added capability checks (manage_woocommerce) to all export and import handlers.
+* Security: Validated ZIP uploads (MIME type, size limit) and guaranteed temp-file cleanup on success and failure.
+* Fix: Unified option field names (option_name/option_value) across all exporters and importers.
+* Fix: Removed a duplicate entry in the email settings exporter.
+* Fix: Shipping method export is no longer limited to the three built-in types; all registered shipping methods are now exported. Unrecognized methods are reported on import.
 
 = 1.1.9 =
 * WordPress 6.9 compatibility.

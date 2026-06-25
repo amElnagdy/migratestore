@@ -15,6 +15,20 @@
             echo '</div>';
         }
         
+        // Check if the transient is set for skipped shipping methods (Phase 3)
+        if ( $skipped_methods = get_transient( 'migratestore_import_warning' ) ) {
+            delete_transient( 'migratestore_import_warning' );
+
+            if ( is_array( $skipped_methods ) && ! empty( $skipped_methods ) ) {
+                echo '<div class="notice notice-warning is-dismissible">';
+                echo '<p>'
+                    . esc_html__( 'The following shipping methods were skipped because they are not available on this site:', 'migratestore' )
+                    . ' ' . esc_html( implode( ', ', $skipped_methods ) )
+                    . '</p>';
+                echo '</div>';
+            }
+        }
+        
         // Check if the transient is set for success
         if ($success_data = get_transient('migratestore_import_success')) {
             delete_transient('migratestore_import_success');
