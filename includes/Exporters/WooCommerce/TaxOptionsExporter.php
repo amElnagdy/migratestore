@@ -27,7 +27,7 @@ class TaxOptionsExporter extends AbstractExporter {
     
     
     public function get_json_filename() {
-        return 'migratestore_tax_options_' . date( 'Ymd_His' ) . '.json';
+        return 'migratestore_tax_options_' . gmdate( 'Ymd_His' ) . '.json';
     }
     
 }

@@ -36,7 +36,7 @@ class GeneralSettingsExporter extends AbstractExporter {
     }
     
     public function get_json_filename() {
-        return 'migratestore_general_settings_' . date( 'Ymd_His' ) . '.json';
+        return 'migratestore_general_settings_' . gmdate( 'Ymd_His' ) . '.json';
     }
     
 }
