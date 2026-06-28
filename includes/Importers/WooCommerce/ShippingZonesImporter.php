@@ -47,7 +47,7 @@ class ShippingZonesImporter extends AbstractImporter {
 						$this->import_option( $value );
 						break;
 					default:
-						throw new \RuntimeException( 'Invalid JSON type: ' . $option );
+						throw new \RuntimeException( esc_html( 'Invalid JSON type: ' . $option ) );
 				}
 			}
 		}
@@ -125,7 +125,7 @@ class ShippingZonesImporter extends AbstractImporter {
 		// apply here — the whole point is to import options that do not exist on
 		// the target site yet.)
 		if ( ! preg_match( '/^woocommerce_.+_\d+_settings$/', $option_name ) ) {
-			throw new \RuntimeException( "Invalid option name: $option_name" );
+			throw new \RuntimeException( esc_html( "Invalid option name: $option_name" ) );
 		}
 
 		// Unserialize the RAW value BEFORE sanitizing. PHP's serialization format

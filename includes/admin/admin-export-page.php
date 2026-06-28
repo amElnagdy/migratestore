@@ -47,7 +47,7 @@ $export_options = array(
 ?>
 <div class="wrap migratestore">
     <div class="ms-content">
-        <h1><?php _e('Export Options', 'migratestore'); ?></h1>
+        <h1><?php esc_html_e('Export Options', 'migratestore'); ?></h1>
 
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="migratestore_export_action">

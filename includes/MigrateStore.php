@@ -186,7 +186,7 @@ class MigrateStore
 		$uploaded_file    = wp_handle_upload($_FILES['json_zip_file'], $upload_overrides);
 
 		if (! $uploaded_file || isset($uploaded_file['error'])) {
-			wp_die($uploaded_file['error'] ?? 'File upload failed');
+			wp_die( esc_html( $uploaded_file['error'] ?? 'File upload failed' ) );
 		}
 
 		$uploaded_file_name     = isset( $_FILES['json_zip_file']['name'] )
@@ -234,7 +234,7 @@ class MigrateStore
 		$unzipped = unzip_file($uploaded_file['file'], $unzip_folder);
 		if (is_wp_error($unzipped)) {
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
-			wp_die('Failed to unzip file: ' . $unzipped->get_error_message());
+			wp_die( esc_html( 'Failed to unzip file: ' . $unzipped->get_error_message() ) );
 		}
 
 		$json_files = glob($unzip_folder . '/migratestore_*.json');
@@ -268,7 +268,7 @@ class MigrateStore
 
 		if (! class_exists($className)) {
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
-			wp_die("Importer class '$className' not found.");
+			wp_die( esc_html( "Importer class '$className' not found." ) );
 		}
 
 		$importer = new $className();
