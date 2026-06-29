@@ -203,8 +203,9 @@ class MigrateStore
 
 		$unzip_folder = wp_upload_dir()['basedir'] . '/migratestore_tmp';
 
-		// Check if we have sufficient permission to create the folder
-		if (! is_dir($unzip_folder) && ! @mkdir($unzip_folder) && ! is_dir($unzip_folder)) {
+		// Check if we have sufficient permission to create the folder.
+		// wp_mkdir_p() returns true if the directory already exists or is created.
+		if ( ! wp_mkdir_p( $unzip_folder ) ) {
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die('Failed to create tmp directory: insufficient permission');
 		}
