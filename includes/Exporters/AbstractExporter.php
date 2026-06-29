@@ -50,7 +50,7 @@ abstract class AbstractExporter {
         $zip_path = get_temp_dir() . $zip_name;
         
         if ( $zip->open( $zip_path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE ) !== true ) {
-            exit( "Cannot open <$zip_path>\n" );
+            exit( esc_html( "Cannot open <$zip_path>\n" ) );
         }
         
         // Add JSON data to the archive
