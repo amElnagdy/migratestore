@@ -16,7 +16,12 @@ class ShippingZonesExporter extends AbstractExporter {
 	}
 
 	public function get_data() {
-		return $this->wpdb->get_results( $this->query, ARRAY_A );
+		// The shipping-zones data is exported by export() directly; this method is
+		// not used as an allow-list source (ShippingZonesImporter overrides
+		// import_option()). It has always returned null (the $query property is
+		// never set), so we keep that exact contract without running an unprepared
+		// raw query that trips WordPress.DB. See specs/007-sql-prepared-queries.
+		return null;
 	}
 
 	public function format_csv_data( $data ) {
