@@ -36,7 +36,7 @@ class EmailsOptionsExporter extends AbstractExporter {
     }
     
     public function get_json_filename() {
-        return 'migratestore_emails_settings_' . date( 'Ymd_His' ) . '.json';
+        return 'migratestore_emails_settings_' . gmdate( 'Ymd_His' ) . '.json';
     }
     
 }

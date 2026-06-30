@@ -186,7 +186,7 @@ class MigrateStore
 		$uploaded_file    = wp_handle_upload($_FILES['json_zip_file'], $upload_overrides);
 
 		if (! $uploaded_file || isset($uploaded_file['error'])) {
-			wp_die($uploaded_file['error'] ?? 'File upload failed');
+			wp_die( esc_html( $uploaded_file['error'] ?? 'File upload failed' ) );
 		}
 
 		$uploaded_file_name     = isset( $_FILES['json_zip_file']['name'] )
@@ -203,8 +203,9 @@ class MigrateStore
 
 		$unzip_folder = wp_upload_dir()['basedir'] . '/migratestore_tmp';
 
-		// Check if we have sufficient permission to create the folder
-		if (! is_dir($unzip_folder) && ! @mkdir($unzip_folder) && ! is_dir($unzip_folder)) {
+		// Check if we have sufficient permission to create the folder.
+		// wp_mkdir_p() returns true if the directory already exists or is created.
+		if ( ! wp_mkdir_p( $unzip_folder ) ) {
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die('Failed to create tmp directory: insufficient permission');
 		}
@@ -234,7 +235,7 @@ class MigrateStore
 		$unzipped = unzip_file($uploaded_file['file'], $unzip_folder);
 		if (is_wp_error($unzipped)) {
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
-			wp_die('Failed to unzip file: ' . $unzipped->get_error_message());
+			wp_die( esc_html( 'Failed to unzip file: ' . $unzipped->get_error_message() ) );
 		}
 
 		$json_files = glob($unzip_folder . '/migratestore_*.json');
@@ -268,7 +269,7 @@ class MigrateStore
 
 		if (! class_exists($className)) {
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
-			wp_die("Importer class '$className' not found.");
+			wp_die( esc_html( "Importer class '$className' not found." ) );
 		}
 
 		$importer = new $className();

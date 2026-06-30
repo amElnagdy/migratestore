@@ -39,7 +39,7 @@ abstract class AbstractImporter
 
         $data = json_decode($contents, true);
         if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-            throw new \RuntimeException('Could not parse JSON: ' . json_last_error_msg());
+            throw new \RuntimeException( esc_html( 'Could not parse JSON: ' . json_last_error_msg() ) );
         }
 
         return $data;
@@ -84,7 +84,7 @@ abstract class AbstractImporter
         }, $allowed_option_data);
 
         if (! in_array($option_name, $allowed_option_names)) {
-            throw new \RuntimeException("Invalid option name: $option_name");
+            throw new \RuntimeException( esc_html( "Invalid option name: $option_name" ) );
         }
         // At this point, the option name and value should be safe to import
         update_option($option_name, $option_value);
