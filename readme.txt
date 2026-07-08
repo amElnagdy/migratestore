@@ -72,6 +72,7 @@ Post detailed information about the issue in the [support forum](http://wordpres
 * Fix: Unified option field names (option_name/option_value) across all exporters and importers.
 * Fix: Removed a duplicate entry in the email settings exporter.
 * Fix: Shipping method export is no longer limited to the three built-in types; all registered shipping methods are now exported. Unrecognized methods are reported on import.
+* Fix: Block-based Local Pickup settings and pickup locations now migrate with Shipping Zones export/import.
 
 = 1.1.9 =
 * WordPress 6.9 compatibility.
