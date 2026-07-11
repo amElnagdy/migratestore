@@ -3,8 +3,8 @@ Contributors: nagdy
 Tags: woocommerce, woocommerce export, export shipping zones
 Requires PHP: 7.4
 Requires at least: 6.0
-Tested up to: 6.9
-Stable tag: 1.1.9
+Tested up to: 7.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://ko-fi.com/nagdy
@@ -63,6 +63,26 @@ Post detailed information about the issue in the [support forum](http://wordpres
 1. Plugin Settings.
 
 == Changelog ==
+
+= 1.2.0 =
+* Compatibility: Tested with WordPress 7.0.
+* Compatibility: PHP 8.2 / 8.3 compatible; minimum PHP 7.4.
+* Security: Added capability checks (manage_woocommerce) to all export and import handlers.
+* Security: Validated ZIP uploads (MIME type, size limit) and guaranteed temp-file cleanup on success and failure.
+* Security: Import archives are now strictly validated before extraction (single expected file, size-capped) and unpacked outside the public uploads directory.
+* Security: Settings import validates option names against an allowlist before deserializing and never instantiates PHP objects from archive data, closing an object-injection vector.
+* Fix: Unified option field names (option_name/option_value) across all exporters and importers.
+* Fix: Removed a duplicate entry in the email settings exporter.
+* Fix: Replaced `date()` with `gmdate()` in WooCommerce exporters to satisfy `WordPress.DateTime` Plugin Check (timezone-independent export filenames).
+* Fix: Replaced direct `readfile()` in the export download with the `WP_Filesystem` API to satisfy `WordPress.WP.AlternativeFunctions` Plugin Check.
+* Fix: Removed unprepared dead query in `ShippingZonesExporter::get_data()` to satisfy `WordPress.DB` Plugin Check (method returns `null` as before; no behavior change).
+* Fix: Shipping method export is no longer limited to the three built-in types; all registered shipping methods are now exported. Unrecognized methods are reported on import.
+* Fix: Email settings export/import now includes the Email template options — logo width, header alignment, and font family — which were previously omitted, so the destination site now matches the source. Older export files without these fields continue to import unchanged.
+* Fix: HTML formatting in the WooCommerce email footer text is now preserved during Email Options import.
+* Fix: Block-based Local Pickup settings and pickup locations now migrate with Shipping Zones export/import.
+* Fix: Importing shipping zones no longer overwrites existing Local Pickup locations without warning.
+* Fix: Local Pickup location details keep their line breaks on import.
+* Fix: Exporting settings no longer leaves a temporary archive file on the server.
 
 = 1.1.9 =
 * WordPress 6.9 compatibility.

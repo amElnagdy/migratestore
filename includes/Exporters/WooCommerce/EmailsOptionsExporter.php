@@ -19,12 +19,14 @@ class EmailsOptionsExporter extends AbstractExporter {
             'woocommerce_email_background_color',
             'woocommerce_email_body_background_color',
             'woocommerce_email_body_text_color',
+            'woocommerce_email_header_image_width',
+            'woocommerce_email_header_alignment',
+            'woocommerce_email_font_family',
             'woocommerce_new_order_settings',
             'woocommerce_cancelled_order_settings',
             'woocommerce_failed_order_settings',
             'woocommerce_customer_on_hold_order_settings',
             'woocommerce_customer_processing_order_settings',
-            'woocommerce_customer_completed_order_settings',
             'woocommerce_customer_completed_order_settings',
             'woocommerce_customer_invoice_settings',
             'woocommerce_customer_note_settings',
@@ -37,7 +39,7 @@ class EmailsOptionsExporter extends AbstractExporter {
     }
     
     public function get_json_filename() {
-        return 'migratestore_emails_settings_' . date( 'Ymd_His' ) . '.json';
+        return 'migratestore_emails_settings_' . gmdate( 'Ymd_His' ) . '.json';
     }
     
 }

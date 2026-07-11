@@ -23,9 +23,12 @@ phpunit.xml.dist
 multisite.xml
 multisite.xml.dist
 phpcs.ruleset.xml
+phpcs.xml
+phpcs.xml.dist
 README.md
 wp-cli.local.yml
 tests
+specs
 vendor
 node_modules
 *.sql

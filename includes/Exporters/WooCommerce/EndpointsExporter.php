@@ -33,7 +33,7 @@ class EndpointsExporter extends AbstractExporter {
     }
     
     public function get_json_filename() {
-        return 'migratestore_endpoints_options_' . date( 'Ymd_His' ) . '.json';
+        return 'migratestore_endpoints_options_' . gmdate( 'Ymd_His' ) . '.json';
     }
     
 }

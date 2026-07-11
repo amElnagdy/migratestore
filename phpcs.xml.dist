@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset name="MigrateStore">
+	<description>PHPCS / Plugin Check configuration for the Migrate Store plugin.</description>
+
+	<!-- Scan the plugin directory by default. -->
+	<file>.</file>
+
+	<!--
+		Exclude the Composer vendor directory from scanning.
+
+		composer.json sets "vendor-dir": "lib", so third-party dependencies live
+		in lib/. Those are not the plugin's own code and must NOT be fixed here.
+
+		NOTE: lib/ is required at runtime and is intentionally NOT added to
+		.distignore - it ships with the plugin. This exclusion only affects
+		linting / Plugin Check scanning, not packaging.
+	-->
+	<exclude-pattern>lib/*</exclude-pattern>
+</ruleset>

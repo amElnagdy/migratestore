@@ -25,8 +25,10 @@ abstract class AbstractExporter {
             }
             
             $settings[] = [
-                'option' => $option_name,
-                'value'  => $option_value,
+                // Canonical option-entry field names (v1.2.0+). Importers read these and fall
+                // back to the legacy 'option'/'value' keys only for v1.1.9 and earlier archives.
+                'option_name'  => $option_name,
+                'option_value' => $option_value,
             ];
         }
         
@@ -48,7 +50,7 @@ abstract class AbstractExporter {
         $zip_path = get_temp_dir() . $zip_name;
         
         if ( $zip->open( $zip_path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE ) !== true ) {
-            exit( "Cannot open <$zip_path>\n" );
+            exit( esc_html( "Cannot open <$zip_path>\n" ) );
         }
         
         // Add JSON data to the archive
@@ -62,8 +64,25 @@ abstract class AbstractExporter {
         header( 'Content-Disposition: attachment; filename="' . basename( $zip_path ) . '"' );
         header( 'Content-Length: ' . filesize( $zip_path ) );
         
-        readfile( $zip_path );
-        
+        if ( ! function_exists( 'WP_Filesystem' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+        WP_Filesystem();
+        global $wp_filesystem;
+
+        $contents = $wp_filesystem ? $wp_filesystem->get_contents( $zip_path ) : false;
+        if ( false === $contents ) {
+            // Clean up the temp file before bailing out.
+            wp_delete_file( $zip_path );
+            wp_die( esc_html__( 'Could not read the export archive.', 'migratestore' ) );
+        }
+
+        // The contents are now in memory; remove the temp file from disk.
+        wp_delete_file( $zip_path );
+
+        // Binary ZIP payload must be emitted verbatim; escaping would corrupt it.
+        echo $contents; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
         exit;
     }
     

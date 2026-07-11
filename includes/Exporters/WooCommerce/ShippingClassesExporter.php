@@ -24,6 +24,6 @@ class ShippingClassesExporter extends AbstractExporter {
         return $formatted_classes;
     }
     public function get_json_filename() {
-        return 'migratestore_shipping_classes_' . date( 'Ymd_His' ) . '.json';
+        return 'migratestore_shipping_classes_' . gmdate( 'Ymd_His' ) . '.json';
     }
 }
