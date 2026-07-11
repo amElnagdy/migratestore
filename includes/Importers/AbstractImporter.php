@@ -57,6 +57,20 @@ abstract class AbstractImporter
         }
     }
 
+    /**
+     * Option names whose values may contain WooCommerce-permitted HTML and must be
+     * sanitized with wp_kses_post() instead of sanitize_text_field() on import.
+     *
+     * Base returns an empty array so every existing importer keeps its current
+     * behavior. Subclasses override to opt specific fields in.
+     *
+     * @return string[]
+     */
+    protected function get_rich_text_option_names(): array
+    {
+        return [];
+    }
+
     protected function import_option($data)
     {
         // Canonical keys (v1.2.0+) with legacy 'option'/'value' fallback for v1.1.9 archives.
@@ -68,14 +82,18 @@ abstract class AbstractImporter
             $option_value = maybe_unserialize($option_value);
         }
 
-        // If option value is an array, sanitize each value
-        if (is_array($option_value)) {
-            array_walk_recursive($option_value, function (&$value) {
-                $value = sanitize_text_field($value);
-            });
+        // Rich-text options (e.g. WooCommerce email footer) keep the HTML that
+        // WooCommerce itself permits; everything else is stripped to plain text.
+        if ( in_array( $option_name, $this->get_rich_text_option_names(), true ) ) {
+            $option_value = wp_kses_post( (string) $option_value );
+        } elseif ( is_array( $option_value ) ) {
+            // If option value is an array, sanitize each value
+            array_walk_recursive( $option_value, function ( &$value ) {
+                $value = sanitize_text_field( $value );
+            } );
         } else {
             // If option value is a string, sanitize it
-            $option_value = sanitize_text_field($option_value);
+            $option_value = sanitize_text_field( $option_value );
         }
 
         $allowed_option_data  = $this->exporter->get_data();

@@ -76,6 +76,7 @@ Post detailed information about the issue in the [support forum](http://wordpres
 * Fix: Removed unprepared dead query in `ShippingZonesExporter::get_data()` to satisfy `WordPress.DB` Plugin Check (method returns `null` as before; no behavior change).
 * Fix: Shipping method export is no longer limited to the three built-in types; all registered shipping methods are now exported. Unrecognized methods are reported on import.
 * Fix: Email settings export/import now includes the Email template options — logo width, header alignment, and font family — which were previously omitted, so the destination site now matches the source. Older export files without these fields continue to import unchanged.
+* Fix: HTML formatting in the WooCommerce email footer text is now preserved during Email Options import.
 
 = 1.1.9 =
 * WordPress 6.9 compatibility.
