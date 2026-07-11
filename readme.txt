@@ -70,7 +70,7 @@ Post detailed information about the issue in the [support forum](http://wordpres
 * Security: Added capability checks (manage_woocommerce) to all export and import handlers.
 * Security: Validated ZIP uploads (MIME type, size limit) and guaranteed temp-file cleanup on success and failure.
 * Security: Import archives are now strictly validated before extraction (single expected file, size-capped) and unpacked outside the public uploads directory.
-* Security: Imported option values are no longer deserialized into PHP objects, closing an object-injection vector.
+* Security: Settings import validates option names against an allowlist before deserializing and never instantiates PHP objects from archive data, closing an object-injection vector.
 * Fix: Unified option field names (option_name/option_value) across all exporters and importers.
 * Fix: Removed a duplicate entry in the email settings exporter.
 * Fix: Replaced `date()` with `gmdate()` in WooCommerce exporters to satisfy `WordPress.DateTime` Plugin Check (timezone-independent export filenames).

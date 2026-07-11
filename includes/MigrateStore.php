@@ -192,7 +192,6 @@ class MigrateStore
 		$uploaded_file_name     = isset( $_FILES['json_zip_file']['name'] )
 			? sanitize_file_name( wp_unslash( $_FILES['json_zip_file']['name'] ) )
 			: '';
-		$uploaded_file_basename = basename($uploaded_file_name, '.zip');
 
 		$filetype      = wp_check_filetype_and_ext( $uploaded_file['file'], $uploaded_file_name );
 		$allowed_mimes = array( 'application/zip', 'application/x-zip-compressed' );
