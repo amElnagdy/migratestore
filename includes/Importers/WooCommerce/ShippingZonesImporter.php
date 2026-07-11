@@ -118,13 +118,20 @@ class ShippingZonesImporter extends AbstractImporter {
 		$option_value = $data['option_value'] ?? $data['value'] ?? '';
 
 		// Allowlist guard: this importer only ever writes per-instance shipping
-		// method settings, whose option names follow the WooCommerce pattern
-		// woocommerce_{method_id}_{instance_id}_settings. Reject anything else so
-		// a crafted import file cannot overwrite arbitrary options. (The parent's
-		// allowlist relies on the exporter querying the live DB, which does not
-		// apply here — the whole point is to import options that do not exist on
-		// the target site yet.)
-		if ( ! preg_match( '/^woocommerce_.+_\d+_settings$/', $option_name ) ) {
+		// method settings (woocommerce_{method_id}_{instance_id}_settings) PLUS the
+		// two global block Local Pickup options. Reject anything else so a crafted
+		// import file cannot overwrite arbitrary options. (The parent's allowlist
+		// relies on the exporter querying the live DB, which does not apply here —
+		// the whole point is to import options that do not exist on the target site
+		// yet.) Exact-name matching for the pickup options keeps the guard strict.
+		// Names confirmed on WC 9.0.0 (see specs/013-local-pickup-investigation):
+		// the locations option is 'pickup_location_pickup_locations'.
+		$allowed_pickup_options = array(
+			'woocommerce_pickup_location_settings',
+			'pickup_location_pickup_locations',
+		);
+		if ( ! in_array( $option_name, $allowed_pickup_options, true )
+			&& ! preg_match( '/^woocommerce_.+_\d+_settings$/', $option_name ) ) {
 			throw new \RuntimeException( esc_html( "Invalid option name: $option_name" ) );
 		}
 

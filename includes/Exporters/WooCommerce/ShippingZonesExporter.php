@@ -97,6 +97,25 @@ class ShippingZonesExporter extends AbstractExporter {
             }
         }
 
+        // Block-based Local Pickup (WooCommerce → Settings → Shipping → Local Pickup)
+        // lives in two global options, not in the zone tables. Fold them into the same
+        // $options array so they travel with the Shipping Zones export. Names confirmed
+        // on WC 9.0.0 (see specs/013-local-pickup-investigation): the locations option is
+        // 'pickup_location_pickup_locations', not 'woocommerce_pickup_locations'.
+        $pickup_option_names = array(
+            'woocommerce_pickup_location_settings',
+            'pickup_location_pickup_locations',
+        );
+        foreach ( $pickup_option_names as $pickup_option_name ) {
+            $value = get_option( $pickup_option_name, null );
+            if ( null !== $value ) {
+                $options[] = array(
+                    'option_name'  => $pickup_option_name,
+                    'option_value' => maybe_serialize( $value ),
+                );
+            }
+        }
+
         $data = array(
             'woocommerce_shipping_zones'          => $zones,
             'woocommerce_shipping_zone_methods'     => $methods,
