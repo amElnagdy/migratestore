@@ -72,8 +72,13 @@ abstract class AbstractExporter {
 
         $contents = $wp_filesystem ? $wp_filesystem->get_contents( $zip_path ) : false;
         if ( false === $contents ) {
+            // Clean up the temp file before bailing out.
+            wp_delete_file( $zip_path );
             wp_die( esc_html__( 'Could not read the export archive.', 'migratestore' ) );
         }
+
+        // The contents are now in memory; remove the temp file from disk.
+        wp_delete_file( $zip_path );
 
         // Binary ZIP payload must be emitted verbatim; escaping would corrupt it.
         echo $contents; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

@@ -28,6 +28,7 @@ phpcs.xml.dist
 README.md
 wp-cli.local.yml
 tests
+specs
 vendor
 node_modules
 *.sql

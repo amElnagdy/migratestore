@@ -201,7 +201,11 @@ class MigrateStore
 			wp_die( esc_html__( 'Invalid file type. Please upload a .zip file exported by Migrate Store.', 'migratestore' ) );
 		}
 
-		$unzip_folder = wp_upload_dir()['basedir'] . '/migratestore_tmp';
+		// Extract to a private, unique temp dir under get_temp_dir() — NOT the public
+		// uploads dir — so nothing extracted is ever reachable at a predictable public
+		// URL. Mirrors AbstractExporter, which already writes its zips to get_temp_dir().
+		// Defense-in-depth; the single-entry validation below is the primary control.
+		$unzip_folder = trailingslashit( get_temp_dir() ) . 'migratestore_' . wp_generate_uuid4();
 
 		// Check if we have sufficient permission to create the folder.
 		// wp_mkdir_p() returns true if the directory already exists or is created.
@@ -215,20 +219,37 @@ class MigrateStore
 			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
 			wp_die( esc_html__( 'The uploaded file could not be read as a valid ZIP archive.', 'migratestore' ) );
 		}
-		for ( $i = 0; $i < $zip_check->numFiles; $i++ ) {
-			$entry_name = $zip_check->getNameIndex( $i );
-			if ( $entry_name === false ) {
-				continue;
-			}
-			$normalized  = str_replace( '\\', '/', (string) $entry_name );
-			$segments    = explode( '/', $normalized );
-			$is_absolute = ( substr( $normalized, 0, 1 ) === '/' ) || (bool) preg_match( '#^[A-Za-z]:/#' , $normalized );
-			$has_dotdot  = in_array( '..', $segments, true );
-			if ( $is_absolute || $has_dotdot ) {
-				$zip_check->close();
-				$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
-				wp_die( esc_html__( 'The uploaded archive contains unsafe file paths and was rejected.', 'migratestore' ) );
-			}
+		// Enforce the archive SHAPE before extracting anything: it must contain EXACTLY
+		// ONE root-level entry whose name is one of this plugin's own export files,
+		// migratestore_<strategy>_<YYYYMMDD>_<HHMMSS>.json. This rejects extra entries,
+		// subdirectories, path traversal, and attacker-named payloads (e.g. shell.php),
+		// so only a known-safe JSON can ever be written to disk. The ternary folds in the
+		// "exactly one entry" rule — it is false for any file count other than 1 — and the
+		// [a-z_] class leaves no room for a "/" or "\", so a nested path cannot match.
+		$entry_name = ( 1 === $zip_check->numFiles ) ? $zip_check->getNameIndex( 0 ) : false;
+		if (
+			false === $entry_name
+			|| ! preg_match( '/^migratestore_[a-z_]+_\d{8}_\d{6}\.json$/', (string) $entry_name )
+		) {
+			$zip_check->close();
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
+			wp_die( esc_html__( 'Unrecognized archive. Please upload an unmodified .zip exported by Migrate Store.', 'migratestore' ) );
+		}
+
+		// Cap the DECLARED uncompressed size of that single entry so a high-ratio zip
+		// bomb cannot be expanded onto disk.
+		// ponytail: reuse the existing migratestore_max_upload_size filter/default for the
+		// uncompressed cap rather than introducing a second filter.
+		$entry_stat   = $zip_check->statIndex( 0 );
+		$max_unzipped = (int) apply_filters( 'migratestore_max_upload_size', 10 * MB_IN_BYTES );
+		if ( false === $entry_stat || (int) ( $entry_stat['size'] ?? 0 ) > $max_unzipped ) {
+			$zip_check->close();
+			$this->cleanup_import_artifacts( $uploaded_file['file'], $unzip_folder );
+			wp_die( sprintf(
+				/* translators: %s: maximum allowed uncompressed size, e.g. "10 MB". */
+				esc_html__( 'The archive contents exceed the maximum allowed size of %s.', 'migratestore' ),
+				esc_html( size_format( $max_unzipped ) )
+			) );
 		}
 		$zip_check->close();
 
@@ -294,7 +315,13 @@ class MigrateStore
 				}
 			}
 			
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
+			// Catch \Throwable, not just \Exception: a fatal \Error thrown mid-import
+			// (e.g. a malformed row) must still be handled here so control reaches the
+			// cleanup below. Otherwise it would escape this method and skip both the
+			// wp_delete_file() of the moved upload and $importer->cleanup() of the temp
+			// dir, leaving the extracted artifacts on disk permanently. Those two
+			// statements run on every caught path, so cleanup is guaranteed here.
 			set_transient('migratestore_import_error', $e->getMessage(), 60);
 		}
 

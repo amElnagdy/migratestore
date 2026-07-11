@@ -31,6 +31,15 @@ class ShippingZonesImporter extends AbstractImporter {
 
 		$data = $this->get_json_data( $json_file_path );
 
+		// Same refuse-rather-than-clobber stance for block Local Pickup: only bail
+		// when THIS archive actually carries a pickup option AND the destination
+		// already has configured pickup locations. A zones-only import (no pickup
+		// data in the file) is never blocked, even on a store that already uses
+		// Local Pickup.
+		if ( $this->archive_has_pickup_option( $data ) && $this->has_configured_pickup_locations() ) {
+			throw new \Exception( 'This file includes Local Pickup locations, but your store already has some. Please remove your existing Local Pickup locations before importing.' );
+		}
+
 		foreach ( $data as $option => $values ) {
 			foreach ( $values as $value ) {
 				switch ( $option ) {
@@ -126,10 +135,7 @@ class ShippingZonesImporter extends AbstractImporter {
 		// yet.) Exact-name matching for the pickup options keeps the guard strict.
 		// Names confirmed on WC 9.0.0 (see specs/013-local-pickup-investigation):
 		// the locations option is 'pickup_location_pickup_locations'.
-		$allowed_pickup_options = array(
-			'woocommerce_pickup_location_settings',
-			'pickup_location_pickup_locations',
-		);
+		$allowed_pickup_options = $this->pickup_option_names();
 		if ( ! in_array( $option_name, $allowed_pickup_options, true )
 			&& ! preg_match( '/^woocommerce_.+_\d+_settings$/', $option_name ) ) {
 			throw new \RuntimeException( esc_html( "Invalid option name: $option_name" ) );
@@ -139,18 +145,31 @@ class ShippingZonesImporter extends AbstractImporter {
 		// embeds the byte length of every string in length prefixes (e.g.
 		// s:13:"My Settings 1"). sanitize_text_field() can change those byte
 		// lengths without updating the prefixes, which silently corrupts the blob
-		// so it no longer unserializes. maybe_unserialize() returns the value
-		// unchanged if it is not serialized.
-		$option_value = maybe_unserialize( $option_value );
+		// so it no longer unserializes. The allowlist above already restricted
+		// $option_name, so only permitted options reach this line; passing
+		// allowed_classes => false blocks object-injection gadgets in attacker
+		// supplied archive data while the pickup arrays/scalars still decode.
+		// is_serialized() leaves a non-serialized value untouched.
+		if ( is_serialized( $option_value ) ) {
+			$option_value = unserialize( $option_value, array( 'allowed_classes' => false ) );
+		}
+
+		// Local Pickup 'details'/address fields legitimately hold multi-line
+		// strings, so sanitize the two pickup options with sanitize_textarea_field()
+		// which preserves newlines. Per-instance method settings stay on
+		// sanitize_text_field().
+		$sanitize_string = in_array( $option_name, $allowed_pickup_options, true )
+			? 'sanitize_textarea_field'
+			: 'sanitize_text_field';
 
 		if ( is_array( $option_value ) ) {
-			array_walk_recursive( $option_value, function ( &$value ) {
+			array_walk_recursive( $option_value, function ( &$value ) use ( $sanitize_string ) {
 				if ( is_string( $value ) ) {
-					$value = sanitize_text_field( $value );
+					$value = $sanitize_string( $value );
 				}
 			} );
 		} elseif ( is_string( $option_value ) ) {
-			$option_value = sanitize_text_field( $option_value );
+			$option_value = $sanitize_string( $option_value );
 		}
 
 		update_option( $option_name, $option_value );
@@ -166,6 +185,62 @@ class ShippingZonesImporter extends AbstractImporter {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Whether the destination already has configured block Local Pickup locations.
+	 *
+	 * "Configured" means a non-empty 'pickup_location_pickup_locations' array
+	 * (at least one saved location). WooCommerce's default empty settings option
+	 * does not count, so a normal fresh-store import into an empty destination is
+	 * unaffected. Mirrors the zones philosophy: refuse rather than clobber.
+	 */
+	private function has_configured_pickup_locations(): bool {
+		$pickup_locations = get_option( 'pickup_location_pickup_locations', array() );
+
+		return is_array( $pickup_locations ) && ! empty( $pickup_locations );
+	}
+
+	/**
+	 * The two global block Local Pickup option names that ride along with the
+	 * shipping-zones export/import. Single source of truth reused by both the
+	 * import_option() allowlist and archive_has_pickup_option().
+	 *
+	 * @return string[]
+	 */
+	private function pickup_option_names(): array {
+		return array(
+			'woocommerce_pickup_location_settings',
+			'pickup_location_pickup_locations',
+		);
+	}
+
+	/**
+	 * Whether the import archive itself carries a block Local Pickup option.
+	 *
+	 * Pickup options ride along under the 'options' group as {option_name,
+	 * option_value} rows (legacy v1.1.9 archives use 'option'/'value'). Matching
+	 * mirrors import_option()'s sanitize_key() normalization. Returns false when
+	 * the archive has no 'options' group at all, so a zones-only import is never
+	 * treated as carrying pickup data.
+	 *
+	 * @param array $data Decoded archive data as iterated by import().
+	 */
+	private function archive_has_pickup_option( $data ): bool {
+		if ( empty( $data['options'] ) || ! is_array( $data['options'] ) ) {
+			return false;
+		}
+
+		$pickup_names = $this->pickup_option_names();
+
+		foreach ( $data['options'] as $row ) {
+			$option_name = sanitize_key( $row['option_name'] ?? $row['option'] ?? '' );
+			if ( in_array( $option_name, $pickup_names, true ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

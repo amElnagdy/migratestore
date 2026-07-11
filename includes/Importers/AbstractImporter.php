@@ -73,13 +73,31 @@ abstract class AbstractImporter
 
     protected function import_option($data)
     {
-        // Canonical keys (v1.2.0+) with legacy 'option'/'value' fallback for v1.1.9 archives.
-        $option_name  = sanitize_key( $data['option_name'] ?? $data['option'] );
+        // Canonical key (v1.2.0+) with legacy 'option' fallback for v1.1.9 archives.
+        $option_name = sanitize_key( $data['option_name'] ?? $data['option'] );
+
+        // Enforce the allowlist BEFORE reading or deserializing the value: a rejected
+        // option must never reach unserialize(), or an attacker-crafted serialized
+        // object could fire gadget magic methods (PHP object injection) on a name we
+        // would reject anyway.
+        $allowed_option_data  = $this->exporter->get_data();
+        $allowed_option_names = array_map(function ($item) {
+            return $item['option_name'] ?? $item['option'];
+        }, $allowed_option_data);
+
+        if (! in_array($option_name, $allowed_option_names, true)) {
+            throw new \RuntimeException( esc_html( "Invalid option name: $option_name" ) );
+        }
+
+        // Canonical 'option_value' with legacy 'value' fallback for v1.1.9 archives.
         $option_value = $data['option_value'] ?? $data['value'];
 
-        // If the option value is a serialized string, unserialize it
-        if (is_serialized($option_value)) {
-            $option_value = maybe_unserialize($option_value);
+        // If the option value is a serialized string, unserialize it without
+        // instantiating objects. allowed_classes => false turns any serialized
+        // object into a harmless __PHP_Incomplete_Class, while arrays and scalars
+        // from legacy archives still decode correctly.
+        if ( is_serialized( $option_value ) ) {
+            $option_value = unserialize( $option_value, array( 'allowed_classes' => false ) );
         }
 
         // Rich-text options (e.g. WooCommerce email footer) keep the HTML that
@@ -96,14 +114,6 @@ abstract class AbstractImporter
             $option_value = sanitize_text_field( $option_value );
         }
 
-        $allowed_option_data  = $this->exporter->get_data();
-        $allowed_option_names = array_map(function ($item) {
-            return $item['option_name'] ?? $item['option'];
-        }, $allowed_option_data);
-
-        if (! in_array($option_name, $allowed_option_names)) {
-            throw new \RuntimeException( esc_html( "Invalid option name: $option_name" ) );
-        }
         // At this point, the option name and value should be safe to import
         update_option($option_name, $option_value);
     }

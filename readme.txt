@@ -69,6 +69,8 @@ Post detailed information about the issue in the [support forum](http://wordpres
 * Compatibility: PHP 8.2 / 8.3 compatible; minimum PHP 7.4.
 * Security: Added capability checks (manage_woocommerce) to all export and import handlers.
 * Security: Validated ZIP uploads (MIME type, size limit) and guaranteed temp-file cleanup on success and failure.
+* Security: Import archives are now strictly validated before extraction (single expected file, size-capped) and unpacked outside the public uploads directory.
+* Security: Imported option values are no longer deserialized into PHP objects, closing an object-injection vector.
 * Fix: Unified option field names (option_name/option_value) across all exporters and importers.
 * Fix: Removed a duplicate entry in the email settings exporter.
 * Fix: Replaced `date()` with `gmdate()` in WooCommerce exporters to satisfy `WordPress.DateTime` Plugin Check (timezone-independent export filenames).
@@ -78,6 +80,9 @@ Post detailed information about the issue in the [support forum](http://wordpres
 * Fix: Email settings export/import now includes the Email template options — logo width, header alignment, and font family — which were previously omitted, so the destination site now matches the source. Older export files without these fields continue to import unchanged.
 * Fix: HTML formatting in the WooCommerce email footer text is now preserved during Email Options import.
 * Fix: Block-based Local Pickup settings and pickup locations now migrate with Shipping Zones export/import.
+* Fix: Importing shipping zones no longer overwrites existing Local Pickup locations without warning.
+* Fix: Local Pickup location details keep their line breaks on import.
+* Fix: Exporting settings no longer leaves a temporary archive file on the server.
 
 = 1.1.9 =
 * WordPress 6.9 compatibility.
